@@ -288,11 +288,11 @@ function displayStory(storyContent) {
 	var critics = ``;
 	var criticsType = document.getElementById("shortStory-bookCritics").selectedIndex;
 
-	if (criticsType == 1) {
-		xml.select("favorable");
-	} else if (criticsType == 2) {
-		xml.select("unfavorable");
-	}
+	if (criticsType === 0)
+		criticsType = Math.random() > 0.5 ? 1 : 2;
+		
+	xml.select(criticsType === 1 ? "favorable" : "unfavorable");
+
 	critics = xml.parse(xml.currentTag.children[0]);
 
 	//Display result
