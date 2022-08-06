@@ -41,6 +41,9 @@ function switchToUi(ui) {
 		for (var i = 0; i < count; i++) {
 			var propertyName = tag.getElementsByTagName("ui")[i].getAttribute("name");
 			var propertyValue = document.getElementById("userInput_" + propertyName).value;
+			var propertyGender = document.getElementById("userInput_" + propertyName + "_gender");
+			propertyGender = propertyGender ? propertyGender.selectedIndex : undefined;
+
 			var passes = true;
 
 			if (!propertyValue) {
@@ -63,6 +66,9 @@ function switchToUi(ui) {
 			} else {
 				propertiesCache.push(propertyName);
 				valuesCache.push(propertyValue);
+
+				if (propertyGender)
+					gendersCache.push(propertyGender);
 			}
 		}
 	}
@@ -135,6 +141,10 @@ function populateVariables() {
 		for (var i = 0; i < tag.childElementCount; i++) {
 			var field = tag.querySelectorAll("ui")[i];
 
+			if (!field) {
+				console.warn(`Field ${tag.nodeName} is invalid!`)
+			}			
+
 			//Create label
 			var label = document.createElement("p");
 			label.setAttribute("class", "ui_scenarioSettingsLabel");
@@ -154,6 +164,16 @@ function populateVariables() {
 
 			UI_SCENARIO_VARIABLES.append(label);
 			UI_SCENARIO_VARIABLES.append(input);
+
+			if (field.hasAttribute("hasGender")) {
+				UI_SCENARIO_VARIABLES.innerHTML += `
+					<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
+						<option>Male</option>
+						<option>Female</option>
+						<option>Object</option>
+					</select>
+				`;
+			}
 		}
 	}
 
@@ -290,7 +310,7 @@ function displayStory(storyContent) {
 
 	if (criticsType === 0)
 		criticsType = Math.random() > 0.5 ? 1 : 2;
-		
+
 	xml.select(criticsType === 1 ? "favorable" : "unfavorable");
 
 	critics = xml.parse(xml.currentTag.children[0]);
@@ -350,5 +370,5 @@ document.getElementById("shortStory-startCustomize").onclick = function () {
 	populateVariables();
 }
 document.getElementById("shortStory-startButtonAction").onclick = function () {
-	populateSettings("action");
+	populateSettings("adventure"); // TODO parametrize
 };

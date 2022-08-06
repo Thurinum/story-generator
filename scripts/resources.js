@@ -1,6 +1,7 @@
 var xmlCache = document.getElementById("xmlCache");
 var propertiesCache = [];
 var valuesCache = [];
+var gendersCache = [];
 
 const xml = {
 	currentTag: undefined,
@@ -159,6 +160,19 @@ const xml = {
 				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel"));
 			} else if (fieldType === "random") {
 				content = utility_randomEntry(tag.getAttribute("source"));
+			} else if (fieldType === "pronoun") {
+				let key = tag.getAttribute("for");				
+				let gender = gendersCache[propertiesCache.indexOf(key)];
+				let pronouns = [];
+				
+				switch (tag.getAttribute("subtype")) {
+					case "personal":
+						pronouns = ["he", "she", "it"]; break;
+					case "possessive":
+						pronouns = ["his", "her", "its"]; break;
+				}
+
+				content = pronouns[gender];
 			} else if (fieldType === "meta") {
 				let key = tag.getAttribute("source");
 				if (!(key in this.metadata))
@@ -207,6 +221,10 @@ const xml = {
 					var varName = conditions[i].getAttribute("name");
 					var operator = conditions[i].getAttribute("operator")
 					var index = propertiesCache.indexOf(varName);
+
+					if (!(varName in propertiesCache))
+						console.warn("No property " + varName + ".");
+
 					var value = valuesCache[index];
 					var condition;
 
