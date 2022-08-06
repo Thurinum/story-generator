@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Story Gen</title>
+	<meta charset="utf8" />
+	<link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body>
+	<!-- MAIN MENU -->
+	<div id="ui_mainMenu">
+		<h1 id="ui_mainMenuTitle">Your Very Own Story, Free</h1>
+		<h2 id="ui_mainMenuSubtitle">Create an engaging, personalized story in minutes!</h2>
+		<button id="core_shortStory" class="ui_menuSelectionTile">Let's go!</button>
+	</div>
+
+	<!-- NOTIFICATION BANNER -->
+	<div id="ui_banner"></div>
+
+	<!-- SHORT STORY CREATION INTERFACE -->
+	<div id="ui_shortStoryInterface">
+		<div id="shortStory-scenarioSelection">
+			<div class="ui_selectionCard">
+				<img class="ui_selectionCardPreview" src="resources/graphics/icons/document.webp" />
+				<p class="ui_selectionCardLabel">
+					<span class="scenarioName">Action</span><br />
+					<span style="font-size: 0.75em">An action scenario.</span>
+					<br /><br />
+					<button id="shortStory-startButtonAction">Choose</button>
+				</p>
+			</div>
+			<div class="ui_selectionCard">
+				<img class="ui_selectionCardPreview" src="resources/graphics/icons/document_comingsoon.webp" />
+				<p class="ui_selectionCardLabel">
+					Adventure<br />
+					<span style="font-size: 0.75em">An adventure scenario.</span>
+					<br /><br />
+					<button id="shortStory-startButtonAdventure" disabled>Choose</button>
+				</p>
+			</div>
+		</div>
+		<div id="shortStory-settings">
+			<div id="shortStory-leftBanner">
+				<p>Scenario Settings</p>
+			</div>
+			<select id="shortStory-plotlineDropdown" autocomplete="off" class="ui_scenarioMainSettingsSelector">
+				<option disabled selected>Select plotline type</option>
+			</select>
+			<select id="shortStory-variantDropdown" autocomplete="off" class="ui_scenarioMainSettingsSelector">
+				<option disabled selected>Select variant type</option>
+			</select>
+			<input id="shortStory-bookTitle" type="text" autocomplete="off" placeholder="Enter book title"
+				class="ui_scenarioMainSettingsSelector" />
+			<input id="shortStory-bookAuthor" type="text" autocomplete="off" placeholder="Enter author name"
+				class="ui_scenarioMainSettingsSelector" />
+			<select id="shortStory-bookCritics" autocomplete="off" class="ui_scenarioMainSettingsSelector">
+				<option disabled selected>Select critics type</option>
+				<option>Favorable</option>
+				<option>Unfavorable</option>
+			</select>
+			<button id="shortStory-startCustomize">Done</button>
+		</div>
+
+		<div id="shortStory-variables">
+			<h2>Scenario Customization</h2>
+			<!-- Dynamic scenario fields shall appear here -->
+		</div>
+
+		<div id="shortStory-editor">
+			<h2 class="shortStory-editorHeader">Scenario name</h2>
+			<p class="shortStory-editorDescription">Choose a name for your scenario.</p>
+			<input id="editor-scenarioName" type="text" />
+			<button id="editor-startEditing">Ok</button>
+		</div>
+
+		<div id="shortStory-editorButton">&nbsp;&nbsp;<span
+				style="font-size: 2.5vmin;">+</span>&nbsp;&nbsp;&nbsp;&nbsp;New scenario</div>
+	</div>
+
+	<div id="shortStory-bottomPanel">
+
+	</div>
+
+	<div id="ui_display">
+		<div id="ui_resultOptions">
+			<div id="ui_coverFront" class="ui_cover">
+				<img id="coverDetail1" class="ui_coverDetail" src="resources/graphics/covers/stains.webp" />
+				<h1 id="coverTitle"></h1>
+				<p id="coverSubtitle"></p>
+				<h2 id="coverAuthor"></h2>
+				<h3 style="font-size:1.5em;position:absolute;bottom:1%;color:rgb(255, 255, 255);padding:10px;"
+					id="coverBestseller"></h3>
+			</div>
+			<div id="ui_coverLeft" class="ui_cover">
+				<p style="z-index: 2" id="ui_coverLeftContent"></p>
+			</div>
+			<div id="ui_coverRight" class="ui_cover">
+				<p style="z-index: 2" id="ui_coverRightContent"></p>
+			</div>
+		</div>
+
+		<button id="ui_download">Download as Microsoft Word Document</button>
+	</div>
+
+	<!-- XML CACHE -->
+	<div id="saveCache"></div>
+	<div id="temp"></div>
+
+	<script type="text/javascript" src="scripts/resources.js"></script>
+	<script type="text/javascript" src="scripts/main.js"></script>
+	<script type="text/javascript" src="scripts/editor.js"></script>
+</body>
+
+</html>

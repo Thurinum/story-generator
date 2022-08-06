@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- USER INTERFACE -->
+<ui>
+	<field name="" type="text" placeholder=""></field>
+</ui>
+
+<!-- SCENARIO CONTENT -->
+<scenario name="">
+	<plotline name="">
+		<variant name="">
+			<paragraph>
+				<static></static>
+				<field type="number" min="" max="" roundlevel=""></field>
+				<field type="random" source=""></field>
+				<variable name=""></variable>
+				<event type="conditional">
+					<condition name="" value="">
+						<dynamic>
+							<static></static>
+						</dynamic>
+					</condition>
+					<default>
+						<static></static>
+					</default>
+				</event>
+			</paragraph>	
+		</variant>
+	</plotline>
+</scenario>
+
+<!-- RANDOMIZED STRINGS -->
+<random>
+	<dynamic name="">
+		<option></option>
+	</dynamic>
+</random>
+
+<!-- COVER PRAISES -->
+<cover>
+	<dynamic>
+		<option></option>
+	</dynamic>
+</cover>
+
+<!-- CRITICS -->
+<critics>
+	<favorable>
+		<dynamic>
+			<option></option>
+		</dynamic>
+		<field type="criticAuthor"></field>
+	</favorable>
+	<unfavorable>
+		<dynamic>
+			<option></option>
+		</dynamic>
+		<field type="criticAuthor"></field>
+	</unfavorable>
+</critics>

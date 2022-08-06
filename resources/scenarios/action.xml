@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scenario>
+
+	<!-- USER INTERFACE -->
+	<interface>
+		<global autofill="true">
+			<ui name="protagonist" type="text" placeholder="John Doe">Choose a name for your protagonist</ui>
+			<ui name="antagonist" type="text" placeholder="John Doe">Choose a name for your antagonist</ui>
+		</global>
+		<plotline type="murder">
+			<variant type="silent">
+				<ui name="protagonistAction" type="text" placeholder="looking for diamonds" datatype="gerund">Choose what action is the protagonist doing before the action occurs (MUST start with a gerund)</ui>
+				<ui name="time" type="time" placeholder="6:00">What time is it?</ui>
+				<ui name="location" type="text" placeholder="mine">Where?</ui>
+				<ui name="locationDetail1" type="text" placeholder="ancient">What looks like the place?</ui>
+				<ui name="locationDetail2" type="text" placeholder="dangerous">What looks like the place?</ui>
+				<ui name="locationDetail3" type="text" placeholder="dreadful">What looks like the place?</ui>
+				<ui name="locationDetail4" type="text" placeholder="full of wonder">What looks like the place?</ui>
+			</variant>
+		</plotline>
+	</interface>
+
+	<!-- SCENARIO CONTENT -->
+	<plotlines>
+		<plotline name="murder">
+			<variant name="silent">
+				<paragraph>
+					<static>
+						The year was
+						<field type="number" min="1980" max="2100" />
+						. It was
+						<variable name="time" />
+						,
+					</static>
+					<event type="conditional">
+						<condition name="time" slice="0-3" operator="[" value="7" numeral="true">
+							<dynamic>
+								<static>and the sun was slowly rising.</static>
+								<static>and slowly the sun was rising.</static>
+								<static>and the sun, majestuous orb in the sky, was slowly rising.</static>
+								<static>and a new day was on the verge to begin.</static>
+								<static>and the first rays of lights were starting to appear.</static>
+							</dynamic>
+						</condition>
+						<condition name="time" slice="0-3" operator="[" value="17" numeral="true">
+							<dynamic>
+								<static>and the sun was glimmering in the sky.</static>
+							</dynamic>
+						</condition>
+						<condition name="time" slice="0-3" operator="[" value="21" numeral="true">
+							<dynamic>
+								<static>and the sun was slowly disappearing on the horizon.</static>
+								<static>and slowly the sun was disappearing on the horizon.</static>
+								<static>and slowly the day was coming to an end.</static>
+							</dynamic>
+						</condition>
+						<condition name="time" slice="0-3" operator="[" value="24" numeral="true">
+							<dynamic>
+								<static>and the moon was glimmering in the night sky.</static>
+								<static>and the night was pitch black.</static>
+								<static>and even the moon was struggling to dissipate the darkness of the night.</static>
+								<static>
+									but the moon lighted faintly the
+									<variable name="locationDetail1" />
+									<variable name="location" />
+									where
+									<variable name="protagonist" />
+									was
+									<variable name="protagonistAction" />
+									.
+								</static>
+							</dynamic>
+						</condition>
+						<default>
+							<static>.</static>
+						</default>
+					</event>
+					<dynamic>
+						<dynamic>
+							<static>The plants were slowly starting to appear over the melting snow.</static>
+							<static>The flowers, once burried under the snow, were now starting to blossom again.</static>
+						</dynamic>
+						<dynamic>
+							<static>It was summer, and the heat was overwhelming.</static>
+							<static>The summer heat was overwhelming, and many were the people that did not dare getting outside.</static>
+						</dynamic>
+						<dynamic>
+							<static>Dead leaves were falling all over on the ground.</static>
+							<static>Summer was over, and the first signs of winter had already begun to spread as the decaying leaves of the trees fell from their naked barks.</static>
+						</dynamic>
+						<dynamic>
+							<static>It was winter, and the ground was heavily covered by several layers of snow.</static>
+							<static>The air was bitter cold.</static>
+						</dynamic>
+					</dynamic>
+					<dynamic>
+						<static>
+							The
+							<variable name="location" />
+							was a
+							<variable name="locationDetail1" />
+							place:
+							<variable name="locationDetail2" />
+							and
+							<variable name="locationDetail3" />
+							.
+						</static>
+						<static>
+							<variable name="locationDetail1" casetype="upper" />
+							,
+							<variable name="locationDetail3" />
+							, and
+							<variable name="locationDetail2" />
+							: the
+							<variable name="location" />
+							really was a
+							<variable name="locationDetail4" />
+							place.
+						</static>
+					</dynamic>
+				</paragraph>
+			</variant>
+		</plotline>
+	</plotlines>
+
+	<!-- RANDOMIZED STRINGS -->
+	<random>
+		<dynamic name="criticAuthor">
+			<static>The New York Times</static>
+		</dynamic>
+	</random>
+
+	<!-- COVER PRAISES -->
+	<cover>
+		<dynamic>
+			<static>sdfsdf</static>
+		</dynamic>
+	</cover>
+
+	<!-- CRITICS -->
+	<critics>
+		<favorable>
+			<dynamic>
+				<static>
+					An exciting novella. The profound intellectual and moral evolution of the character,
+					<variable name="protagonist" />
+					, seals with a slight a dramatic tone a story dotted with a twinge of humor, and much realism. Most enjoyable. -
+					<field type="random" source="criticAuthor" />
+				</static>
+				<static>
+					This immersive story, clever in its vision of truth and deep in its implications, truly denotes a high degree of personal investment from
+					<field type="meta" source="author" />
+					. His best book yet!-
+					<field type="random" source="criticAuthor" />
+				</static>
+				<static>
+					Scattered with many hilarious references,
+					<field type="meta" source="author" />
+					succeeds with brio to make us enjoy the electrifying adventures of
+					<variable name="protagonist" />
+					against the malevolent
+					<variable name="antagonist" />
+					. A must-read!
+				</static>
+				<static>
+					A brilliant book. The adventures of
+					<variable name="protagonist" />
+					shall stay in our memories for generations to come.
+				</static>
+				<static>
+					The indescriptible genius, the incredible acuity of spirit of
+					<variable name="protagonist" />
+					makes this book a simple yet genuine success.
+				</static>
+			</dynamic>
+
+		</favorable>
+		<unfavorable>
+			<dynamic>
+				<static>This so-called "novel" is the apotheosis of stupidity. It is utterly shocking that such an foolish absurdity managed to get inside the libraries themselves.</static>
+				<static>
+					<variable name="protagonist" />
+					is the living proof that we should burn books.
+				</static>
+			</dynamic>
+			<field type="random" source="criticAuthor"></field>
+		</unfavorable>
+	</critics>
+</scenario>
