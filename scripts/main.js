@@ -1,9 +1,28 @@
 "use strict";
 
-function createSettings(scenario) {
-	var oldUserInterface = document.querySelector("#shortStory-scenarioSelection");
-	var userInterface = document.getElementById("shortStory-settings");
+const UI_SCENARIO_SELECTION = document.querySelector("#shortStory-scenarioSelection");
+const UI_SCENARIO_SETTINGS  = document.querySelector("#shortStory-settings");
+const UI_SCENARIO_VARIABLES = document.querySelector("#shortStory-variables");
+let currentUi = UI_SCENARIO_SELECTION;
 
+/**
+ * Animates the switch to a new user interface.
+ *
+ * @param {HTMLElement} ui - The user interface to switch to.
+ * @todo Remove use of global variable.
+ */
+function switchToUi(ui) {
+	currentUi.style.opacity = "0";
+
+	setTimeout(function () {
+		currentUi.style.display = "none";
+		ui.style.display = "flex";
+		ui.style.opacity = "1";
+		currentUi = ui;
+	}, 500);
+}
+
+function createSettings(scenario) {
 	xml.reset();
 	xml.import(`resources/scenarios/${scenario}.xml`);
 
@@ -27,21 +46,13 @@ function createSettings(scenario) {
 			variantDropdown.append(opt);
 		}
 
-		oldUserInterface.style.opacity = "0";
-		userInterface.style.display = "flex";
-		// document.getElementById("shortStory-bottomPanel").style.bottom = 0;
-		setTimeout(function () {
-			oldUserInterface.style.display = "none";
-			userInterface.style.opacity = "1";
-		}, 500);
+		switchToUi(UI_SCENARIO_SETTINGS);
 	}, 500);
 
 }
 
 function createUI(scenario) {
 	var enableAutofill;
-	var oldUserInterface = document.querySelector("#shortStory-settings");
-	var userInterface = document.querySelector("#shortStory-variables");
 
 	//Detect chose declinations
 	var selectedPlotline = document.getElementById("shortStory-plotlineDropdown").value;
@@ -77,14 +88,14 @@ function createUI(scenario) {
 	xml.reset();
 	xml.select("interface");
 	xml.select("global");
-	parseUI(currentTag, userInterface);
+	parseUI(currentTag, UI_SCENARIO_VARIABLES);
 	enableAutofill = parseInt(currentTag.getAttribute("autofill")); // not implemented yet, broken
 
 	xml.back();
 	if (xml.select("plotline", "type", selectedPlotline)) {
-		parseUI(currentTag, userInterface);
+		parseUI(currentTag, UI_SCENARIO_VARIABLES);
 		if (xml.select("variant", "type", selectedVariant)) {
-			parseUI(currentTag, userInterface);
+			parseUI(currentTag, UI_SCENARIO_VARIABLES);
 		} else {
 			console.exception(`[Interface] No user fields found for variant ${selectedVariant}.`);
 			return false;
@@ -101,15 +112,9 @@ function createUI(scenario) {
 		createScenario(document.getElementById("shortStory-plotlineDropdown").value, document.getElementById("shortStory-variantDropdown").value);
 	};
 
-	userInterface.append(finishButton);
+	UI_SCENARIO_VARIABLES.append(finishButton);
 
-	oldUserInterface.style.opacity = "0";
-	userInterface.style.display = "block";
-	document.getElementById("shortStory-bottomPanel").style.bottom = 0;
-	setTimeout(function () {
-		oldUserInterface.style.display = "none";
-		userInterface.style.opacity = "1";
-	}, 500);
+	switchToUi(UI_SCENARIO_VARIABLES);
 }
 
 function createDatabase() {
