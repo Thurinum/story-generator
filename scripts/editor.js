@@ -40,7 +40,7 @@ function ui_updateXMLstructure() {
 	xml.reset();
 	xml.select("interface");
 	var uiDropdown = createDetails("User Interface");
-	var children = currentTag.children;
+	var children = xml.currentTag.children;
 
 	for (var i = 0; i < children.length; i++) {
 		let label = createLabel(children[i].getAttribute("name"), "ui");
@@ -54,8 +54,8 @@ function ui_updateXMLstructure() {
 	xml.reset();
 	xml.select("scenario");
 
-	var scenarioDropdown = createDetails(`${currentTag.getAttribute("name")} scenario`);
-	children = currentTag.children;
+	var scenarioDropdown = createDetails(`${xml.currentTag.getAttribute("name")} scenario`);
+	children = xml.currentTag.children;
 
 	for (var i = 0; i < children.length; i++) {
 		if (children[i].nodeName !== "plotline") {
@@ -67,7 +67,7 @@ function ui_updateXMLstructure() {
 		} else {
 			var plotlineDropdown = createDetails(`${children[i].getAttribute("name")} plotline`);
 			xml.select("plotline", "name", children[i].getAttribute("name"))
-			children = currentTag.children;
+			children = xml.currentTag.children;
 
 			scenarioDropdown.append(plotlineDropdown);
 
@@ -81,7 +81,7 @@ function ui_updateXMLstructure() {
 				} else {
 					var variantDropdown = createDetails(`${children[i].getAttribute("name")} variant`);
 					xml.select("variant", "name", children[i].getAttribute("name"))
-					children = currentTag.children;
+					children = xml.currentTag.children;
 
 					plotlineDropdown.append(variantDropdown);
 

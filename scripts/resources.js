@@ -1,172 +1,9 @@
-//ANIMATIONS
-window.onmousemove = function () {
-	setTimeout(function () {
-		document.getElementById("ui_mainMenuTitle").style.opacity = 1;
-		document.getElementById("ui_mainMenuTitle").style.transform = "none";
-
-		setTimeout(function () {
-			document.getElementById("ui_mainMenuSubtitle").style.opacity = 1;
-			document.getElementById("ui_mainMenuSubtitle").style.transform = "none";
-
-			setTimeout(function () {
-				document.getElementById("core_shortStory").style.opacity = 1;
-				document.getElementById("core_shortStory").style.transform = "translate(0, 0)";
-			}, 500);
-		}, 500);
-	}, 400);
-}
-
-//**//SHORT STORY CREATION//**//
-document.getElementById('core_shortStory').addEventListener("click", function () {
-	document.getElementById('ui_shortStoryInterface').style.display = "block";
-	document.getElementById('ui_mainMenu').style.transform = "translate(-50%, -50%) scale(1.5)";
-	document.getElementById('ui_mainMenu').style.opacity = 0;
-	setTimeout(function () {
-		document.getElementById('ui_mainMenu').style.display = "none";
-		document.getElementById('ui_shortStoryInterface').style.opacity = 1;
-
-		document.getElementById('ui_shortStoryInterface').style.transform = "scale(1) translate(-50%, -50%)";
-	}, 500);
-});
-
-// document.getElementById("shortStory-cover").onchange = function() {
-// 	if (document.getElementById("shortStory-cover").value === "Upload") {
-// 		document.getElementById("ui_coverUpload").style.display = "block";
-// 	} else {
-// 		document.getElementById("ui_coverUpload").style.display = "none";
-// 	}
-// }
-
-//**//DOWNLOAD GENERATED CONTENT//**//
-document.getElementById("ui_download").onclick = function () {
-	var link = document.createElement("a");
-	link.setAttribute('href', 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8,' + encodeURIComponent(document.getElementById("ui_coverRightContent").innerHTML));
-	link.setAttribute('download', "shortStory.docx");
-
-	link.style.display = 'none';
-	document.body.appendChild(link);
-
-	link.click();
-	document.body.removeChild(link);
-}
-
-//Set the first letter of a word upper/lower case
-function utility_toUpperCase(string) {
-	if (!string) {
-		banner("Some input haven't been filled!");
-		return undefined;
-	}
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-//Set the scroll position to a specific element
-function anchor(id) {
-	var anchor = document.createElement("a")
-	anchor.href = "#" + id;
-
-	document.body.append(anchor);
-
-	anchor.click();
-
-	document.getElementById(id).style.border = "solid 3px red";
-	setTimeout(function () {
-		document.getElementById(id).style.border = "initial";
-	}, 5000);
-
-	anchor.remove();
-}
-
-function utility_detectGerund(string) {
-	var index = string.indexOf(" ");
-	if (index == -1) {
-
-		if (string.slice(-3) == "ing") {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		var word = string.slice(0, -(string.length - index));
-		if (word.slice(-3) == "ing") {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-//Random choice between 2 selections
-function utility_randomBoolean() {
-	var random = Math.random();
-
-	if (random <= 0.5) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
-function utility_randomChoice(max) {
-	var random = Math.random();
-	var increment = 1 / max;
-	var count = 0;
-	var result;
-
-	while (count <= 1) {
-		if (count > random) {
-			var result = Math.round(count * max);
-			return result;
-		} else {
-			count += increment;
-		}
-	}
-}
-
-function utility_randomEntry(category) {
-	var source;
-	for (var i = 0; i < xmlCache.children[2].children.length; i++) {
-		if (xmlCache.children[2].children[i].getAttribute("name") === category) {
-			source = xmlCache.children[2].children[i];
-		}
-	}
-
-	if (!source || source.length > 1) {
-		console.warn("[Utilities] Invalid source or multiple duplicate tags herein.");
-		return false;
-	} else {
-		var result = xml.parse(source);
-		return result;
-	}
-
-}
-
-function utility_randomNumber(min, max, round) {
-	var random = Math.random();
-	var result;
-
-	min = parseInt(min);
-	max = parseInt(max);
-	round = parseInt(round);
-
-	if (round !== null) {
-		if (round == 0) {
-			result = Math.round(min + ((max - min) * random));
-		} else {
-			result = (min + ((max - min) * random)).toFixed(round);
-		}
-	} else {
-		result = min + ((max - min) * random);
-	}
-
-	return result;
-}
-
 var xmlCache = document.getElementById("xmlCache");
-var currentTag;
 var propertiesCache = [];
 var valuesCache = [];
 
 const xml = {
+	currentTag: undefined,
 	metadata: {},
 
 	import(src) {
@@ -210,7 +47,7 @@ const xml = {
 			// 	var target = currentTag.querySelectorAll(tag);
 			// } else {
 			// 	//Only search at current level of XML hierarchy
-			// 	var target = currentTag.querySelector(tag);
+			// 	var target = xml.currentTag.querySelector(tag);
 			// }
 			var target = currentTag.querySelectorAll(tag);
 
@@ -238,8 +75,8 @@ const xml = {
 					}
 
 					if (refinedTarget) {
-						currentTag = refinedTarget;
-						return currentTag;
+						xml.currentTag = refinedTarget;
+						return xml.currentTag;
 					} else {
 						console.warn(`[XMLEngine] Could not find any tag "${tag}" with attribute "${attribute}" and value "${value}" (but found ${target.length} tags without the latters).`);
 						return false;
@@ -259,23 +96,24 @@ const xml = {
 						}
 
 						if (refinedTarget) {
-							currentTag = refinedTarget;
-							return currentTag;
+							xml.currentTag = refinedTarget;
+							return xml.currentTag;
 						} else {
 							console.warn(`[XMLEngine] Could not find any tag "${tag}" with attribute "${attribute}" (but found ${target.length} tags without the latter).`);
 							return false;
 						}
 					} else {
 						if (target.length == 1) {
-							currentTag = target[0];
-							return currentTag;
+							xml.currentTag = target[0];
+							return xml.currentTag;
 						} else {
 							console.warn(`[XMLEngine] Found multiple (${target.length}) "${tag}" tags. Please refine research.`);
+							console.warn(target)
 						}
 					}
 				}
 			} else {
-				console.warn(`[XMLEngine] Unable to find child tag "${tag}" in parent of type ${currentTag.nodeName}.`);
+				console.warn(`[XMLEngine] Unable to find child tag "${tag}" in parent of type ${xml.currentTag.nodeName}.`);
 				return false;
 			}
 		} else {
@@ -285,7 +123,7 @@ const xml = {
 	},
 
 	back() {
-		currentTag = currentTag.parentElement;
+		xml.currentTag = xml.currentTag.parentElement;
 	},
 
 	parse(tag) {
@@ -427,3 +265,158 @@ const xml = {
 		return content;
 	},
 };
+
+//Set the first letter of a word upper/lower case
+function utility_toUpperCase(string) {
+	if (!string) {
+		banner("Some input haven't been filled!");
+		return undefined;
+	}
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+//Set the scroll position to a specific element
+function anchor(id) {
+	var anchor = document.createElement("a")
+	anchor.href = "#" + id;
+
+	document.body.append(anchor);
+
+	anchor.click();
+
+	document.getElementById(id).style.border = "solid 3px red";
+	setTimeout(function () {
+		document.getElementById(id).style.border = "initial";
+	}, 5000);
+
+	anchor.remove();
+}
+
+function utility_detectGerund(string) {
+	var index = string.indexOf(" ");
+	if (index == -1) {
+
+		if (string.slice(-3) == "ing") {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		var word = string.slice(0, -(string.length - index));
+		if (word.slice(-3) == "ing") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+//Random choice between 2 selections
+function utility_randomBoolean() {
+	var random = Math.random();
+
+	if (random <= 0.5) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function utility_randomChoice(max) {
+	var random = Math.random();
+	var increment = 1 / max;
+	var count = 0;
+	var result;
+
+	while (count <= 1) {
+		if (count > random) {
+			var result = Math.round(count * max);
+			return result;
+		} else {
+			count += increment;
+		}
+	}
+}
+
+function utility_randomEntry(category) {
+	var source;
+	for (var i = 0; i < xmlCache.children[2].children.length; i++) {
+		if (xmlCache.children[2].children[i].getAttribute("name") === category) {
+			source = xmlCache.children[2].children[i];
+		}
+	}
+
+	if (!source || source.length > 1) {
+		console.warn("[Utilities] Invalid source or multiple duplicate tags herein.");
+		return false;
+	} else {
+		var result = xml.parse(source);
+		return result;
+	}
+
+}
+
+function utility_randomNumber(min, max, round) {
+	var random = Math.random();
+	var result;
+
+	min = parseInt(min);
+	max = parseInt(max);
+	round = parseInt(round);
+
+	if (round !== null) {
+		if (round == 0) {
+			result = Math.round(min + ((max - min) * random));
+		} else {
+			result = (min + ((max - min) * random)).toFixed(round);
+		}
+	} else {
+		result = min + ((max - min) * random);
+	}
+
+	return result;
+}
+
+//ANIMATIONS
+window.onmousemove = function () {
+	setTimeout(function () {
+		document.getElementById("ui_mainMenuTitle").style.opacity = 1;
+		document.getElementById("ui_mainMenuTitle").style.transform = "none";
+
+		setTimeout(function () {
+			document.getElementById("ui_mainMenuSubtitle").style.opacity = 1;
+			document.getElementById("ui_mainMenuSubtitle").style.transform = "none";
+
+			setTimeout(function () {
+				document.getElementById("core_shortStory").style.opacity = 1;
+				document.getElementById("core_shortStory").style.transform = "translate(0, 0)";
+			}, 500);
+		}, 500);
+	}, 400);
+}
+
+//**//SHORT STORY CREATION//**//
+document.getElementById('core_shortStory').addEventListener("click", function () {
+	document.getElementById('ui_shortStoryInterface').style.display = "block";
+	document.getElementById('ui_mainMenu').style.transform = "translate(-50%, -50%) scale(1.5)";
+	document.getElementById('ui_mainMenu').style.opacity = 0;
+	setTimeout(function () {
+		document.getElementById('ui_mainMenu').style.display = "none";
+		document.getElementById('ui_shortStoryInterface').style.opacity = 1;
+
+		document.getElementById('ui_shortStoryInterface').style.transform = "scale(1) translate(-50%, -50%)";
+	}, 500);
+});
+
+//**//DOWNLOAD GENERATED CONTENT//**//
+document.getElementById("ui_download").onclick = function () {
+	var link = document.createElement("a");
+	link.setAttribute('href', 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8,' + encodeURIComponent(document.getElementById("ui_coverRightContent").innerHTML));
+	link.setAttribute('download', "shortStory.docx");
+
+	link.style.display = 'none';
+	document.body.appendChild(link);
+
+	link.click();
+	document.body.removeChild(link);
+}
