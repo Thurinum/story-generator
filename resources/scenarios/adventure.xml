@@ -33,9 +33,9 @@
 						It was dawn: the atmosphere was <variable name="atmosphere1" /> and <variable name="atmosphere2" />.
 						On the highest stage of the <variable name="locationDetail1" /> and <variable name="locationDetail2" /> <variable name="location" />, 
 						the first ray of golden sunlight shone onto <variable name="protagonist" />'s dozing face 
-						through the shattered walls and apprised her of the morning. Slowly, <variable name="protagonist" />
+						through the shattered walls and apprised <pronoun type="obj" for="protagonist" /> of the morning. Slowly, <variable name="protagonist" />
 						opened her eyes, rose and sat on the bare marble floor. To her left was the display of a magnifiscent
-						sunrise which had accompanied <field type="pronoun" subtype="possessive" for="protagonist" />
+						sunrise which had accompanied <pronoun type="obj" for="protagonist" />
 						
 					</static>					
 				</paragraph>

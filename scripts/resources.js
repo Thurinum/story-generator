@@ -160,19 +160,6 @@ const xml = {
 				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel"));
 			} else if (fieldType === "random") {
 				content = utility_randomEntry(tag.getAttribute("source"));
-			} else if (fieldType === "pronoun") {
-				let key = tag.getAttribute("for");				
-				let gender = gendersCache[propertiesCache.indexOf(key)];
-				let pronouns = [];
-				
-				switch (tag.getAttribute("subtype")) {
-					case "personal":
-						pronouns = ["he", "she", "it"]; break;
-					case "possessive":
-						pronouns = ["his", "her", "its"]; break;
-				}
-
-				content = pronouns[gender];
 			} else if (fieldType === "meta") {
 				let key = tag.getAttribute("source");
 				if (!(key in this.metadata))
@@ -182,6 +169,24 @@ const xml = {
 			} else {
 				console.warn(`[XMLEngine] Unknown field type "${fieldType}".`);
 			}
+		} else if (name === "pronoun") {
+			let key = tag.getAttribute("for");				
+			let gender = gendersCache[propertiesCache.indexOf(key)];
+			let type = tag.getAttribute("type");
+			let pronouns = [];
+			
+			switch (type) {
+				case "subj":
+					pronouns = ["he", "she", "it"];   break;
+				case "obj":
+					pronouns = ["him", "her", "it"];  break;
+				case "poss":
+					pronouns = ["his", "her", "its"]; break;
+				default:
+					console.warn(`Invalid pronoun type ${type}.`); break;
+			}
+
+			content = pronouns[gender];
 		} else if (name === "variable") {
 			var varName = tag.getAttribute("name");
 			var index = propertiesCache.indexOf(varName);
