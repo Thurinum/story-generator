@@ -108,7 +108,6 @@ const xml = {
 							return xml.currentTag;
 						} else {
 							console.warn(`[XMLEngine] Found multiple (${target.length}) "${tag}" tags. Please refine research.`);
-							console.warn(target)
 						}
 					}
 				}
