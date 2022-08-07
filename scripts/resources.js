@@ -144,6 +144,7 @@ const xml = {
 				content = tag.childElementCount > 0 ? parseNodes(tag) : tag.innerHTML + " ";
 				break;
 			case "dynamic": {
+				const index = utility_randomChoice(tag.childElementCount) - 1;
 				const conditions = tag.getElementsByTagName("condition");
 
 				// if conditions exist, check them out
@@ -196,7 +197,7 @@ const xml = {
 						if (conditions[i].childElementCount > 0) {
 							content = parseNodes(conditions[i]);
 						} else {
-							content = conditions[i].children[0].innerHTML + " ";
+							content = conditions[i].children[0].children[index].innerHTML + " ";
 						}
 
 						break;
@@ -216,8 +217,6 @@ const xml = {
 				}
 				
 				// if no conditions exist, proceed by choosing a random element
-				const index = utility_randomChoice(tag.childElementCount) - 1;
-
 				if (!tag.children[index].childElementCount > 0) {
 					content = xml.parse(tag.children[index]);
 					break;
