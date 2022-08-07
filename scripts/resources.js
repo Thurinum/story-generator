@@ -187,6 +187,9 @@ const xml = {
 			}
 
 			content = pronouns[gender];
+
+			if (!content)
+				console.log(`There is no pronoun for gender ${gender}.`);
 		} else if (name === "variable") {
 			var varName = tag.getAttribute("name");
 			var index = propertiesCache.indexOf(varName);

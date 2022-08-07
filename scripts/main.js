@@ -27,9 +27,6 @@ function switchToUi(ui) {
  * The current scenario is cached as a JS object.
  */
  function parseScenario() {
-	var selectedPlotline = document.getElementById("shortStory-plotlineDropdown").value;
-	var selectedVariant = document.getElementById("shortStory-variantDropdown").value;
-
 	/**
 	 * Parses an XML tag and pushes it to the XML cache.
 	 * The current scenario is cached as a JS object.
@@ -75,13 +72,8 @@ function switchToUi(ui) {
 
 	xml.reset();
 	xml.select("interface");
-	xml.select("global");
 	parseXmlTag(xml.currentTag);
 	xml.back();
-	xml.select("plotline", "type", selectedPlotline);
-	parseXmlTag(xml.currentTag);
-	xml.select("variant", "type", selectedVariant);
-	parseXmlTag(xml.currentTag);
 }
 
 /**
@@ -93,25 +85,8 @@ function switchToUi(ui) {
 	xml.reset();
 	xml.import(`resources/scenarios/${filename}.xml`);
 
+	// TODO REMOVE
 	setTimeout(function () {
-		//Create scenario UI
-		xml.select("plotlines");
-
-		var plotlineDropdown = document.getElementById("shortStory-plotlineDropdown");
-		for (var i = 0; i < xml.currentTag.getElementsByTagName("plotline").length; i++) {
-			var opt = document.createElement("option");
-			opt.innerHTML = xml.currentTag.getElementsByTagName("plotline")[i].getAttribute("name");
-			plotlineDropdown.append(opt);
-		}
-
-		xml.select("plotline");
-
-		var variantDropdown = document.getElementById("shortStory-variantDropdown");
-		for (var i = 0; i < xml.currentTag.getElementsByTagName("variant").length; i++) {
-			var opt = document.createElement("option");
-			opt.innerHTML = xml.currentTag.getElementsByTagName("variant")[i].getAttribute("name");
-			variantDropdown.append(opt);
-		}
 
 		switchToUi(UI_SCENARIO_SETTINGS);
 	}, 500);
@@ -126,10 +101,6 @@ function switchToUi(ui) {
  */
 function populateVariables() {
 	var enableAutofill;
-	
-	//Detect chose declinations
-	var selectedPlotline = document.getElementById("shortStory-plotlineDropdown").value;
-	var selectedVariant = document.getElementById("shortStory-variantDropdown").value;
 
 	/**
 	 * Parses a variable of the scenario and generates a corresponding HTML input.
@@ -180,29 +151,17 @@ function populateVariables() {
 	//Create custom UI
 	xml.reset();
 	xml.select("interface");
-	xml.select("global");
 	parseVariable(xml.currentTag);
 	enableAutofill = parseInt(xml.currentTag.getAttribute("autofill")); // not implemented yet, broken
 
 	xml.back();
-	if (xml.select("plotline", "type", selectedPlotline)) {
-		parseVariable(xml.currentTag);
-		if (xml.select("variant", "type", selectedVariant)) {
-			parseVariable(xml.currentTag);
-		} else {
-			console.exception(`[Interface] No user fields found for variant ${selectedVariant}.`);
-			return false;
-		}
-	} else {
-		console.exception(`[Interface] No user fields found for plotline ${selectedPlotline}.`);
-		return false;
-	}
+	parseVariable(xml.currentTag); // parse VariableS?
 
 	var finishButton = document.createElement("button");
 	finishButton.innerHTML = "Done";
 	finishButton.onclick = function () {
 		parseScenario();
-		generateStory(document.getElementById("shortStory-plotlineDropdown").value, document.getElementById("shortStory-variantDropdown").value);
+		generateStory();
 	};
 
 	UI_SCENARIO_VARIABLES.append(finishButton);
@@ -212,72 +171,36 @@ function populateVariables() {
 }
 
 /**
- * Generates a story using the provided plotline, plotline variant, and user-input variables.
+ * Generates a story using user-input variables.
  *
- * @param {string} plotline
- * @param {string} variant
  * @return {bool} 
  */
-function generateStory(plotline, variant) {
-	var storyContent = ``;
+function generateStory() {
+	let storyContent = ``;
+
+	/**
+	 * Parse a node for content, capitalizing if the previous content was the end of a sentence.
+	 *
+	 * @param {Node} target
+	 */
+	function parseContent(target) {
+		let content = xml.parse(target);
+		storyContent += storyContent.slice(-3).includes('.?!') ? utility_toUpperCase(content) : content;
+	}
 
 	xml.reset();
-	xml.select("plotlines");
+	xml.select("plotline");
 
-	var plotlineType;
-	var variantType;
-
-	//Detect available plotlines and match with user choice
+	// Detect available paragraphs and parse story
 	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
-		var target = xml.currentTag.children[i];
-		if (target.nodeName == "plotline") {
-			if (target.getAttribute("name") == plotline) {
-				plotlineType = target;
-			}
-		} else {
-			storyContent += xml.parse(target);
-		}
-	}
-
-	//Verify if a plotline was properly selected
-	if (plotlineType == undefined) {
-		console.warn(`[Scenario] User-selected plotline type "${plotline}" does not match available plotlines for this file.`);
-		return false;
-	}
-
-	xml.select("plotline", "name", plotline);
-
-	//Detect available variants and match with user choice
-	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
-		var target = xml.currentTag.children[i];
-		if (target.nodeName == "variant") {
-			if (target.getAttribute("name") === variant) {
-				variantType = target;
-			}
-		} else {
-			storyContent += xml.parse(target);
-		}
-	}
-
-	//Verify if a variant was properly selected
-	if (variantType == undefined) {
-		console.warn(`[Scenario] User-selected variant type "${variant}" does not match available variants for this file.`);
-		return false;
-	}
-
-	xml.select("variant", "name", variant);
-
-	//Detect available paragraphs
-	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
-		var target = xml.currentTag.children[i];
+		let target = xml.currentTag.children[i];
 		if (target.nodeName == "paragraph") {
-			//Create content
-			for (let a = 0; a < target.childElementCount; a++) {
-				storyContent += xml.parse(target.children[a]);
-			}
+			for (let a = 0; a < target.childElementCount; a++)
+				parseContent(target.children[a]);
+			
 			storyContent += `<br /><br />`;
 		} else {
-			storyContent += xml.parse(target);
+			parseContent(target);
 		}
 	}
 
@@ -370,5 +293,5 @@ document.getElementById("shortStory-startCustomize").onclick = function () {
 	populateVariables();
 }
 document.getElementById("shortStory-startButtonAction").onclick = function () {
-	populateSettings("adventure"); // TODO parametrize
+	populateSettings("action"); // TODO parametrize
 };

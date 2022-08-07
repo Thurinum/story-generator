@@ -9,7 +9,7 @@ document.getElementById("shortStory-editorButton").onclick = function () {
 	document.getElementById("editor-startEditing").onclick = function () {
 		document.getElementById("shortStory-editor").innerHTML = `
 		<div id="shortStory-editorPanel"></div>
-		<textarea id="shortStory-editorTextarea"></textarea>`;
+		<div id="shortStory-editorTextarea" contenteditable></div>`;
 	}
 };
 

@@ -142,8 +142,14 @@ textarea {
 #core_shortStory {
 	opacity: 0;
 	transform: translate(0, -40%) scale(1.0);
-	transition: transform 0.5s linear, opacity 0.5s linear, background 0.1s linear, padding 0.1s linear;
+	transition: transform 0.1s linear, opacity 0.5s linear, background 0.1s linear, padding 0.1s linear;
 	box-shadow: 0 5px 10px hsl(215.5, 100%, 12.9%);
+}
+#core_shortStory:hover {
+	transform: translate(0, -10px) scale(1.05) !important;
+}
+#core_shortStory:active {
+	transform: translate(0, -0) scale(1) !important;
 }
 
 #ui_banner {
@@ -541,7 +547,10 @@ textarea {
 }
 
 #ui_coverRightContent {
+	margin: 25px;
+	
 	color: black;
+	font-size: 1.2em;
 	font-family: serif;
 	white-space: normal;
 }
