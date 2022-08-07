@@ -2,14 +2,14 @@
 
 const UI_SCENARIO_SELECTION = document.querySelector("#scnSelect");
 const UI_SCENARIO_SETTINGS  = document.querySelector("#scnSettings");
-const UI_SCENARIO_VARIABLES = document.querySelector("#scnVariables");
+const UI_SCENARIO_constIABLES = document.querySelector("#scnconstiables");
 let currentUi = undefined;
 
 /**
  * Animates the switch to a new user interface.
  *
  * @param {HTMLElement} ui - The user interface to switch to.
- * @todo Remove use of global variable.
+ * @todo Remove use of global constiable.
  */
 function switchToUi(ui) {
 	ui.style.display = "flex";
@@ -30,14 +30,14 @@ function switchToUi(ui) {
 	 * @param {string} tag
 	 */
 	function parseXmlTag(tag) {
-		var count = xml.currentTag.childElementCount;
-		for (var i = 0; i < count; i++) {
-			var propertyName = tag.getElementsByTagName("ui")[i].getAttribute("name");
-			var propertyValue = document.getElementById("userInput_" + propertyName).value;
-			var propertyGender = document.getElementById("userInput_" + propertyName + "_gender");
+		const count = xml.currentTag.childElementCount;
+		for (const i = 0; i < count; i++) {
+			const propertyName = tag.getElementsByTagName("ui")[i].getAttribute("name");
+			const propertyValue = document.getElementById("userInput_" + propertyName).value;
+			const propertyGender = document.getElementById("userInput_" + propertyName + "_gender");
 			propertyGender = propertyGender ? propertyGender.selectedIndex : undefined;
 
-			var passes = true;
+			const passes = true;
 
 			if (!propertyValue || propertyValue === "") {
 				propertyValue = document.getElementById("userInput_" + propertyName).getAttribute("placeholder");
@@ -91,31 +91,29 @@ function switchToUi(ui) {
 }
 
 /**
- * Iteratively parses the scenario's variables to generate an editable user interface.
- * Variables are user-editable parameters of the scenario.
+ * Iteratively parses the scenario's constiables to generate an editable user interface.
+ * constiables are user-editable parameters of the scenario.
  *
  * @return {bool} 
  */
-function populateVariables() {
-	var enableAutofill;
+function populateconstiables() {
+	const enableAutofill;
 
 	/**
-	 * Parses a variable of the scenario and generates a corresponding HTML input.
-	 * Variables are user-editable parameters of the scenario.
+	 * Parses a constiable of the scenario and generates a corresponding HTML input.
+	 * constiables are user-editable parameters of the scenario.
 	 *
 	 * @param {string} tag
 	 */
-	function parseVariable(tag) {
-		for (var i = 0; i < tag.childElementCount; i++) {
-			var field = tag.querySelectorAll("ui")[i];
+	function parseconstiable(tag) {
+		for (const i = 0; i < tag.childElementCount; i++) {
+			const field = tag.querySelectorAll("ui")[i];
 
-			if (!field) {
-				console.warn(`Field ${tag.nodeName} is invalid!`)
-			}			
+			if (!field)
+				console.warn(`Field ${tag.nodeName} is invalid!`);				
 
 			//Create label
-			var label = document.createElement("label");
-			label.setAttribute("class", "ui_scenarioSettingsLabel");
+			const label = document.createElement("label");
 			if (field.innerHTML !== "") {
 				label.innerHTML = field.innerHTML;
 			} else {
@@ -123,7 +121,7 @@ function populateVariables() {
 			}
 
 			//Create editable field
-			var input = document.createElement("input");
+			const input = document.createElement("input");
 			input.setAttribute("type", field.getAttribute("type"));
 			input.setAttribute("placeholder", field.getAttribute("placeholder"));
 			if (!enableAutofill) input.setAttribute("autocomplete", "off");
@@ -132,10 +130,10 @@ function populateVariables() {
 
 			label.innerHTML += "<br />";
 			label.append(input);
-			UI_SCENARIO_VARIABLES.append(label);
+			UI_SCENARIO_constIABLES.append(label);
 
 			if (field.hasAttribute("hasGender")) {
-				UI_SCENARIO_VARIABLES.innerHTML += `
+				UI_SCENARIO_constIABLES.innerHTML += `
 					<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
 						<option>Male</option>
 						<option>Female</option>
@@ -149,13 +147,13 @@ function populateVariables() {
 	//Create custom UI
 	xml.reset();
 	xml.select("interface");
-	parseVariable(xml.currentTag);
+	parseconstiable(xml.currentTag);
 	enableAutofill = parseInt(xml.currentTag.getAttribute("autofill")); // not implemented yet, broken
 
 	xml.back();
-	parseVariable(xml.currentTag); // parse VariableS?
+	parseconstiable(xml.currentTag); // parse constiableS?
 
-	var finishButton = document.createElement("button");
+	const finishButton = document.createElement("button");
 	finishButton.style.position = "relative";
 	finishButton.style.bottom = "25px";
 	finishButton.style.margin = "25px";
@@ -165,14 +163,14 @@ function populateVariables() {
 		generateStory();
 	};
 
-	UI_SCENARIO_VARIABLES.append(finishButton);
-	switchToUi(UI_SCENARIO_VARIABLES);
+	UI_SCENARIO_constIABLES.append(finishButton);
+	switchToUi(UI_SCENARIO_constIABLES);
 
 	return true;
 }
 
 /**
- * Generates a story using user-input variables.
+ * Generates a story using user-input constiables.
  *
  * @return {bool} 
  */
@@ -216,21 +214,21 @@ function generateStory() {
  */
 function displayStory(storyContent) {
 	//Prepare story display
-	var title = document.getElementById("scnSettings-storyTitle").value;
-	var author = document.getElementById("scnSettings-storyAuthor").value;
+	const title = document.getElementById("scnSettings-storyTitle").value;
+	const author = document.getElementById("scnSettings-storyAuthor").value;
 	xml.metadata["title"] = title;
 	xml.metadata["author"] = author;
 
 	xml.reset();
-	xml.select("cover");
+	xml.select("praises");
 
-	var description = xml.parse(xml.currentTag.children[0]);
+	const description = xml.parse(xml.currentTag.children[utility_randomChoice(xml.currentTag.childElementCount)]);
 
 	xml.reset();
 	xml.select("critics");
 
-	var critics = ``;
-	var criticsType = document.getElementById("scnSettings-storyCritics").selectedIndex;
+	let critics = ``;
+	let criticsType = document.getElementById("scnSettings-storyCritics").selectedIndex;
 
 	if (criticsType === 0)
 		criticsType = Math.random() > 0.5 ? 1 : 2;
@@ -264,9 +262,8 @@ function displayStory(storyContent) {
 	document.getElementById("scnDisplay-bookAuthor").innerHTML = author;
 	document.getElementById("scnDisplay-bookTagline").innerHTML = description;
 
-	var coverFront = document.getElementById("scnDisplay-bookCoverFront");
-	var coverLeft = document.getElementById("scnDisplay-bookPageLeft");
-	var coverRight = document.getElementById("scnDisplay-bookPageRight");
+	const coverFront = document.getElementById("scnDisplay-bookCoverFront");
+	const coverLeft = document.getElementById("scnDisplay-bookPageLeft");
 
 	coverFront.onclick = function () {
 		coverFront.style.transform = `translate(-100%) rotateY(180deg)`;
@@ -291,7 +288,7 @@ function displayStory(storyContent) {
 
 //**//INITIALIZATION EVENTS//**//
 document.getElementById("scnSettings-startBtn").onclick = function () {
-	populateVariables();
+	populateconstiables();
 }
 document.getElementById("scnSelect-chooseBtn").onclick = function () {
 	populateSettings("action"); // TODO parametrize

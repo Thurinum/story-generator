@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE scenario SYSTEM "scenario.dtd">
 
 <scenario>
 	<!-- USER INTERFACE -->
@@ -116,11 +117,11 @@
 	</random>
 
 	<!-- COVER PRAISES -->
-	<cover>
+	<praises>
 		<dynamic>
 			<static>sdfsdf</static>
 		</dynamic>
-	</cover>
+	</praises>
 
 	<!-- CRITICS -->
 	<critics>
