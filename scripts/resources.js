@@ -1,14 +1,14 @@
-var xmlCache = document.getElementById("xmlCache");
-var propertiesCache = [];
-var valuesCache = [];
-var gendersCache = [];
+let xmlCache = document.getElementById("xmlCache");
+let propertiesCache = [];
+let valuesCache = [];
+let gendersCache = [];
 
 const xml = {
 	currentTag: undefined,
 	metadata: {},
 
 	import(src) {
-		var xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();
 		xhr.addEventListener("readystatechange", function () {
 			if (xhr.readyState == 4) {
 				if (xhr.status == 200) {
@@ -42,15 +42,7 @@ const xml = {
 	select(tag, attribute, value, useChildren) {
 		//Validate xml cache
 		if (xmlCache.innerHTML !== "") {
-			//Get requested tag based on query type
-			// if (useChildren) {
-			// 	//Also search in children of the current parent
-			// 	var target = currentTag.querySelectorAll(tag);
-			// } else {
-			// 	//Only search at current level of XML hierarchy
-			// 	var target = xml.currentTag.querySelector(tag);
-			// }
-			var target = currentTag.querySelectorAll(tag);
+			const target = currentTag.querySelectorAll(tag);
 
 			//Check if a value was specified without a property
 			if (value && !attribute) {
@@ -59,12 +51,12 @@ const xml = {
 			}
 
 			//Detect if target is present
-			var refinedTarget;
+			let refinedTarget;
 
 			if (target.length > 0) {
 				if (value) {
 					//Attempt to select tag based on attribute and value
-					for (var i = 0; i < target.length; i++) {
+					for (let i = 0; i < target.length; i++) {
 						if (target[i].getAttribute(attribute) === value) {
 							if (refinedTarget) {
 								console.warn(`[XMLEngine] Found multiple tags of type "${tag}" with combination of attribute "${attribute}" and value "${value}".`);
@@ -85,7 +77,7 @@ const xml = {
 				} else {
 					if (attribute) {
 						//Attempt to select tag based on an attribute only
-						for (var i = 0; i < target.length; i++) {
+						for (let i = 0; i < target.length; i++) {
 							if (target[i].getAttribute(attribute) !== null) {
 								if (refinedTarget) {
 									console.warn(`[XMLEngine] Unable to select tag "${tag}" based on sole attribute "${attribute}". Please provide an associated value.`);
@@ -127,14 +119,14 @@ const xml = {
 	},
 
 	parse(tag) {
-		var name = tag.nodeName;
-		var content = ``;
+		const tagname = tag.nodeName;
+		let content = ``;
 
 		function parseNodes(tag) {
-			var nodes = tag.childNodes;
-			var value = ``;
+			const nodes = tag.childNodes;
+			let value = ``;
 
-			for (var i = 0; i < nodes.length; i++) {
+			for (let i = 0; i < nodes.length; i++) {
 				if (nodes[i].nodeName === "#text") {
 					//Check if node is not just empty text
 					value += nodes[i].nodeValue;
@@ -147,98 +139,29 @@ const xml = {
 			return value;
 		};
 
-		if (name === "static") {
-			if (tag.childElementCount > 0) {
-				content = parseNodes(tag);
-			} else {
-				content = tag.innerHTML + " ";
-			}
-		} else if (name === "field") {
-			var fieldType = tag.getAttribute("type");
+		switch (tagname) {
+			case "static":
+				content = tag.childElementCount > 0 ? parseNodes(tag) : tag.innerHTML + " ";
+				break;
+			case "dynamic": {
+				const conditions = tag.getElementsByTagName("condition");
 
-			if (fieldType === "number") {
-				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel"));
-			} else if (fieldType === "random") {
-				content = utility_randomEntry(tag.getAttribute("source"));
-			} else if (fieldType === "meta") {
-				let key = tag.getAttribute("source");
-				if (!(key in this.metadata))
-					console.warn(`[XMLEngine] Unknown scenario metadata key "${key}".`);
+				// if conditions exist, check them out
+				for (let i = 0; i < conditions.length; i++) {
+					const name = conditions[i].getAttribute("name");
+					const operator = conditions[i].getAttribute("operator")
+					const index = propertiesCache.indexOf(name);
+					let target = conditions[i].getAttribute("value");
+					let condition;
 
-				content = this.metadata[key];
-			} else {
-				console.warn(`[XMLEngine] Unknown field type "${fieldType}".`);
-			}
-		} else if (name === "pronoun") {
-			let key = tag.getAttribute("for");				
-			let gender = gendersCache[propertiesCache.indexOf(key)];
-			let type = tag.getAttribute("type");
-			let pronouns = [];
-			
-			switch (type) {
-				case "subj":
-					pronouns = ["he", "she", "it"];   break;
-				case "obj":
-					pronouns = ["him", "her", "it"];  break;
-				case "poss":
-					pronouns = ["his", "her", "its"]; break;
-				default:
-					console.warn(`Invalid pronoun type ${type}.`); break;
-			}
-
-			content = pronouns[gender];
-
-			if (!content)
-				console.log(`There is no pronoun for gender ${gender}.`);
-		} else if (name === "variable") {
-			var varName = tag.getAttribute("name");
-			var index = propertiesCache.indexOf(varName);
-			var value = valuesCache[index];
-			var caseType = tag.getAttribute("casetype");
-
-			switch (caseType) {
-				case "upper":
-					value = utility_toUpperCase(value);
-					break;
-			}
-
-			if (!value) {
-				console.warn(`[XMLEngine] No associated value found for cached variable property ${varName}.`);
-				value = `<strong style="color:red">[VARIABLE NOT FOUND]</strong>`;
-			}
-
-			content = value;
-		} else if (name === "dynamic") {
-			var index = utility_randomChoice(tag.childElementCount) - 1;
-			if (tag.children[index].childElementCount > 0) {
-				if (tag.children[index].nodeName === "dynamic") {
-					content = xml.parse(tag.children[index]);
-				} else {
-					content = parseNodes(tag.children[index]);
-				}
-			} else {
-				content = xml.parse(tag.children[index]);
-			}
-		} else if (name === "event") {
-			var type = tag.getAttribute("type");
-
-			if (type == "conditional") {
-				var conditions = tag.getElementsByTagName("condition");
-				for (var i = 0; i < conditions.length; i++) {
-					var target = conditions[i].getAttribute("value");
-					var varName = conditions[i].getAttribute("name");
-					var operator = conditions[i].getAttribute("operator")
-					var index = propertiesCache.indexOf(varName);
-
-					if (!(varName in propertiesCache))
-						console.warn("No property " + varName + ".");
-
-					var value = valuesCache[index];
-					var condition;
+					if (!(name in propertiesCache))
+					console.warn("No property " + name + ".");
+					
+					let value = valuesCache[index];
 
 					if (conditions[i].getAttribute("slice")) {
-						var slice1 = conditions[i].getAttribute("slice").slice(0, 1);
-						var slice2 = conditions[i].getAttribute("slice").slice(1);
+						const slice1 = conditions[i].getAttribute("slice").slice(0, 1);
+						const slice2 = conditions[i].getAttribute("slice").slice(1);
 
 						value = value.slice(slice1, slice2);
 					}
@@ -265,7 +188,7 @@ const xml = {
 							condition = (value <= target);
 							break;
 						default:
-							console.warn(`[XMLEngine] Provided invalid operator for condition "${varName} ${operator} ${target}" (${err}).`);
+							console.warn(`[XMLEngine] Provided invalid operator for condition "${name} ${operator} ${target}" (${err}).`);
 							break;
 					}
 
@@ -275,16 +198,98 @@ const xml = {
 						} else {
 							content = conditions[i].children[0].innerHTML + " ";
 						}
+
+						break;
 					}
 				}
 
-				if (!content) {
-					console.info(`[XMLEngine] No condition evaluated to true for event "${varName} ${operator} ${target}", using default.`);
-					content = xml.parse(tag.getElementsByTagName("default")[0].children[0]);
+				// if no condition matched and a default tag exists, use it
+				if (conditions.length > 0 && !content) {
+					console.info(`[XMLEngine] No condition evaluated to true, using default.`);
+					
+					const defaultTag = tag.getElementsByTagName("default")[0];
+
+					if (defaultTag) {
+						content = xml.parse(defaultTag.children[0]);
+						break;
+					}
 				}
+				
+				// if no conditions exist, proceed by choosing a random element
+				const index = utility_randomChoice(tag.childElementCount) - 1;
+
+				if (!tag.children[index].childElementCount > 0) {
+					content = xml.parse(tag.children[index]);
+					break;
+				}
+
+				content = tag.children[index].nodeName === "dynamic" 
+					? xml.parse(tag.children[index])
+					: parseNodes(tag.children[index]);
+
+				break;	
+			}			
+			case "number":
+				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel")); break;
+			case "random":
+				content = utility_randomEntry(tag.getAttribute("source")); break;
+			case "meta": {
+				const key = tag.getAttribute("source");
+
+				if (!(key in this.metadata))
+					console.warn(`[XMLEngine] Unknown scenario metadata key "${key}".`);
+
+				content = this.metadata[key];
+				break;
 			}
-		} else {
-			console.warn(`[XMLEngine] Unknown tag "${name}".`);
+			case "var": 
+			case "variable": {
+				const varName = tag.getAttribute("name");
+				const index = propertiesCache.indexOf(varName);
+
+				content = valuesCache[index];
+
+				switch (tag.getAttribute("casetype")) {
+					case "upper":
+						content = utility_toUpperCase(content);
+						break;
+				}
+
+				if (!content || content === '') {
+					console.warn(`[XMLEngine] No associated value found for cached variable property ${varName}.`);
+					content = `<strong style="color:red">[VARIABLE NOT FOUND]</strong>`;
+				}
+
+				break;
+			}
+			case "pron":
+			case "pronoun": {
+				const key = tag.getAttribute("for");				
+				const gender = gendersCache[propertiesCache.indexOf(key)];
+				const type = tag.getAttribute("type");
+				let pronouns = [];
+				
+				switch (type) {
+					case "subj":
+						pronouns = ["he", "she", "it"];   break;
+					case "obj":
+						pronouns = ["him", "her", "it"];  break;
+					case "poss":
+						pronouns = ["his", "her", "its"]; break;
+					default:
+						console.warn(`Invalid pronoun type ${type}.`); break;
+				}
+
+				content = pronouns[gender];
+
+				if (!content)
+					console.log(`There is no pronoun for gender ${gender}.`);
+
+				break;
+			}
+			default:
+				console.warn(`Unknown tag name '${tagname}'.`);
+				break;
 		}
 
 		return content;
@@ -302,7 +307,7 @@ function utility_toUpperCase(string) {
 
 //Set the scroll position to a specific element
 function anchor(id) {
-	var anchor = document.createElement("a")
+	const anchor = document.createElement("a")
 	anchor.href = "#" + id;
 
 	document.body.append(anchor);
@@ -318,27 +323,16 @@ function anchor(id) {
 }
 
 function utility_detectGerund(string) {
-	var index = string.indexOf(" ");
-	if (index == -1) {
+	const index = string.indexOf(" ");
 
-		if (string.slice(-3) == "ing") {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		var word = string.slice(0, -(string.length - index));
-		if (word.slice(-3) == "ing") {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	return index == -1
+		? string.slice(-3) == "ing" 
+		: string.slice(0, -(string.length - index)).slice(-3) == "ing";
 }
 
 //Random choice between 2 selections
 function utility_randomBoolean() {
-	var random = Math.random();
+	const random = Math.random();
 
 	if (random <= 0.5) {
 		return false;
@@ -348,24 +342,22 @@ function utility_randomBoolean() {
 }
 
 function utility_randomChoice(max) {
-	var random = Math.random();
-	var increment = 1 / max;
-	var count = 0;
-	var result;
+	const random = Math.random();
+	const increment = 1 / max;
+	let count = 0;
 
 	while (count <= 1) {
-		if (count > random) {
-			var result = Math.round(count * max);
-			return result;
-		} else {
-			count += increment;
-		}
+		if (count > random)
+			return Math.round(count * max);
+		
+		count += increment;
 	}
 }
 
 function utility_randomEntry(category) {
-	var source;
-	for (var i = 0; i < xmlCache.children[2].children.length; i++) {
+	let source;
+
+	for (let i = 0; i < xmlCache.children[2].children.length; i++) {
 		if (xmlCache.children[2].children[i].getAttribute("name") === category) {
 			source = xmlCache.children[2].children[i];
 		}
@@ -375,15 +367,15 @@ function utility_randomEntry(category) {
 		console.warn("[Utilities] Invalid source or multiple duplicate tags herein.");
 		return false;
 	} else {
-		var result = xml.parse(source);
+		const result = xml.parse(source);
 		return result;
 	}
 
 }
 
 function utility_randomNumber(min, max, round) {
-	var random = Math.random();
-	var result;
+	const random = Math.random();
+	let result;
 
 	min = parseInt(min);
 	max = parseInt(max);
@@ -435,7 +427,7 @@ document.getElementById('core_shortStory').addEventListener("click", function ()
 
 //**//DOWNLOAD GENERATED CONTENT//**//
 document.getElementById("ui_download").onclick = function () {
-	var link = document.createElement("a");
+	const link = document.createElement("a");
 	link.setAttribute('href', 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8,' + encodeURIComponent(document.getElementById("ui_coverRightContent").innerHTML));
 	link.setAttribute('download', "shortStory.docx");
 

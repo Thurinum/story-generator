@@ -43,7 +43,7 @@ function switchToUi(ui) {
 
 			var passes = true;
 
-			if (!propertyValue) {
+			if (!propertyValue || propertyValue === "") {
 				propertyValue = document.getElementById("userInput_" + propertyName).getAttribute("placeholder");
 
 				if (!propertyValue || propertyValue == "") {
@@ -63,6 +63,7 @@ function switchToUi(ui) {
 			} else {
 				propertiesCache.push(propertyName);
 				valuesCache.push(propertyValue);
+				console.log(propertyValue)
 
 				if (propertyGender)
 					gendersCache.push(propertyGender);
