@@ -1,15 +1,15 @@
-document.getElementById("shortStory-editorButton").onclick = function () {
-	document.getElementById("shortStory-scenarioSelection").style.transform = "scale(1.1)";
-	document.getElementById("shortStory-scenarioSelection").style.opacity = "0";
-	document.getElementById("shortStory-scenarioSelection").style.zIndex = "-1000";
-	document.getElementById("shortStory-editor").style.transform = "scale(1.0) ";
-	document.getElementById("shortStory-editor").style.opacity = "1";
-	document.getElementById("shortStory-editor").style.zIndex = "10";
+document.getElementById("scnEditor-openBtn").onclick = function () {
+	document.getElementById("scnSelect").style.transform = "scale(1.1)";
+	document.getElementById("scnSelect").style.opacity = "0";
+	document.getElementById("scnSelect").style.zIndex = "-1000";
+	document.getElementById("scnEditor").style.transform = "scale(1.0) ";
+	document.getElementById("scnEditor").style.opacity = "1";
+	document.getElementById("scnEditor").style.zIndex = "10";
 
-	document.getElementById("editor-startEditing").onclick = function () {
-		document.getElementById("shortStory-editor").innerHTML = `
-		<div id="shortStory-editorPanel"></div>
-		<div id="shortStory-editorTextarea" contenteditable></div>`;
+	document.getElementById("scnEditor-editBtn").onclick = function () {
+		document.getElementById("scnEditor").innerHTML = `
+		<div id="scnEditorPanel"></div>
+		<div id="scnEditorTextarea" contenteditable></div>`;
 	}
 };
 

@@ -1,8 +1,8 @@
 "use strict";
 
-const UI_SCENARIO_SELECTION = document.querySelector("#shortStory-scenarioSelection");
-const UI_SCENARIO_SETTINGS  = document.querySelector("#shortStory-settings");
-const UI_SCENARIO_VARIABLES = document.querySelector("#shortStory-variables");
+const UI_SCENARIO_SELECTION = document.querySelector("#scnSelect");
+const UI_SCENARIO_SETTINGS  = document.querySelector("#scnSettings");
+const UI_SCENARIO_VARIABLES = document.querySelector("#scnVariables");
 let currentUi = UI_SCENARIO_SELECTION;
 
 /**
@@ -216,8 +216,8 @@ function generateStory() {
  */
 function displayStory(storyContent) {
 	//Prepare story display
-	var title = document.getElementById("shortStory-bookTitle").value;
-	var author = document.getElementById("shortStory-bookAuthor").value;
+	var title = document.getElementById("scnSettings-storyTitle").value;
+	var author = document.getElementById("scnSettings-storyAuthor").value;
 	xml.metadata["title"] = title;
 	xml.metadata["author"] = author;
 
@@ -230,7 +230,7 @@ function displayStory(storyContent) {
 	xml.select("critics");
 
 	var critics = ``;
-	var criticsType = document.getElementById("shortStory-bookCritics").selectedIndex;
+	var criticsType = document.getElementById("scnSettings-storyCritics").selectedIndex;
 
 	if (criticsType === 0)
 		criticsType = Math.random() > 0.5 ? 1 : 2;
@@ -240,33 +240,33 @@ function displayStory(storyContent) {
 	critics = xml.parse(xml.currentTag.children[0]);
 
 	//Display result
-	document.querySelector("#ui_display").style.display = "block";
+	document.querySelector("#scnDisplay").style.display = "block";
 	setTimeout(function () {
-		document.querySelector("#ui_display").style.opacity = 1;
-		document.querySelector("#ui_display").style.transform = "translate(0%, 0%)";
+		document.querySelector("#scnDisplay").style.opacity = 1;
+		document.querySelector("#scnDisplay").style.transform = "translate(0%, 0%)";
 	}, 500)
 
-	document.querySelector("#ui_shortStoryInterface").style.opacity = 0;
-	document.querySelector("#ui_shortStoryInterface").style.left = "-50%";
+	document.querySelector("#mainInterface").style.opacity = 0;
+	document.querySelector("#mainInterface").style.left = "-50%";
 	setTimeout(function () {
-		document.querySelector("#ui_shortStoryInterface").style.display = "none";
+		document.querySelector("#mainInterface").style.display = "none";
 	}, 500);
 
-	document.getElementById("ui_coverRightContent").innerHTML += storyContent + critics;
+	document.getElementById("scnDisplay-bookPageRightContent").innerHTML += storyContent + critics;
 
-	document.getElementById("ui_coverFront").style.background = `url("resources/graphics/covers/cover${utility_randomNumber(1, 4, 0)}.webp")`;
-	document.getElementById("ui_coverFront").style.filter = "opacity(0.5) drop-shadow(0 0 0 red);";
-	document.getElementById("ui_coverFront").style.fontFamily = "serif";
-	document.getElementById("ui_coverFront").style.backgroundRepeat = "no-repeat";
-	document.getElementById("ui_coverFront").style.backgroundSize = "cover";
-	document.getElementById("coverTitle").innerHTML = title;
-	document.getElementById("coverSubtitle").innerHTML = "";
-	document.getElementById("coverAuthor").innerHTML = author;
-	document.getElementById("coverBestseller").innerHTML = description;
+	document.getElementById("scnDisplay-bookCoverFront").style.background = `url("resources/graphics/covers/cover${utility_randomNumber(1, 4, 0)}.webp")`;
+	document.getElementById("scnDisplay-bookCoverFront").style.filter = "opacity(0.5) drop-shadow(0 0 0 red);";
+	document.getElementById("scnDisplay-bookCoverFront").style.fontFamily = "serif";
+	document.getElementById("scnDisplay-bookCoverFront").style.backgroundRepeat = "no-repeat";
+	document.getElementById("scnDisplay-bookCoverFront").style.backgroundSize = "cover";
+	document.getElementById("scnDisplay-bookTitle").innerHTML = title;
+	document.getElementById("scnDisplay-bookSubtitle").innerHTML = "";
+	document.getElementById("scnDisplay-bookAuthor").innerHTML = author;
+	document.getElementById("scnDisplay-bookTagline").innerHTML = description;
 
-	var coverFront = document.getElementById("ui_coverFront");
-	var coverLeft = document.getElementById("ui_coverLeft");
-	var coverRight = document.getElementById("ui_coverRight");
+	var coverFront = document.getElementById("scnDisplay-bookCoverFront");
+	var coverLeft = document.getElementById("scnDisplay-bookPageLeft");
+	var coverRight = document.getElementById("scnDisplay-bookPageRight");
 
 	coverFront.onclick = function () {
 		coverFront.style.transform = `translate(-100%) rotateY(180deg)`;
@@ -290,9 +290,9 @@ function displayStory(storyContent) {
 };
 
 //**//INITIALIZATION EVENTS//**//
-document.getElementById("shortStory-startCustomize").onclick = function () {
+document.getElementById("scnSettings-startBtn").onclick = function () {
 	populateVariables();
 }
-document.getElementById("shortStory-startButtonAction").onclick = function () {
+document.getElementById("scnSelect-chooseBtn").onclick = function () {
 	populateSettings("action"); // TODO parametrize
 };

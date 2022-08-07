@@ -247,7 +247,7 @@ function dm_log(value, type, minimum, tooltip, console) {
 
 //Show banner
 function dm_banner(text) {
-	var banner = document.getElementById("ui_banner");
+	var banner = document.getElementById("notificationsBanner");
 	banner.innerHTML += `<p>${text}</p>`;
 	banner.style.top = 0;
 	banner.style.opacity = 1;

@@ -395,38 +395,38 @@ function utility_randomNumber(min, max, round) {
 //ANIMATIONS
 window.onmousemove = function () {
 	setTimeout(function () {
-		document.getElementById("ui_mainMenuTitle").style.opacity = 1;
-		document.getElementById("ui_mainMenuTitle").style.transform = "none";
+		document.getElementById("mainMenuTitle").style.opacity = 1;
+		document.getElementById("mainMenuTitle").style.transform = "none";
 
 		setTimeout(function () {
-			document.getElementById("ui_mainMenuSubtitle").style.opacity = 1;
-			document.getElementById("ui_mainMenuSubtitle").style.transform = "none";
+			document.getElementById("mainMenuSubtitle").style.opacity = 1;
+			document.getElementById("mainMenuSubtitle").style.transform = "none";
 
 			setTimeout(function () {
-				document.getElementById("core_shortStory").style.opacity = 1;
-				document.getElementById("core_shortStory").style.transform = "translate(0, 0)";
+				document.getElementById("mainMenu-startBtn").style.opacity = 1;
+				document.getElementById("mainMenu-startBtn").style.transform = "translate(0, 0)";
 			}, 500);
 		}, 500);
 	}, 400);
 }
 
 //**//SHORT STORY CREATION//**//
-document.getElementById('core_shortStory').addEventListener("click", function () {
-	document.getElementById('ui_shortStoryInterface').style.display = "block";
-	document.getElementById('ui_mainMenu').style.transform = "translate(-50%, -50%) scale(1.5)";
-	document.getElementById('ui_mainMenu').style.opacity = 0;
+document.getElementById('mainMenu-startBtn').addEventListener("click", function () {
+	document.getElementById('mainInterface').style.display = "block";
+	document.getElementById('mainMenu').style.transform = "translate(-50%, -50%) scale(1.5)";
+	document.getElementById('mainMenu').style.opacity = 0;
 	setTimeout(function () {
-		document.getElementById('ui_mainMenu').style.display = "none";
-		document.getElementById('ui_shortStoryInterface').style.opacity = 1;
+		document.getElementById('mainMenu').style.display = "none";
+		document.getElementById('mainInterface').style.opacity = 1;
 
-		document.getElementById('ui_shortStoryInterface').style.transform = "scale(1) translate(-50%, -50%)";
+		document.getElementById('mainInterface').style.transform = "scale(1) translate(-50%, -50%)";
 	}, 500);
 });
 
 //**//DOWNLOAD GENERATED CONTENT//**//
-document.getElementById("ui_download").onclick = function () {
+document.getElementById("scnDisplay-downloadBtn").onclick = function () {
 	const link = document.createElement("a");
-	link.setAttribute('href', 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8,' + encodeURIComponent(document.getElementById("ui_coverRightContent").innerHTML));
+	link.setAttribute('href', 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8,' + encodeURIComponent(document.getElementById("scnDisplay-bookPageRightContent").innerHTML));
 	link.setAttribute('download', "shortStory.docx");
 
 	link.style.display = 'none';
