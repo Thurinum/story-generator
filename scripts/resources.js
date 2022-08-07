@@ -42,6 +42,9 @@ const xml = {
 	select(tag, attribute, value, useChildren) {
 		//Validate xml cache
 		if (xmlCache.innerHTML !== "") {
+			if (!this.currentTag)
+				console.warn("Current tag is not defined!");
+
 			const target = currentTag.querySelectorAll(tag);
 
 			//Check if a value was specified without a property
@@ -119,6 +122,9 @@ const xml = {
 	},
 
 	parse(tag) {
+		if (!tag)
+			console.warn("Tag is not defined!");
+
 		const tagname = tag.nodeName;
 		let content = ``;
 
@@ -350,6 +356,13 @@ function utility_randomChoice(max) {
 
 		count += increment;
 	}
+}
+
+function randomChildTag(tag) {
+	const max = tag.childElementCount - 1;
+	const random = Math.random();
+
+	return xml.currentTag.children[Math.trunc(random * max + 0.5)];
 }
 
 function utility_randomEntry(category) {

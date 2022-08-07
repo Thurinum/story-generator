@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE scenario SYSTEM "scenario.dtd">
 
 <scenario>
 	<!-- USER INTERFACE -->
@@ -110,66 +109,66 @@
 	</plotline>
 
 	<!-- RANDOMIZED STRINGS -->
-	<random>
-		<dynamic name="criticAuthor">
-			<static>The New York Times</static>
-		</dynamic>
-	</random>
+	<random></random>
 
 	<!-- COVER PRAISES -->
 	<praises>
-		<dynamic>
-			<static>sdfsdf</static>
-		</dynamic>
+		<static>The science-fiction thriller of the century</static>
+		<static>sdfjasfasdfsad</static>
+		<static>The greatest novel of forever</static>
 	</praises>
 
 	<!-- CRITICS -->
-	<critics>
-		<favorable>
-			<dynamic>
-				<static>
-					An exciting novella. The profound intellectual and moral evolution of the character,
-					<var name="protagonist" />
-					, seals with a slight a dramatic tone a story dotted with a twinge of humor, and much realism. Most enjoyable. -
-					<field type="random" source="criticAuthor" />
-				</static>
-				<static>
-					This immersive story, clever in its vision of truth and deep in its implications, truly denotes a high degree of personal investment from
-					<field type="meta" source="author" />
-					. His best book yet!-
-					<field type="random" source="criticAuthor" />
-				</static>
-				<static>
-					Scattered with many hilarious references,
-					<field type="meta" source="author" />
-					succeeds with brio to make us enjoy the electrifying adventures of
-					<var name="protagonist" />
-					against the malevolent
-					<var name="antagonist" />
-					. A must-read!
-				</static>
-				<static>
-					A brilliant book. The adventures of
-					<var name="protagonist" />
-					shall stay in our memories for generations to come.
-				</static>
-				<static>
-					The indescriptible genius, the incredible acuity of spirit of
-					<var name="protagonist" />
-					makes this book a simple yet genuine success.
-				</static>
-			</dynamic>
-
-		</favorable>
-		<unfavorable>
-			<dynamic>
-				<static>This so-called "novel" is the apotheosis of stupidity. It is utterly shocking that such an foolish absurdity managed to get inside the libraries themselves.</static>
-				<static>
-					<var name="protagonist" />
-					is the living proof that we should burn books.
-				</static>
-			</dynamic>
-			<field type="random" source="criticAuthor"></field>
-		</unfavorable>
-	</critics>
+	<reviews>
+		<positive>
+			<static>
+				An exciting novella. The profound intellectual and moral evolution of the character,
+				<var name="protagonist" />
+				, seals with a slight a dramatic tone a story dotted with a twinge of humor, and much realism. Most enjoyable. -
+				<field type="random" source="criticAuthor" />
+			</static>
+			<static>
+				This immersive story, clever in its vision of truth and deep in its implications, truly denotes a high degree of personal investment from
+				<field type="meta" source="author" />
+				. His best book yet!-
+				<field type="random" source="criticAuthor" />
+			</static>
+			<static>
+				Scattered with many hilarious references,
+				<field type="meta" source="author" />
+				succeeds with brio to make us enjoy the electrifying adventures of
+				<var name="protagonist" />
+				against the malevolent
+				<var name="antagonist" />
+				. A must-read!
+			</static>
+			<static>
+				A brilliant book. The adventures of
+				<var name="protagonist" />
+				shall stay in our memories for generations to come.
+			</static>
+			<static>
+				The indescriptible genius, the incredible acuity of spirit of
+				<var name="protagonist" />
+				makes this book a simple yet genuine success.
+			</static>
+		</positive>
+		<negative>
+			<static>
+				This so-called "novel" is the apotheosis of stupidity. It is utterly shocking that such an foolish absurdity managed to get inside the libraries themselves.
+			</static>
+			<static>
+				<var name="protagonist" />
+				is the living proof that we should burn books.
+			</static>
+			<static>
+				Terrible. Hardly worth a read.
+			</static>
+		</negative>
+		<critics>
+			<static>Ning Ye</static>
+			<static>The New York Times</static>
+			<static>The Washington Post</static>
+		</critics>
+	</reviews>
 </scenario>
