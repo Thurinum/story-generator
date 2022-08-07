@@ -12,18 +12,10 @@ let currentUi = undefined;
  * @todo Remove use of global variable.
  */
 function switchToUi(ui) {
-	if (currentUi)
-		currentUi.style.opacity = "0";
-
 	ui.style.display = "flex";
-
-	setTimeout(function () {
-		if (currentUi)
-			currentUi.style.display = "none";
-
-		ui.style.opacity = "1";
-		currentUi = ui;
-	}, 500);
+	
+	if (currentUi)
+		currentUi.style.display = "none";
 }
 
 /**

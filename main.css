@@ -3,10 +3,11 @@
 /*===== GLOBAL STYLE =====*/
 html,
 body {
-	background-color: rgb(0, 44, 106);
-	font-family: "Segoe UI Light", Quicksand, sans-serif;
 	margin: 0;
 	padding: 0;
+
+	background-color: rgb(0, 44, 106);
+	font-family: "Segoe UI Light", Quicksand, sans-serif;
 	color: white;
 	scroll-behavior: smooth;
 	overflow: hidden;
@@ -251,7 +252,6 @@ main > section {
 #scnSelect {
 	display: flex;
 	flex-direction: column;
-	opacity: 0;
 }
 
 
@@ -276,7 +276,6 @@ main > section {
 #scnSettings {
 	display: none;
 	flex-direction: column;
-	opacity: 0;
 }
 
 #scnSettings-startBtn {
@@ -293,7 +292,6 @@ main > section {
 #scnVariables {
 	display: none;
 	flex-direction: column;
-	opacity: 0;
 }
 
 /* EDITOR */
@@ -303,7 +301,6 @@ main > section {
 	grid-template-columns: repeat(4, 25%);
 	grid-template-rows: repeat(2, 50%);
 	grid-gap: 2%;
-	opacity: 0;
 }
 
 #scnEditorTextarea {
