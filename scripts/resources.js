@@ -393,7 +393,7 @@ function utility_randomNumber(min, max, round) {
 }
 
 //ANIMATIONS
-window.onmousemove = function () {
+window.onload = function () {
 	setTimeout(function () {
 		document.getElementById("mainMenuTitle").style.opacity = 1;
 		document.getElementById("mainMenuTitle").style.transform = "none";
@@ -416,7 +416,7 @@ document.getElementById('mainMenu-startBtn').addEventListener("click", function 
 	document.getElementById('mainMenu').style.transform = "translate(-50%, -50%) scale(1.5)";
 	document.getElementById('mainMenu').style.opacity = 0;
 	setTimeout(function () {
-		document.getElementById('mainMenu').style.display = "none";
+		switchToUi(UI_SCENARIO_SELECTION);
 		document.getElementById('mainInterface').style.opacity = 1;
 
 		document.getElementById('mainInterface').style.transform = "scale(1) translate(-50%, -50%)";
@@ -426,8 +426,8 @@ document.getElementById('mainMenu-startBtn').addEventListener("click", function 
 //**//DOWNLOAD GENERATED CONTENT//**//
 document.getElementById("scnDisplay-downloadBtn").onclick = function () {
 	const link = document.createElement("a");
-	link.setAttribute('href', 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8,' + encodeURIComponent(document.getElementById("scnDisplay-bookPageRightContent").innerHTML));
-	link.setAttribute('download', "shortStory.docx");
+	link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(document.getElementById("scnDisplay-bookPageRightContent").innerHTML));
+	link.setAttribute('download', "shortStory.txt");
 
 	link.style.display = 'none';
 	document.body.appendChild(link);

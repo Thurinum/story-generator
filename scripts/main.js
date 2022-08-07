@@ -3,7 +3,7 @@
 const UI_SCENARIO_SELECTION = document.querySelector("#scnSelect");
 const UI_SCENARIO_SETTINGS  = document.querySelector("#scnSettings");
 const UI_SCENARIO_VARIABLES = document.querySelector("#scnVariables");
-let currentUi = UI_SCENARIO_SELECTION;
+let currentUi = undefined;
 
 /**
  * Animates the switch to a new user interface.
@@ -12,11 +12,15 @@ let currentUi = UI_SCENARIO_SELECTION;
  * @todo Remove use of global variable.
  */
 function switchToUi(ui) {
-	currentUi.style.opacity = "0";
+	if (currentUi)
+		currentUi.style.opacity = "0";
+
+	ui.style.display = "flex";
 
 	setTimeout(function () {
-		currentUi.style.display = "none";
-		ui.style.display = "flex";
+		if (currentUi)
+			currentUi.style.display = "none";
+
 		ui.style.opacity = "1";
 		currentUi = ui;
 	}, 500);
@@ -118,7 +122,7 @@ function populateVariables() {
 			}			
 
 			//Create label
-			var label = document.createElement("p");
+			var label = document.createElement("label");
 			label.setAttribute("class", "ui_scenarioSettingsLabel");
 			if (field.innerHTML !== "") {
 				label.innerHTML = field.innerHTML;
@@ -134,8 +138,9 @@ function populateVariables() {
 			input.setAttribute("datatype", field.getAttribute("datatype"));
 			input.setAttribute("id", "userInput_" + field.getAttribute("name"));
 
+			label.innerHTML += "<br />";
+			label.append(input);
 			UI_SCENARIO_VARIABLES.append(label);
-			UI_SCENARIO_VARIABLES.append(input);
 
 			if (field.hasAttribute("hasGender")) {
 				UI_SCENARIO_VARIABLES.innerHTML += `
@@ -159,6 +164,9 @@ function populateVariables() {
 	parseVariable(xml.currentTag); // parse VariableS?
 
 	var finishButton = document.createElement("button");
+	finishButton.style.position = "relative";
+	finishButton.style.bottom = "25px";
+	finishButton.style.margin = "25px";
 	finishButton.innerHTML = "Done";
 	finishButton.onclick = function () {
 		parseScenario();

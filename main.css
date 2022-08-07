@@ -21,13 +21,6 @@ body {
 	border: 0;
 }
 
-video {
-	width: 100vw;
-	height: 100vh;
-	object-fit: fill;
-	opacity: 1;
-}
-
 button,
 select {
 	border-radius: 10px;
@@ -102,46 +95,101 @@ textarea {
 	width: 100%;
 }
 
+main > section {
+	width: 100%;
+	height: 100%;
+
+	position: absolute;
+	left: 0;
+	top: 0;
+
+	display: grid;
+	grid-template-rows: repeat(2, 50%);
+	grid-template-columns: repeat(4, 25%);
+	grid-gap: 2%;
+	
+	color: #353535;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 0px 2px 4px 0px;
+
+	font-size: 2.5vmin;
+	text-align: center;
+	overflow: auto;
+
+	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.section-header {
+	margin: 0;
+	padding: 2%;
+
+	position: sticky;
+	top: 0;
+
+	text-shadow: 0px 2px 3px hsl(0, 0%, 65.9%);
+	text-align: center;
+
+	background: white;
+	box-shadow: 0 5px 33px #4a4a4a50;
+}
+
 /*===== MAIN MENU =====*/
 #mainMenu {
-	text-align: center;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	transition: opacity 0.5s linear, transform 0.5s linear, left 0.5s linear;
-	font-family: "Segoe UI Light", Quicksand, sans-serif, sans-serif;
+
 	display: block;
 	opacity: 1;
+
+	text-align: center;
+	font-family: "Segoe UI Light", Quicksand, sans-serif, sans-serif;
+
+	transition: opacity 0.5s linear, transform 0.5s linear, left 0.5s linear;
 }
 
 #mainMenuTitle {
-	text-align: center;
-	opacity: 0;
 	transform: translate(0, -50%);
+
+	opacity: 0;
+	text-align: center;
+
 	transition: opacity 0.5s linear, transform 0.5s linear;
 }
 
 #mainMenuSubtitle {
 	width: 100vw;
-	opacity: 0;
 	transform: translate(0, -45%);
+	
+	opacity: 0;
+
 	transition: opacity 0.5s linear, transform 0.5s linear;
 }
 
 #mainMenu-startBtn {
-	opacity: 0;
 	transform: translate(0, -40%) scale(1.0);
-	transition: transform 0.1s linear, opacity 0.5s linear, background 0.1s linear, padding 0.1s linear;
+
+	opacity: 0;
 	box-shadow: 0 5px 10px hsl(215.5, 100%, 12.9%);
+
+	transition: transform 0.1s linear, opacity 0.5s linear, background 0.1s linear, padding 0.1s linear;
 }
 
 #mainMenu-startBtn:hover {
-	transform: translate(0, -10px) scale(1.05) !important;
+	transform: scale(1.05) !important;
 }
 
 #mainMenu-startBtn:active {
-	transform: translate(0, -0) scale(1) !important;
+	transform: scale(1) !important;
+}
+
+#disclaimer {
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 
 .ui_scenario {
@@ -151,75 +199,72 @@ textarea {
 /* NOTIFICATIONS */
 
 #notificationsBanner {
-	position: fixed;
-	top: -19%;
-	left: 0;
-	height: fit-content;
-	height: -moz-fit-content;
 	width: 100vw;
-	background-color: blue;
-	color: white;
+	height: fit-content;
+
+	position: fixed;
+	left: 0;
+	top: -19%;
+
 	font-size: 20px;
-	transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
 	text-align: center;
+
+	color: white;
+	background-color: blue;
+
+	transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 #notificationsBanner p {
+	width: 100%;
+	margin: 1%;
+
 	position: relative;
 	left: 50%;
 	top: 19%;
 	transform: translate(-50%, 0);
+
 	font-size: 2vmin;
-	width: 100%;
-	margin: 1%;
 	font-family: monospace;
 }
 
 /* MAIN INTERFACE */
 #mainInterface {
-	display: none;
-	opacity: 0;
 	width: 80vw;
 	height: 80vh;
-	background: white;
+
 	position: absolute;
-	top: 46%;
 	left: 50%;
+	top: 50%;
 	transform: translate(-50%, -50%);
+
+	display: none;
+	border-radius: 10px;
+	opacity: 0;
+	background: white;
+	box-shadow: 0 35px 65px #0d0b1d;
+
 	transition: opacity 0.5s ease-in, left 0.5s ease-in, transform 0.5s ease-in;
 }
 
 /* SCENARIO SELECTION */
-
 #scnSelect {
-	width: 100%;
-	height: 100%;
-	background: white;
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 1;
-	box-shadow: 0px 2px 4px 0px;
-	display: grid;
-	grid-template-columns: repeat(4, 25%);
-	grid-template-rows: repeat(2, 50%);
-	grid-gap: 2%;
-	border-radius: 2px;
-	color: #353535;
-	font-size: 2.5vmin;
-	text-align: center;
-	overflow: auto;
-	padding: 2%;
-	margin: -2%;
-	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
 }
 
-#scnSelect h2 {
-	text-shadow: 0px 2px 3px hsl(0, 0%, 65.9%);
-	text-align: center;
-}
 
 .scnSelect-card {
+	height: 50%;
+	
+	display: flex;
+	flex-direction: column;
+	flex-grow: 0;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+
 	background: hsl(0, 0%, 94.1%);
 }
 
@@ -227,94 +272,38 @@ textarea {
 	height: 50%;
 }
 
-.scnSelect-cardLabel {
-	height: 50%;
-}
-
 /* SCENARIO SETTINGS */
-
 #scnSettings {
-	width: 100%;
-	height: 100%;
-	background: white;
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0;
-	box-shadow: 0px 2px 4px 0px;
-	border-radius: 2px;
-	color: #353535;
-	font-size: 2.5vmin;
+	display: none;
 	flex-direction: column;
-	z-index: -1;
-	overflow: auto;
-	padding: 2%;
-	margin: -2%;
-	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	opacity: 0;
 }
 
-#scnSettings-header {
-	position: sticky;
-	top: 0;
+#scnSettings-startBtn {
+	width: 96%;
+	margin: 2%;
+
+	position: absolute;
 	left: 0;
-	width: 100%;
-	height: 10%;
-	color: white;
-	background-color: hsl(226.2, 100%, 34.9%);
-	text-align: center;
-}
-
-#scnSettings h2 {
-	text-shadow: 0px 2px 3px hsl(0, 0%, 65.9%);
-	text-align: center;
+	bottom: 0;
 }
 
 /* SCENARIO VARIABLES */
 
 #scnVariables {
-	width: 100%;
-	height: 100%;
-	background: white;
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0;
-	box-shadow: 0px 2px 4px 0px;
-	border-radius: 2px;
-	color: #353535;
-	font-size: 2.5vmin;
 	display: none;
-	overflow: auto;
-	padding: 2%;
-	margin: -2%;
 	flex-direction: column;
-	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	opacity: 0;
 }
 
-#scnVariables h2 {
-	text-shadow: 0px 2px 3px hsl(0, 0%, 65.9%);
-	text-align: center;
-}
-
+/* EDITOR */
 
 #scnEditor {
-	width: 100%;
-	height: 100%;
-	background: white;
-	position: absolute;
-	opacity: 0;
-	top: 0;
-	left: 0;
-	box-shadow: 0px 2px 4px 0px;
-	border-radius: 2px;
-	z-index: -1000;
+	display: none;
 	grid-template-columns: repeat(4, 25%);
 	grid-template-rows: repeat(2, 50%);
 	grid-gap: 2%;
-	text-align: center;
-	color: #353535;
-	font-size: 2.5vmin;
-	transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+	opacity: 0;
 }
 
 #scnEditorTextarea {
@@ -334,22 +323,21 @@ textarea {
 }
 
 #scnEditor-openBtn {
-	position: fixed;
 	width: fit-content;
-	width: -moz-fit-content;
-	top: -6vh;
-	right: -21vw;
-	transition: right 0.5s ease-in-out;
-	background-color: white;
-	color: hsl(0, 0%, 17.6%);
+	padding: 0.7%;
+
+	position: fixed;
+	right: 0;
+	top: 0;
+
 	font-size: 2vmin;
 	text-align: center;
-	padding: 0.7%;
-	box-shadow: 2px 0px 3px 4px white;
-}
 
-#scnEditor-openBtn:hover {
-	right: -10vw;
+	color: #CCC;
+	background-color: transparent;
+	box-shadow: none;
+
+	transition: right 0.5s ease-in-out;
 }
 
 /* GENERATED STORY DISPLAY */

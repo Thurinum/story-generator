@@ -9,12 +9,16 @@
 </head>
 
 <body>
+	<button id="scnEditor-openBtn" disabled><rb><rt>COMING SOON!</rt>Create your own scenario</rb></button>		
+
 	<!-- MAIN MENU -->
 	<div id="mainMenu">
-		<h1 id="mainMenuTitle">Your Very Own Story, Free</h1>
+		<h1 id="mainMenuTitle">Story Generator Demo</h1>
 		<h2 id="mainMenuSubtitle">Create an engaging, personalized story in minutes!</h2>
 		<button id="mainMenu-startBtn">Let's go!</button>
 	</div>
+
+	<p id="disclaimer">This is just an refurbished very old project. You cannot create scenarios yet and features are limited.</p>
 
 	<!-- NOTIFICATION BANNER -->
 	<div id="notificationsBanner"></div>
@@ -22,31 +26,29 @@
 	<!-- SHORT STORY CREATION INTERFACE -->
 	<main id="mainInterface">
 		<section id="scnSelect">
+			<h2 class="section-header">Select a scenario</h2>
 			<div class="scnSelect-card">
 				<img class="scnSelect-cardPreview" src="resources/graphics/icons/document.webp" />
-				<p class="scnSelect-cardLabel">
-					<span class="scnSelect-name">Adventure</span><br />
-					<span style="font-size: 0.75em">An adventure scenario.</span>
-					<br /><br />
-					<button id="scnSelect-chooseBtn">Choose</button>
-				</p>
+				<span class="scnSelect-name">Adventure</span>
+				<span style="font-size: 0.75em">An adventure scenario.</span>
+				<button id="scnSelect-chooseBtn">Choose</button>
 			</div>
 		</section>
 		<section id="scnSettings">
-			<h2 id="scnSettings-header">Scenario Settings</h2>
+			<h2 class="section-header">Scenario Settings</h2>
 
 			<label>
-				What's the name of your story?
+				<p>What's the name of your story?</p>
 				<input id="scnSettings-storyTitle" type="text" placeholder="Enter book title" />
 			</label>
 
 			<label>
-				Who's the author?
+				<p>Who's the author?	</p>
 				<input id="scnSettings-storyAuthor" type="text" placeholder="Enter author name" />
 			</label>
 
 			<label>
-				How should the critics regard your work?
+				<p>How should the critics regard your work?</p>
 				<select id="scnSettings-storyCritics">
 					<option disabled selected>Select critics reception</option>
 					<option>Let fate decide</option>
@@ -59,7 +61,7 @@
 		</section>
 
 		<section id="scnVariables">
-			<h2>Scenario Customization</h2>
+			<h2 class="section-header">Scenario Customization</h2>
 			<!-- Dynamic scenario fields will appear here -->
 		</section>
 
@@ -89,10 +91,8 @@
 			<input id="scnEditor-name" type="text" />
 			<button id="scnEditor-editBtn">Ok</button>
 		</section>
-
-		<button id="scnEditor-openBtn">New scenario</button>		
 	</main>
-
+		
 	<script type="text/javascript" src="scripts/resources.js"></script>
 	<script type="text/javascript" src="scripts/main.js"></script>
 	<script type="text/javascript" src="scripts/editor.js"></script>
