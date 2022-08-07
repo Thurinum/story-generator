@@ -139,12 +139,12 @@ const xml = {
 			return value;
 		};
 
+		parseTag:
 		switch (tagname) {
 			case "static":
 				content = tag.childElementCount > 0 ? parseNodes(tag) : tag.innerHTML + " ";
 				break;
-			case "dynamic": {
-				const index = utility_randomChoice(tag.childElementCount) - 1;
+			case "dynamic": {		
 				const conditions = tag.getElementsByTagName("condition");
 
 				// if conditions exist, check them out
@@ -155,10 +155,11 @@ const xml = {
 					let target = conditions[i].getAttribute("value");
 					let condition;
 
-					if (!(name in propertiesCache))
-					console.warn("No property " + name + ".");
-					
+					if (!propertiesCache.includes(name))
+						console.warn("No property to test condition on '" + name + "'.");
+
 					let value = valuesCache[index];
+
 
 					if (conditions[i].getAttribute("slice")) {
 						const slice1 = conditions[i].getAttribute("slice").slice(0, 1);
@@ -194,22 +195,18 @@ const xml = {
 					}
 
 					if (condition == true) {
-						if (conditions[i].childElementCount > 0) {
-							content = parseNodes(conditions[i]);
-						} else {
-							content = conditions[i].children[0].children[index].innerHTML + " ";
-						}
-
-						break;
+						const index = utility_randomChoice(conditions[i].childElementCount) - 1;
+						content = parseNodes(conditions[i].children[index]);
+						break parseTag;
 					}
 				}
 
 				// if no condition matched and a default tag exists, use it
 				if (conditions.length > 0 && !content) {
 					console.info(`[XMLEngine] No condition evaluated to true, using default.`);
-					
-					const defaultTag = tag.getElementsByTagName("default")[0];
 
+					const defaultTag = tag.getElementsByTagName("default")[0];
+					
 					if (defaultTag) {
 						content = xml.parse(defaultTag.children[0]);
 						break;
@@ -217,17 +214,19 @@ const xml = {
 				}
 				
 				// if no conditions exist, proceed by choosing a random element
+				const index = utility_randomChoice(tag.childElementCount) - 1;
+
 				if (!tag.children[index].childElementCount > 0) {
 					content = xml.parse(tag.children[index]);
 					break;
 				}
 
-				content = tag.children[index].nodeName === "dynamic" 
+				content = tag.children[index].nodeName === "dynamic"
 					? xml.parse(tag.children[index])
 					: parseNodes(tag.children[index]);
 
-				break;	
-			}			
+				break;
+			}
 			case "number":
 				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel")); break;
 			case "random":
@@ -241,7 +240,7 @@ const xml = {
 				content = this.metadata[key];
 				break;
 			}
-			case "var": 
+			case "var":
 			case "variable": {
 				const varName = tag.getAttribute("name");
 				const index = propertiesCache.indexOf(varName);
@@ -263,16 +262,16 @@ const xml = {
 			}
 			case "pron":
 			case "pronoun": {
-				const key = tag.getAttribute("for");				
+				const key = tag.getAttribute("for");
 				const gender = gendersCache[propertiesCache.indexOf(key)];
 				const type = tag.getAttribute("type");
 				let pronouns = [];
-				
+
 				switch (type) {
 					case "subj":
-						pronouns = ["he", "she", "it"];   break;
+						pronouns = ["he", "she", "it"]; break;
 					case "obj":
-						pronouns = ["him", "her", "it"];  break;
+						pronouns = ["him", "her", "it"]; break;
 					case "poss":
 						pronouns = ["his", "her", "its"]; break;
 					default:
@@ -325,7 +324,7 @@ function utility_detectGerund(string) {
 	const index = string.indexOf(" ");
 
 	return index == -1
-		? string.slice(-3) == "ing" 
+		? string.slice(-3) == "ing"
 		: string.slice(0, -(string.length - index)).slice(-3) == "ing";
 }
 
@@ -348,7 +347,7 @@ function utility_randomChoice(max) {
 	while (count <= 1) {
 		if (count > random)
 			return Math.round(count * max);
-		
+
 		count += increment;
 	}
 }

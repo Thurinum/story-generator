@@ -35,6 +35,8 @@
 				</condition>
 				<condition name="time" slice="0-3" operator="[" value="17" numeral="true">
 					<static>and the sun was glimmering in the sky.</static>
+					<static>and the night was pitch black.</static>
+					<static>and the night was pitch black.</static>
 				</condition>
 				<condition name="time" slice="0-3" operator="[" value="21" numeral="true">
 					<static>and the sun was slowly disappearing on the horizon.</static>
