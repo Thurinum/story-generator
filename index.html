@@ -65,26 +65,6 @@
 			<!-- Dynamic scenario fields will appear here -->
 		</section>
 
-		<section id="scnDisplay">
-			<div id="scnDisplay-book">
-				<div id="scnDisplay-bookCoverFront" class="bookCover">
-					<img id="scnDisplay-bookCoverDetail" class="bookCoverDetail" src="resources/graphics/covers/stains.webp" />
-					<h1 id="scnDisplay-bookTitle"></h1>
-					<p id="scnDisplay-bookSubtitle"></p>
-					<h2 id="scnDisplay-bookAuthor"></h2>
-					<h3 id="scnDisplay-bookTagline" style="font-size:1.5em;position:absolute;bottom:1%;color:rgb(255, 255, 255);padding:10px;"></h3>
-				</div>
-				<div id="scnDisplay-bookPageLeft" class="bookCover">
-					<p style="z-index: 2" id="scnDisplay-bookPageLeftContent"></p>
-				</div>
-				<div id="scnDisplay-bookPageRight" class="bookCover">
-					<p style="z-index: 2" id="scnDisplay-bookPageRightContent"></p>
-				</div>
-			</div>
-	
-			<button id="scnDisplay-downloadBtn">Download as Microsoft Word Document</button>
-		</section>
-
 		<section id="scnEditor">
 			<h2 class="scnEditor-header">Scenario name</h2>
 			<p class="scnEditor-description">Choose a name for your scenario.</p>
@@ -92,6 +72,26 @@
 			<button id="scnEditor-editBtn">Ok</button>
 		</section>
 	</main>
+
+	<div id="scnDisplay">
+		<div id="scnDisplay-book">
+			<div id="scnDisplay-bookCoverFront" class="bookCover">
+				<img id="scnDisplay-bookCoverDetail" class="bookCoverDetail" src="resources/graphics/covers/stains.webp" />
+				<h1 id="scnDisplay-bookTitle"></h1>
+				<p id="scnDisplay-bookSubtitle"></p>
+				<h2 id="scnDisplay-bookAuthor"></h2>
+				<h3 id="scnDisplay-bookTagline" style="font-size:1.5em;position:absolute;bottom:1%;color:rgb(255, 255, 255);padding:10px;"></h3>
+			</div>
+			<div id="scnDisplay-bookPageLeft" class="bookCover">
+				<p style="z-index: 2" id="scnDisplay-bookPageLeftContent"></p>
+			</div>
+			<div id="scnDisplay-bookPageRight" class="bookCover">
+				<p style="z-index: 2" id="scnDisplay-bookPageRightContent"></p>
+			</div>
+		</div>
+
+		<button id="scnDisplay-downloadBtn">Download as text document</button>
+	</div>
 		
 	<script type="text/javascript" src="scripts/resources.js"></script>
 	<script type="text/javascript" src="scripts/main.js"></script>

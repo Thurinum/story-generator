@@ -444,19 +444,23 @@ main > section {
 }
 
 #scnDisplay-downloadBtn {
+	width: 50%;
+
 	position: fixed;
-	text-align: center;
-	width: 100%;
+	left: 50%;
+	bottom: 5%;
+	transform: translate(-50%, 0);
+
 	border-radius: 0;
-	bottom: 2%;
+	text-align: center;
 }
 
 #scnDisplay-downloadBtn:hover {
-	transform: scale(1.05);
+	transform: translate(-50%, 0) scale(1.05);
 }
 
 #scnDisplay-downloadBtn:active {
-	transform: scale(1);
+	transform: translate(-50%, 0) scale(1);
 }
 
 /*===== ANIMATIONS =====*/

@@ -427,7 +427,7 @@ document.getElementById('mainMenu-startBtn').addEventListener("click", function 
 document.getElementById("scnDisplay-downloadBtn").onclick = function () {
 	const link = document.createElement("a");
 	link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(document.getElementById("scnDisplay-bookPageRightContent").innerHTML));
-	link.setAttribute('download', "shortStory.txt");
+	link.setAttribute('download', `${xml.metadata["title"]} by ${xml.metadata["author"]}.txt`); // TODO sanitize
 
 	link.style.display = 'none';
 	document.body.appendChild(link);
