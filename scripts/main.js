@@ -266,10 +266,58 @@ function displayStory(storyContent) {
 	}
 };
 
-//**//INITIALIZATION EVENTS//**//
-document.getElementById("scnSettings-startBtn").onclick = function () {
-	populateUserInputs();
+// main menu reveal animation
+window.onload = function () {
+	setTimeout(function () {
+		document.getElementById("mainMenuTitle").style.opacity = 1;
+		document.getElementById("mainMenuTitle").style.transform = "none";
+
+		setTimeout(function () {
+			document.getElementById("mainMenuSubtitle").style.opacity = 1;
+			document.getElementById("mainMenuSubtitle").style.transform = "none";
+
+			setTimeout(function () {
+				document.getElementById("mainMenu-startBtn").style.opacity = 1;
+				document.getElementById("mainMenu-startBtn").style.transform = "translate(0, 0)";
+			}, 500);
+		}, 500);
+	}, 400);
 }
+
+// main menu start button
+document.getElementById('mainMenu-startBtn').addEventListener("click", function () {
+	document.getElementById('mainInterface').style.display = "block";
+	document.getElementById('mainMenu').style.transform = "translate(-50%, -50%) scale(1.5)";
+	document.getElementById('mainMenu').style.opacity = 0;
+	setTimeout(function () {
+		switchToUi(UI_SCENARIO_SELECTION);
+		document.getElementById('mainInterface').style.opacity = 1;
+
+		document.getElementById('mainInterface').style.transform = "scale(1) translate(-50%, -50%)";
+	}, 500);
+});
+
+// select menu choose button
 document.getElementById("scnSelect-chooseBtn").onclick = function () {
 	loadScenario("action"); // TODO parametrize
-};
+}
+
+// options menu continue button
+document.getElementById("scnSettings-startBtn").onclick = populateUserInputs;
+
+// download button
+document.getElementById("scnDisplay-downloadBtn").onclick = function () {
+	const link = document.createElement("a");
+	link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(document.getElementById("scnDisplay-bookPageRightContent").innerHTML));
+	link.setAttribute('download', `${xml.metadata["title"]} by ${xml.metadata["author"]}.txt`); // TODO sanitize
+
+	link.style.display = 'none';
+	document.body.appendChild(link);
+
+	link.click();
+	document.body.removeChild(link);
+}
+
+
+
+
