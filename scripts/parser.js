@@ -124,7 +124,7 @@ const xml = {
 
 	parse(tag) {
 		if (!tag)
-			console.warn("Tag is not defined!");
+			console.warn(`Cannot parse, tag is not defined!`);
 
 		const tagname = tag.nodeName;
 		let content = ``;
@@ -234,10 +234,20 @@ const xml = {
 
 				break;
 			}
-			case "number":
-				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel")); break;
-			case "random":
-				content = utility_randomEntry(tag.getAttribute("source")); break;
+			case "randnum":
+				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel"));
+				break;
+			case "randstr": {
+				const name = tag.getAttribute("type");
+				const wordbank = xmlCache.getElementsByTagName("wordbanks")[0].getElementsByClassName(name)[0];
+
+				if (!wordbank)
+					console.warn(`Random strings bank ${name} does not exist.`);
+
+				console.log(randomChildTag(wordbank));
+				content = xml.parse(randomChildTag(wordbank));
+				break;
+			}
 			case "meta": {
 				const key = tag.getAttribute("source");
 
@@ -247,8 +257,7 @@ const xml = {
 				content = this.metadata[key];
 				break;
 			}
-			case "var":
-			case "variable": {
+			case "var": {
 				const varName = tag.getAttribute("name");
 				const index = propertiesCache.indexOf(varName);
 
@@ -267,8 +276,7 @@ const xml = {
 
 				break;
 			}
-			case "pron":
-			case "pronoun": {
+			case "pron": {
 				const key = tag.getAttribute("for");
 				const gender = gendersCache[propertiesCache.indexOf(key)];
 				const type = tag.getAttribute("type");
@@ -363,26 +371,7 @@ function randomChildTag(tag) {
 	const max = tag.childElementCount - 1;
 	const random = Math.random();
 
-	return xml.currentTag.children[Math.trunc(random * max + 0.5)];
-}
-
-function utility_randomEntry(category) {
-	let source;
-
-	for (let i = 0; i < xmlCache.children[2].children.length; i++) {
-		if (xmlCache.children[2].children[i].getAttribute("name") === category) {
-			source = xmlCache.children[2].children[i];
-		}
-	}
-
-	if (!source || source.length > 1) {
-		console.warn("[Utilities] Invalid source or multiple duplicate tags herein.");
-		return false;
-	} else {
-		const result = xml.parse(source);
-		return result;
-	}
-
+	return tag.children[Math.trunc(random * max + 0.5)];
 }
 
 function utility_randomNumber(min, max, round) {

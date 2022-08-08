@@ -19,8 +19,10 @@
 	<plotline>
 		<paragraph>
 			<static>
+				<randstr type="fruits" />
+
 				The year was
-				<number min="1980" max="2100" />
+				<randnum min="1980" max="2100" />
 				. It was
 				<var name="time" />
 				,
@@ -110,7 +112,7 @@
 
 	<!-- RANDOMIZED STRINGS -->
 	<wordbanks>
-		<dynamic name="fruits">
+		<dynamic class="fruits">
 			<static>apple</static>
 			<static>pears</static>
 			<static>fruits</static>
