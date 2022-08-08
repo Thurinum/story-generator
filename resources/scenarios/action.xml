@@ -60,13 +60,7 @@
 				</default>
 
 			</dynamic>
-			<dynamic>
-				<condition name="sdf" slice="f" operator="f" value="f" numeral="f">
-					<static></static>
-				</condition>
-				<default>
-					<static></static>
-				</default>
+			<dynamic>			
 				<static>The plants were slowly starting to appear over the melting snow.</static>
 				<dynamic>
 					<static>sdfsdf</static>				

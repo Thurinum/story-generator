@@ -37,7 +37,7 @@ const xml = {
 	},
 
 	reset() {
-		currentTag = xmlCache;
+		currentTag = xmlCache.getRootNode().documentElement;
 	},
 
 	select(tag, attribute, value) {
@@ -162,8 +162,10 @@ const xml = {
 					let target = conditions[i].getAttribute("value");
 					let condition;
 
-					if (!propertiesCache.includes(name))
+					if (!propertiesCache.includes(name)) {
 						console.warn("No property to test condition on '" + name + "'.");
+						break parseTag;
+					}
 
 					let value = valuesCache[index];
 
@@ -239,7 +241,7 @@ const xml = {
 				break;
 			case "randstr": {
 				const name = tag.getAttribute("type");
-				const wordbank = xmlCache.getElementsByTagName("wordbanks")[0].getElementsByClassName(name)[0];
+				const wordbank = xmlCache.getRootNode().documentElement.getElementsByTagName("wordbanks")[0].getElementsByClassName(name)[0];
 
 				if (!wordbank)
 					console.warn(`Random strings bank ${name} does not exist.`);
