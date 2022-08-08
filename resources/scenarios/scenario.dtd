@@ -7,10 +7,8 @@
 <!ATTLIST dynamic class ID #IMPLIED>
 <!ELEMENT condition (static*|dynamic*)*>
 <!ATTLIST condition on NMTOKEN #REQUIRED>
-<!ATTLIST condition slice NMTOKEN #REQUIRED>
-<!ATTLIST condition operator CDATA #REQUIRED>
-<!ATTLIST condition value NMTOKEN #REQUIRED>
-<!ATTLIST condition numeral NMTOKEN #REQUIRED>
+<!ATTLIST condition operator NMTOKEN #REQUIRED>
+<!ATTLIST condition value CDATA #REQUIRED>
 <!ELEMENT default (static*|dynamic*)*>
 
 <!ELEMENT var EMPTY>

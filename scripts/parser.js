@@ -156,54 +156,49 @@ const xml = {
 
 				// if conditions exist, check them out
 				for (let i = 0; i < conditions.length; i++) {
-					const name = conditions[i].getAttribute("on");
+					const target = conditions[i].getAttribute("on");
 					const operator = conditions[i].getAttribute("operator")
-					const index = propertiesCache.indexOf(name);
-					let target = conditions[i].getAttribute("value");
+					let expectedValue = conditions[i].getAttribute("value");
 					let condition;
-
-					if (!propertiesCache.includes(name)) {
-						console.warn("No property to test condition on '" + name + "'.");
+					
+					if (!propertiesCache.includes(target)) {
+						console.warn("No property to test condition on '" + target + "'.");
 						break parseTag;
 					}
-
-					let value = valuesCache[index];
-
-
-					if (conditions[i].getAttribute("slice")) {
-						const slice1 = conditions[i].getAttribute("slice").slice(0, 1);
-						const slice2 = conditions[i].getAttribute("slice").slice(1);
-
-						value = value.slice(slice1, slice2);
-					}
+					
+					const index = propertiesCache.indexOf(target);
+					let actualValue = valuesCache[index];
 
 					if (conditions[i].getAttribute("numeral")) {
-						target = parseInt(target);
-						value = parseInt(value);
+						expectedValue = parseInt(expectedValue);
+						actualValue = parseInt(actualValue);
 					}
 
 					switch (operator) {
-						case "=":
-							condition = (value == target);
+						case "eq":
+							condition = (actualValue === expectedValue);
 							break;
-						case "]":
-							condition = (value > target);
+						case "neq":
+							condition = (actualValue !== expectedValue);
 							break;
-						case "[":
-							condition = (value < target);
+						case "gt":
+							condition = (actualValue > expectedValue);
 							break;
-						case "]=":
-							condition = (value >= target);
+						case "lt":
+							condition = (actualValue < expectedValue);
 							break;
-						case "[=":
-							condition = (value <= target);
+						case "geq":
+							condition = (actualValue >= expectedValue);
+							break;
+						case "leq":
+							condition = (actualValue <= expectedValue);
 							break;
 						default:
-							console.warn(`Invalid operator provided for condition "${name} ${operator} ${target}" (${err}).`);
+							console.warn(`Invalid operator provided for condition "${target} ${operator} ${expectedValue}" (${err}).`);
 							break;
 					}
 
-					if (condition == true) {
+					if (condition === true) {
 						const index = utility_randomChoice(conditions[i].childElementCount) - 1;
 						content = parseNodes(conditions[i].children[index]);
 						break parseTag;

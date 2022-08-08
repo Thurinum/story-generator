@@ -34,12 +34,12 @@
 	<plotline>
 		<paragraph>
 			<dynamic>
-				<!-- <condition on="victor" operator="eq" value="The protagonist">
+				<condition on="victor" operator="eq" value="The protagonist">
 					<static>PROTAGONIST WON</static>
-				</condition> -->
-				<!-- <condition on="victor" slice="" operator="" value="" numeral="">
+				</condition>
+				<condition on="victor" operator="eq" value="The antagonist">
 					<static>ANTAGONIST WON</static>
-				</condition> -->
+				</condition>
 			</dynamic>
 		</paragraph>
 	</plotline>
