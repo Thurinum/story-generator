@@ -20,62 +20,11 @@ function switchToUi(ui) {
 }
 
 /**
- * Parses the while scenario
- * The current scenario is cached as a JS object.
- */
-function parseScenario() {
-	/**
-	 * Parses an XML tag and pushes it to the XML cache.
-	 * The current scenario is cached as a JS object.
-	 *
-	 * @param {string} tag
-	 */
-	function parseXmlTag(tag) {
-		const count = xml.currentTag.childElementCount;
-		for (let i = 0; i < count; i++) {
-			const propertyName = tag.getElementsByTagName("ui")[i].getAttribute("name");
-			let propertyValue = document.getElementById("userInput_" + propertyName).value;
-			const propertyGender = document.getElementById("userInput_" + propertyName + "_gender") ? propertyGender.selectedIndex : undefined;
-
-			let passes = true;
-
-			if (!propertyValue || propertyValue === "") {
-				propertyValue = document.getElementById("userInput_" + propertyName).getAttribute("placeholder");
-
-				if (!propertyValue || propertyValue == "") {
-					console.warn(`[Database] Unable to find a cached property value for input "${propertyName}".`);
-				} else {
-					console.info(`[Database] No user input specified for property "${propertyName}", using default "${propertyValue}".`);
-				}
-
-			}
-
-			if (document.getElementById("userInput_" + propertyName).getAttribute("datatype") == "gerund")
-				passes = utility_detectGerund(propertyValue);
-
-			if (!passes)
-				console.warn(`[Database] Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
-
-			propertiesCache.push(propertyName);
-			valuesCache.push(propertyValue);
-
-			if (propertyGender)
-				gendersCache.push(propertyGender);
-		}
-	}
-
-	xml.reset();
-	xml.select("interface");
-	parseXmlTag(xml.currentTag);
-	xml.back();
-}
-
-/**
  * Populates the settings interface from an XML scenario.
  *
  * @param {string} filename - The scenario's filename.
  */
-function populateSettings(filename) {
+ function loadScenario(filename) {
 	xml.reset();
 	xml.import(`resources/scenarios/${filename}.xml`);
 
@@ -88,58 +37,47 @@ function populateSettings(filename) {
  *
  * @return {bool} 
  */
-function populateVariables() {
-	/**
-	 * Parses a variable of the scenario and generates a corresponding HTML input.
-	 * variables are user-editable parameters of the scenario.
-	 *
-	 * @param {string} tag
-	 */
-
-
-	function parseVariables(tag) {
-		for (let i = 0; i < tag.childElementCount; i++) {
-			const field = tag.querySelectorAll("ui")[i];
-
-			if (!field)
-				console.warn(`Field ${tag.nodeName} is invalid!`);
-
-			//Create label
-			const label = document.createElement("label");
-			if (field.innerHTML !== "")
-				label.innerHTML = field.innerHTML;
-			else
-				label.innerHTML = "Unnamed field";
-			
-
-			//Create editable field
-			const input = document.createElement("input");
-			input.setAttribute("type", field.getAttribute("type"));
-			input.setAttribute("placeholder", field.getAttribute("placeholder"));
-			input.setAttribute("datatype", field.getAttribute("datatype"));
-			input.setAttribute("id", "userInput_" + field.getAttribute("name"));
-
-			label.innerHTML += "<br />";
-			label.append(input);
-			UI_SCENARIO_VARIABLES.append(label);
-
-			if (field.hasAttribute("hasGender")) {
-				UI_SCENARIO_VARIABLES.innerHTML += `
-				<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
-				<option>Male</option>
-				<option>Female</option>
-				<option>Object</option>
-				</select>
-				`;
-			}
-		}
-	}
-
+function populateUserInputs() {
 	//Create custom UI
 	xml.reset();
 	xml.select("interface");
-	console.log(23482390432)
-	parseVariables(xml.currentTag);
+	
+	// Parse scenario UI
+	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
+		const field = xml.currentTag.querySelectorAll("ui")[i];
+
+		if (!field)
+			console.warn(`Field ${xml.currentTag.nodeName} is invalid!`);
+
+		//Create label
+		const label = document.createElement("label");
+		if (field.innerHTML !== "")
+			label.innerHTML = field.innerHTML;
+		else
+			label.innerHTML = "Unnamed field";
+		
+
+		//Create editable field
+		const input = document.createElement("input");
+		input.setAttribute("type", field.getAttribute("type"));
+		input.setAttribute("placeholder", field.getAttribute("placeholder"));
+		input.setAttribute("datatype", field.getAttribute("datatype"));
+		input.setAttribute("id", "userInput_" + field.getAttribute("name"));
+
+		label.innerHTML += "<br />";
+		label.append(input);
+		UI_SCENARIO_VARIABLES.append(label);
+
+		if (field.hasAttribute("hasGender")) {
+			UI_SCENARIO_VARIABLES.innerHTML += `
+			<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
+			<option>Male</option>
+			<option>Female</option>
+			<option>Object</option>
+			</select>
+			`;
+		}
+	}
 
 	const finishButton = document.createElement("button");
 	finishButton.style.position = "relative";
@@ -147,7 +85,7 @@ function populateVariables() {
 	finishButton.style.margin = "25px";
 	finishButton.innerHTML = "Done";
 	finishButton.onclick = function () {
-		parseScenario();
+		parseUserInputs();
 		generateStory();
 	};
 
@@ -155,6 +93,47 @@ function populateVariables() {
 	switchToUi(UI_SCENARIO_VARIABLES);
 
 	return true;
+}
+
+/**
+ * Parses the whole scenario
+ * The current scenario is cached as a JS object.
+ */
+ function parseUserInputs() {
+	xml.reset();
+	xml.select("interface");
+
+	const count = xml.currentTag.childElementCount;
+	for (let i = 0; i < count; i++) {
+		const propertyName = xml.currentTag.getElementsByTagName("ui")[i].getAttribute("name");
+		let propertyValue = document.getElementById("userInput_" + propertyName).value;
+		const propertyGender = document.getElementById("userInput_" + propertyName + "_gender") ? propertyGender.selectedIndex : undefined;
+
+		let passes = true;
+
+		if (!propertyValue || propertyValue === "") {
+			propertyValue = document.getElementById("userInput_" + propertyName).getAttribute("placeholder");
+
+			if (!propertyValue || propertyValue == "")
+				console.warn(`[Database] Unable to find a cached property value for input "${propertyName}".`);
+			else
+				console.info(`[Database] No user input specified for property "${propertyName}", using default "${propertyValue}".`);
+		}
+
+		if (document.getElementById("userInput_" + propertyName).getAttribute("datatype") == "gerund")
+			passes = utility_detectGerund(propertyValue);
+
+		if (!passes)
+			console.warn(`[Database] Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
+
+		propertiesCache.push(propertyName);
+		valuesCache.push(propertyValue);
+
+		if (propertyGender)
+			gendersCache.push(propertyGender);
+	}
+
+	xml.back();
 }
 
 /**
@@ -289,8 +268,8 @@ function displayStory(storyContent) {
 
 //**//INITIALIZATION EVENTS//**//
 document.getElementById("scnSettings-startBtn").onclick = function () {
-	populateVariables();
+	populateUserInputs();
 }
 document.getElementById("scnSelect-chooseBtn").onclick = function () {
-	populateSettings("action"); // TODO parametrize
+	loadScenario("action"); // TODO parametrize
 };

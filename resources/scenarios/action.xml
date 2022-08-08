@@ -110,8 +110,11 @@
 
 	<!-- RANDOMIZED STRINGS -->
 	<wordbanks>
-		<dynamic>
-			<static>yourmom</static>
+		<dynamic name="fruits">
+			<static>apple</static>
+			<static>pears</static>
+			<static>fruits</static>
+			<static>pineapple</static>
 		</dynamic>
 	</wordbanks>
 

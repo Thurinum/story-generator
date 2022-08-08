@@ -5,6 +5,7 @@ let gendersCache = [];
 
 const xml = {
 	currentTag: undefined,
+	wordbanks: {},
 	metadata: {},
 
 	import(src) {
