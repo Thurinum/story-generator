@@ -29,13 +29,13 @@
 <!ATTLIST text name ID #REQUIRED>
 <!ATTLIST text type NMTOKEN #IMPLIED>
 <!ATTLIST text hasgender (true|false) "false">
-<!ATTLIST text placeholder CDATA #IMPLIED>
+<!ATTLIST text placeholder CDATA #REQUIRED>
 <!ELEMENT time EMPTY>
 <!ATTLIST time name ID #REQUIRED>
-<!ATTLIST time placeholder CDATA #IMPLIED>
+<!ATTLIST time placeholder CDATA #REQUIRED>
 <!ELEMENT select (option*)>
 <!ATTLIST select name ID #REQUIRED>
-<!ATTLIST select placeholder CDATA #IMPLIED>
+<!ATTLIST select placeholder CDATA #REQUIRED>
 <!ELEMENT option (#PCDATA)>
 
 <!ELEMENT wordbanks (dynamic*)>

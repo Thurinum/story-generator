@@ -152,6 +152,11 @@ const xml = {
 				content = tag.childElementCount > 0 ? parseNodes(tag) : tag.innerHTML + " ";
 				break;
 			case "dynamic": {		
+				if (tag.childElementCount === 0) {
+					console.info(`Skipping empty element of type ${tagname}.`);
+					break;
+				}
+
 				const conditions = tag.getElementsByTagName("condition");
 
 				// if conditions exist, check them out

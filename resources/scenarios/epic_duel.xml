@@ -5,25 +5,35 @@
 <scenario>
 	<variables>
 		<section name="Protagonist" />
-		<text name="pro" hasgender="true" placeholder="Atlara of Arwindale">Who's the protagonist?</text>
-		<text name="proWeapon" placeholder="black ebony bow">What's his weapon?</text>
-		<text name="proAbility" placeholder="triple jump">What's his special ability?</text>
+		<text name="pro" hasgender="true" placeholder="Atlara of Arwindale">What's the protagonist's name?</text>
+		<text name="proWeapon" placeholder="black ebony bow">What weapon does the protagonist use?</text>
+		<text name="proAbility" placeholder="triple jump">What's the protagonist's special ability?</text>
+		<text name="proArmour" placeholder="plates armor">What armour does the protagonist wear?</text>
 
 		<text name="ally" hasgender="true" placeholder="adoring fan">Who's the protagonist's moral support?</text>
-		<text name="allyAbility" placeholder="courage spell">What's his special support ability?</text>
+		<text name="allyAbility" placeholder="courage spell">What's this ally's special support ability?</text>
 
 		<section name="Antagonist" />
-		<text name="ant" hasgender="true" placeholder="Hendrick of Viridis">Who's the antagonist?</text>
-		<text name="antWeapon" placeholder="evil sword of the ages">What's his weapon?</text>
-		<text name="antAbility" placeholder="force lightning">What's his special ability?</text>
+		<text name="ant" hasgender="true" placeholder="Hendrick of Viridis">What's the antagonist's name?</text>
+		<text name="antWeapon" placeholder="evil sword of the ages">What weapon does the antagonist use?</text>
+		<text name="antAbility" placeholder="force lightning">What's the antagonist's special ability?</text>
+		<text name="antArmor" placeholder="dark scales armor">What armour does the antagonist wear?</text>
 
 		<text name="minion" hasgender="true" placeholder="evil witch mentor">Who's the antagonist's moral support?</text>
-		<text name="minionAbility" placeholder="fear aura spell">What's his special support ability?</text>
+		<text name="minionAbility" placeholder="fear aura spell">What's this minion's special support ability?</text>
 
 		<section name="Arena" />
+		<text name="land" placeholder="Arwindale">In what land or country is this battle taking place?</text>
 		<text name="arena" placeholder="Imperial City arena">Where does the fight take place?</text>
-		<text name="arenaDesc1" placeholder="worn by ages of battles">What does the place look like?</text>
-		<text name="arenaDesc2" placeholder="ruinous">What does the place look like?</text>
+		<text name="arenaDesc1" placeholder="worn by ages of battles">What does this place look like?</text>
+		<text name="arenaDesc2" placeholder="ruinous">What does this place look like?</text>
+		<text name="host" hasgender="true" placeholder="the High-King">Who is hosting the combat?</text>
+
+		<section name="Outcome" />
+		<select name="expectedVictor" placeholder="Whom does the public opinion expect to win?">
+			<option>The protagonist</option>
+			<option>The antagonist</option>
+		</select>
 
 		<select name="victor" placeholder="Who wins the fight?">
 			<option>The protagonist</option>
@@ -33,14 +43,19 @@
 
 	<plotline>
 		<paragraph>
-			<dynamic>
-				<condition on="victor" operator="eq" value="The protagonist">
-					<static>PROTAGONIST WON</static>
-				</condition>
-				<condition on="victor" operator="eq" value="The antagonist">
-					<static>ANTAGONIST WON</static>
-				</condition>
-			</dynamic>
+			<!-- introduction -->
+			<static>
+				The day is slowly coming to an end. Around the
+				<var name="arena" />
+				, thousands of people have amassed under
+				<var name="host" />
+				's invitation. Tonight two candles will flicker in the dark; only one shall be rekindled as it bathes in the defeated's blood. For
+				<var name="host" />
+				has brought two of the greatest warriors in the land of
+				<var name="land" />
+				.
+			</static>
+			<dynamic></dynamic>
 		</paragraph>
 	</plotline>
 
