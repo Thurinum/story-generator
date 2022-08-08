@@ -44,39 +44,60 @@ function populateUserInputs() {
 	
 	// Parse scenario UI
 	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
-		const field = xml.currentTag.querySelectorAll("ui")[i];
-
+		const field = xml.currentTag.children[i];
+		const label = document.createElement("label");
+		let input;
+		
 		if (!field)
 			console.warn(`User input '${xml.currentTag.nodeName}' does not exist!`);
-
-		//Create label
-		const label = document.createElement("label");
-		if (field.innerHTML !== "")
-			label.innerHTML = field.innerHTML;
-		else
-			label.innerHTML = "Unnamed field";
 		
+		label.innerHTML = "Unnamed field";		
+		
+		switch (field.nodeName) {
+			case "text": {
+				input = document.createElement("input");
+				input.setAttribute("placeholder", field.getAttribute("placeholder"));
+				input.setAttribute("datatype", field.getAttribute("type"));
+				label.innerHTML = field.innerHTML;
+				break;
+			}
+			case "time": {
+				input = document.createElement("input");
+				input.setAttribute("placeholder", field.getAttribute("placeholder"));
+				label.innerHTML = field.innerHTML;
+				break;
+			}
+			case "select": {
+				input = document.createElement("select");
+				label.innerHTML = field.getAttribute("placeholder");
+				input.innerHTML = field.innerHTML;
+				break;
+			}
+			case "section": {
+				input = document.createElement("hr");
+				label.innerHTML = `<strong>${field.getAttribute("name")}</strong>`;
+				break;
+			}
+			default:
+				console.warn(`Invalid user input type '${field.nodeName}'.`);
+				break;
+		}
 
-		//Create editable field
-		const input = document.createElement("input");
-		input.setAttribute("type", field.getAttribute("type"));
-		input.setAttribute("placeholder", field.getAttribute("placeholder"));
-		input.setAttribute("datatype", field.getAttribute("datatype"));
 		input.setAttribute("id", "userInput_" + field.getAttribute("name"));
-
 		label.innerHTML += "<br />";
 		label.append(input);
-		UI_SCENARIO_VARIABLES.append(label);
 
-		if (field.hasAttribute("hasGender")) {
-			UI_SCENARIO_VARIABLES.innerHTML += `
-			<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
-			<option>Male</option>
-			<option>Female</option>
-			<option>Object</option>
+		if (field.hasAttribute("hasgender")) {
+			label.innerHTML += `
+			<select id="${"userInput_" + field.getAttribute("name") + "_gender"}" style="width: 20%">
+				<option>Male</option>
+				<option>Female</option>
+				<option>Object</option>
 			</select>
 			`;
 		}
+
+		UI_SCENARIO_VARIABLES.append(label);
 	}
 
 	const finishButton = document.createElement("button");
@@ -105,9 +126,13 @@ function populateUserInputs() {
 
 	const count = xml.currentTag.childElementCount;
 	for (let i = 0; i < count; i++) {
-		const propertyName = xml.currentTag.getElementsByTagName("ui")[i].getAttribute("name");
+		if (xml.currentTag.children[i].nodeName === "section")
+			continue;
+
+		const propertyName = xml.currentTag.children[i].getAttribute("name");
 		let propertyValue = document.getElementById("userInput_" + propertyName).value;
-		const propertyGender = document.getElementById("userInput_" + propertyName + "_gender") ? propertyGender.selectedIndex : undefined;
+		const genderField = document.getElementById("userInput_" + propertyName + "_gender");
+		const propertyGender = genderField ? genderField.selectedIndex : undefined;
 
 		let passes = true;
 
@@ -200,7 +225,7 @@ function displayStory(storyContent) {
 	xml.reset();
 	xml.select("reviews");
 
-	let review = ``;
+	let review = '';
 	let reviewType = document.getElementById("scnSettings-storyCritics").selectedIndex;
 
 	// 0: random, 1: positive, 2: negative
@@ -209,13 +234,15 @@ function displayStory(storyContent) {
 
 	xml.select(reviewType === 1 ? "positive" : "negative");
 
-	review = xml.parse(randomChildTag(xml.currentTag));
+	if (xml.currentTag.childElementCount > 0)
+		review = xml.parse(randomChildTag(xml.currentTag));
 
 	// review's author
 	xml.back();
 	xml.select("critics");
 
-	review += `<br />&dash; ${xml.parse(randomChildTag(xml.currentTag))}`;
+	if (review !== '' && xml.currentTag.childElementCount > 0)
+		review += `<br />&dash; ${xml.parse(randomChildTag(xml.currentTag))}`;
 
 	//Display result
 	document.querySelector("#scnDisplay").style.display = "block";
@@ -299,7 +326,7 @@ document.getElementById('mainMenu-startBtn').addEventListener("click", function 
 
 // select menu choose button
 document.getElementById("scnSelect-chooseBtn").onclick = function () {
-	loadScenario("action"); // TODO parametrize
+	loadScenario("epic_duel"); // TODO parametrize
 }
 
 // options menu continue button

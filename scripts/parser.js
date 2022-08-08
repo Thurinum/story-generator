@@ -156,7 +156,7 @@ const xml = {
 
 				// if conditions exist, check them out
 				for (let i = 0; i < conditions.length; i++) {
-					const name = conditions[i].getAttribute("name");
+					const name = conditions[i].getAttribute("on");
 					const operator = conditions[i].getAttribute("operator")
 					const index = propertiesCache.indexOf(name);
 					let target = conditions[i].getAttribute("value");

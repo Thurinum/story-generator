@@ -1,14 +1,12 @@
-<!ELEMENT scenario (plotline,variables,wordbanks,praises,reviews)>
+<!ELEMENT scenario (variables,plotline,wordbanks,praises,reviews)>
 <!ELEMENT plotline (paragraph+)>
 <!ELEMENT paragraph (static*|dynamic*)*>
 
 <!ELEMENT static (#PCDATA|var|meta|randstr|randnum)*>
-
-<!ELEMENT dynamic ((condition*,default)? | static* | dynamic*)*>
+<!ELEMENT dynamic ((condition*,default?)? | static* | dynamic*)*>
 <!ATTLIST dynamic class ID #IMPLIED>
-
 <!ELEMENT condition (static*|dynamic*)*>
-<!ATTLIST condition name NMTOKEN #REQUIRED>
+<!ATTLIST condition on NMTOKEN #REQUIRED>
 <!ATTLIST condition slice NMTOKEN #REQUIRED>
 <!ATTLIST condition operator CDATA #REQUIRED>
 <!ATTLIST condition value NMTOKEN #REQUIRED>
@@ -19,20 +17,28 @@
 <!ATTLIST var name IDREF #REQUIRED>
 <!ATTLIST var case NMTOKEN #IMPLIED>
 <!ELEMENT meta EMPTY>
-<!ATTLIST meta source NMTOKEN #REQUIRED>
-
+<!ATTLIST meta source (title|author) #REQUIRED>
 <!ELEMENT randstr EMPTY>
 <!ATTLIST randstr type NMTOKEN #REQUIRED>
 <!ELEMENT randnum EMPTY>
 <!ATTLIST randnum min NMTOKEN #REQUIRED>
 <!ATTLIST randnum max NMTOKEN #REQUIRED>
 
-<!ELEMENT variables (ui*)>
-<!ELEMENT ui (#PCDATA)>
-<!ATTLIST ui name ID #REQUIRED>
-<!ATTLIST ui type NMTOKEN #REQUIRED>
-<!ATTLIST ui placeholder CDATA #REQUIRED>
-<!ATTLIST ui datatype NMTOKEN #IMPLIED>
+<!ELEMENT variables (text*|time*|select*|section*)*>
+<!ELEMENT section EMPTY>
+<!ATTLIST section name NMTOKEN #REQUIRED>
+<!ELEMENT text (#PCDATA)>
+<!ATTLIST text name ID #REQUIRED>
+<!ATTLIST text type NMTOKEN #IMPLIED>
+<!ATTLIST text hasgender (true|false) "false">
+<!ATTLIST text placeholder CDATA #IMPLIED>
+<!ELEMENT time EMPTY>
+<!ATTLIST time name ID #REQUIRED>
+<!ATTLIST time placeholder CDATA #IMPLIED>
+<!ELEMENT select (option*)>
+<!ATTLIST select name ID #REQUIRED>
+<!ATTLIST select placeholder CDATA #IMPLIED>
+<!ELEMENT option (#PCDATA)>
 
 <!ELEMENT wordbanks (dynamic*)>
 

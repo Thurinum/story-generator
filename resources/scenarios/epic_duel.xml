@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE scenario SYSTEM "scenario.dtd">
+
+<scenario>
+	<variables>
+		<section name="Protagonist" />
+		<text name="pro" hasgender="true" placeholder="Atlara of Arwindale">Who's the protagonist?</text>
+		<text name="proWeapon" placeholder="black ebony bow">What's his weapon?</text>
+		<text name="proAbility" placeholder="triple jump">What's his special ability?</text>
+
+		<text name="ally" hasgender="true" placeholder="adoring fan">Who's the protagonist's moral support?</text>
+		<text name="allyAbility" placeholder="courage spell">What's his special support ability?</text>
+
+		<section name="Antagonist" />
+		<text name="ant" hasgender="true" placeholder="Hendrick of Viridis">Who's the antagonist?</text>
+		<text name="antWeapon" placeholder="evil sword of the ages">What's his weapon?</text>
+		<text name="antAbility" placeholder="force lightning">What's his special ability?</text>
+
+		<text name="minion" hasgender="true" placeholder="evil witch mentor">Who's the antagonist's moral support?</text>
+		<text name="minionAbility" placeholder="fear aura spell">What's his special support ability?</text>
+
+		<section name="Arena" />
+		<text name="arena" placeholder="Imperial City arena">Where does the fight take place?</text>
+		<text name="arenaDesc1" placeholder="worn by ages of battles">What does the place look like?</text>
+		<text name="arenaDesc2" placeholder="ruinous">What does the place look like?</text>
+
+		<select name="victor" placeholder="Who wins the fight?">
+			<option>The protagonist</option>
+			<option>The antagonist</option>
+		</select>
+	</variables>
+
+	<plotline>
+		<paragraph>
+			<dynamic>
+				<!-- <condition on="victor" operator="eq" value="The protagonist">
+					<static>PROTAGONIST WON</static>
+				</condition> -->
+				<!-- <condition on="victor" slice="" operator="" value="" numeral="">
+					<static>ANTAGONIST WON</static>
+				</condition> -->
+			</dynamic>
+		</paragraph>
+	</plotline>
+
+	<wordbanks>
+		<dynamic class="fruits">
+			<static>apple</static>
+			<static>pears</static>
+			<static>fruits</static>
+			<static>pineapple</static>
+		</dynamic>
+	</wordbanks>
+
+	<praises>
+		<static>The science-fiction thriller of the century</static>
+		<static>sdfjasfasdfsad</static>
+		<static>The greatest novel of forever</static>
+	</praises>
+
+	<reviews>
+		<positive></positive>
+		<negative></negative>
+		<critics></critics>
+	</reviews>
+</scenario>
