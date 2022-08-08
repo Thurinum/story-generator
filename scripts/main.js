@@ -40,14 +40,14 @@ function switchToUi(ui) {
 function populateUserInputs() {
 	//Create custom UI
 	xml.reset();
-	xml.select("interface");
+	xml.select("variables");
 	
 	// Parse scenario UI
 	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
 		const field = xml.currentTag.querySelectorAll("ui")[i];
 
 		if (!field)
-			console.warn(`Field ${xml.currentTag.nodeName} is invalid!`);
+			console.warn(`User input '${xml.currentTag.nodeName}' does not exist!`);
 
 		//Create label
 		const label = document.createElement("label");
@@ -101,7 +101,7 @@ function populateUserInputs() {
  */
  function parseUserInputs() {
 	xml.reset();
-	xml.select("interface");
+	xml.select("variables");
 
 	const count = xml.currentTag.childElementCount;
 	for (let i = 0; i < count; i++) {
@@ -115,16 +115,16 @@ function populateUserInputs() {
 			propertyValue = document.getElementById("userInput_" + propertyName).getAttribute("placeholder");
 
 			if (!propertyValue || propertyValue == "")
-				console.warn(`[Database] Unable to find a cached property value for input "${propertyName}".`);
+				console.warn(`Unable to find a cached property value for input "${propertyName}".`);
 			else
-				console.info(`[Database] No user input specified for property "${propertyName}", using default "${propertyValue}".`);
+				console.info(`No user input specified for property "${propertyName}", using default "${propertyValue}".`);
 		}
 
 		if (document.getElementById("userInput_" + propertyName).getAttribute("datatype") == "gerund")
 			passes = utility_detectGerund(propertyValue);
 
 		if (!passes)
-			console.warn(`[Database] Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
+			console.warn(`Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
 
 		propertiesCache.push(propertyName);
 		valuesCache.push(propertyValue);

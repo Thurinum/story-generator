@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!DOCTYPE scenario SYSTEM "scenario.dtd">
+
 <scenario>
-	<!-- USER INTERFACE -->
-	<interface>
-		<ui name="protagonist" type="text" placeholder="John Doe">Choose a name for your protagonist</ui>
-		<ui name="antagonist" type="text" placeholder="John Doe">Choose a name for your antagonist</ui>
-
-		<ui name="protagonistAction" type="text" placeholder="looking for diamonds" datatype="gerund">Choose what action is the protagonist doing before the action occurs (MUST start with a gerund)</ui>
-		<ui name="time" type="time" placeholder="6:00">What time is it?</ui>
-		<ui name="location" type="text" placeholder="mine">Where?</ui>
-		<ui name="locationDetail1" type="text" placeholder="ancient">What looks like the place?</ui>
-		<ui name="locationDetail2" type="text" placeholder="dangerous">What looks like the place?</ui>
-		<ui name="locationDetail3" type="text" placeholder="dreadful">What looks like the place?</ui>
-		<ui name="locationDetail4" type="text" placeholder="full of wonder">What looks like the place?</ui>
-	</interface>
-
-	<!-- SCENARIO CONTENT -->
 	<plotline>
-		<paragraph>
+		<paragraph>	
 			<static>
 				<randstr type="fruits" />
-
+				
 				The year was
+				<randnum min="1980" max="2100" />
+				<randnum min="1980" max="2100" />
+				<randstr type="fruits" />
+				<randnum min="1980" max="2100" />
 				<randnum min="1980" max="2100" />
 				. It was
 				<var name="time" />
@@ -31,9 +22,13 @@
 				<condition name="time" slice="0-3" operator="[" value="7" numeral="true">
 					<static>and the sun was slowly rising.</static>
 					<static>and slowly the sun was rising.</static>
+					<dynamic></dynamic>
+					<dynamic></dynamic>
+					<dynamic></dynamic>
 					<static>and the sun, majestuous orb in the sky, was slowly rising.</static>
 					<static>and a new day was on the verge to begin.</static>
 					<static>and the first rays of lights were starting to appear.</static>
+					<dynamic></dynamic>
 				</condition>
 				<condition name="time" slice="0-3" operator="[" value="17" numeral="true">
 					<static>and the sun was glimmering in the sky.</static>
@@ -63,23 +58,20 @@
 				<default>
 					<static>.</static>
 				</default>
+
 			</dynamic>
 			<dynamic>
+				<condition name="sdf" slice="f" operator="f" value="f" numeral="f">
+					<static></static>
+				</condition>
+				<default>
+					<static></static>
+				</default>
+				<static>The plants were slowly starting to appear over the melting snow.</static>
 				<dynamic>
-					<static>The plants were slowly starting to appear over the melting snow.</static>
+					<static>sdfsdf</static>				
 					<static>The flowers, once burried under the snow, were now starting to blossom again.</static>
-				</dynamic>
-				<dynamic>
-					<static>It was summer, and the heat was overwhelming.</static>
-					<static>The summer heat was overwhelming, and many were the people that did not dare getting outside.</static>
-				</dynamic>
-				<dynamic>
-					<static>Dead leaves were falling all over on the ground.</static>
-					<static>Summer was over, and the first signs of winter had already begun to spread as the decaying leaves of the trees fell from their naked barks.</static>
-				</dynamic>
-				<dynamic>
-					<static>It was winter, and the ground was heavily covered by several layers of snow.</static>
-					<static>The air was bitter cold.</static>
+					<static>sdfsdf</static>				
 				</dynamic>
 			</dynamic>
 			<dynamic>
@@ -95,7 +87,7 @@
 					.
 				</static>
 				<static>
-					<var name="locationDetail1" casetype="upper" />
+					<var name="locationDetail1" case="upper" />
 					,
 					<var name="locationDetail3" />
 					, and
@@ -110,7 +102,20 @@
 		</paragraph>
 	</plotline>
 
-	<!-- RANDOMIZED STRINGS -->
+	<variables>
+		<ui name="protagonist" type="text" placeholder="John Doe">Choose a name for your protagonist</ui>
+		<ui name="antagonist" type="text" placeholder="John Doe">Choose a name for your antagonist</ui>
+
+		<ui name="protagonistAction" type="text" placeholder="looking for diamonds" datatype="gerund">Choose what action is the protagonist doing before the action occurs (MUST start with a gerund)</ui>
+		<ui name="time" type="time" placeholder="6:00">What time is it?</ui>
+
+		<ui name="location" type="text" placeholder="mine">Where?</ui>
+		<ui name="locationDetail1" type="text" placeholder="ancient">What looks like the place?</ui>
+		<ui name="locationDetail2" type="text" placeholder="dangerous">What looks like the place?</ui>
+		<ui name="locationDetail3" type="text" placeholder="dreadful">What looks like the place?</ui>
+		<ui name="locationDetail4" type="text" placeholder="full of wonder">What looks like the place?</ui>
+	</variables>
+
 	<wordbanks>
 		<dynamic class="fruits">
 			<static>apple</static>
@@ -120,31 +125,27 @@
 		</dynamic>
 	</wordbanks>
 
-	<!-- COVER PRAISES -->
 	<praises>
 		<static>The science-fiction thriller of the century</static>
 		<static>sdfjasfasdfsad</static>
 		<static>The greatest novel of forever</static>
 	</praises>
-
-	<!-- CRITICS -->
+	
 	<reviews>
 		<positive>
 			<static>
 				An exciting novella. The profound intellectual and moral evolution of the character,
 				<var name="protagonist" />
 				, seals with a slight a dramatic tone a story dotted with a twinge of humor, and much realism. Most enjoyable. -
-				<field type="random" source="criticAuthor" />
 			</static>
 			<static>
 				This immersive story, clever in its vision of truth and deep in its implications, truly denotes a high degree of personal investment from
-				<field type="meta" source="author" />
+				<meta source="author" />
 				. His best book yet!-
-				<field type="random" source="criticAuthor" />
 			</static>
 			<static>
 				Scattered with many hilarious references,
-				<field type="meta" source="author" />
+				<meta source="author" />
 				succeeds with brio to make us enjoy the electrifying adventures of
 				<var name="protagonist" />
 				against the malevolent

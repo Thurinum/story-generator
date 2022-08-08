@@ -1,0 +1,43 @@
+<!ELEMENT scenario (plotline,variables,wordbanks,praises,reviews)>
+<!ELEMENT plotline (paragraph+)>
+<!ELEMENT paragraph (static*|dynamic*)*>
+
+<!ELEMENT static (#PCDATA|var|meta|randstr|randnum)*>
+
+<!ELEMENT dynamic ((condition*,default)? | static* | dynamic*)*>
+<!ATTLIST dynamic class ID #IMPLIED>
+
+<!ELEMENT condition (static*|dynamic*)*>
+<!ATTLIST condition name NMTOKEN #REQUIRED>
+<!ATTLIST condition slice NMTOKEN #REQUIRED>
+<!ATTLIST condition operator CDATA #REQUIRED>
+<!ATTLIST condition value NMTOKEN #REQUIRED>
+<!ATTLIST condition numeral NMTOKEN #REQUIRED>
+<!ELEMENT default (static*|dynamic*)*>
+
+<!ELEMENT var EMPTY>
+<!ATTLIST var name IDREF #REQUIRED>
+<!ATTLIST var case NMTOKEN #IMPLIED>
+<!ELEMENT meta EMPTY>
+<!ATTLIST meta source NMTOKEN #REQUIRED>
+
+<!ELEMENT randstr EMPTY>
+<!ATTLIST randstr type NMTOKEN #REQUIRED>
+<!ELEMENT randnum EMPTY>
+<!ATTLIST randnum min NMTOKEN #REQUIRED>
+<!ATTLIST randnum max NMTOKEN #REQUIRED>
+
+<!ELEMENT variables (ui*)>
+<!ELEMENT ui (#PCDATA)>
+<!ATTLIST ui name ID #REQUIRED>
+<!ATTLIST ui type NMTOKEN #REQUIRED>
+<!ATTLIST ui placeholder CDATA #REQUIRED>
+<!ATTLIST ui datatype NMTOKEN #IMPLIED>
+
+<!ELEMENT wordbanks (dynamic*)>
+
+<!ELEMENT praises (static*)>
+<!ELEMENT reviews (positive,negative,critics)>
+<!ELEMENT positive (static*)>
+<!ELEMENT negative (static*)>
+<!ELEMENT critics (static*)>

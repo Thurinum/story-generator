@@ -13,17 +13,17 @@ const xml = {
 		xhr.addEventListener("readystatechange", function () {
 			if (xhr.readyState == 4) {
 				if (xhr.status == 200) {
-					console.info(`[XMLEngine] Successfully received target XML content at location '${src}'.`);
+					console.info(`Successfully received XML content from location '${src}'.`);
 					try {
 						xmlCache = xhr.responseXML.firstChild;
 						currentTag = xmlCache;
 					} catch (err) {
-						console.exception(`[XMLEngine] Invalid XML file.`);
+						console.error(`Invalid XML file '${src}'.`);
 					}
 
 				} else {
 					if (xhr.status === 0) {
-						console.warn(`[XMLEngine] Failed to gather XML content at location '${src}'.`);
+						console.error(`Failed to gather XML content from location '${src}'.`);
 						return false;
 					}
 				}
@@ -50,7 +50,7 @@ const xml = {
 
 			//Check if a value was specified without a property
 			if (value && !attribute) {
-				console.warn(`[XMLEngine] Specified an XML property value (${value}) without an attached attribute!`);
+				console.warn(`Specified an XML property value '${value}' without an attached attribute!`);
 				return false;
 			}
 
@@ -63,7 +63,7 @@ const xml = {
 					for (let i = 0; i < target.length; i++) {
 						if (target[i].getAttribute(attribute) === value) {
 							if (refinedTarget) {
-								console.warn(`[XMLEngine] Found multiple tags of type "${tag}" with combination of attribute "${attribute}" and value "${value}".`);
+								console.warn(`Found multiple tags of type "${tag}" with combination of attribute "${attribute}" and value "${value}".`);
 								return false;
 							} else {
 								refinedTarget = target[i];
@@ -75,7 +75,7 @@ const xml = {
 						xml.currentTag = refinedTarget;
 						return xml.currentTag;
 					} else {
-						console.warn(`[XMLEngine] Could not find any tag "${tag}" with attribute "${attribute}" and value "${value}" (but found ${target.length} tags without the latters).`);
+						console.warn(`Could not find any tag "${tag}" with attribute "${attribute}" and value "${value}" (but found ${target.length} tags without the latters).`);
 						return false;
 					}
 				} else {
@@ -84,7 +84,7 @@ const xml = {
 						for (let i = 0; i < target.length; i++) {
 							if (target[i].getAttribute(attribute) !== null) {
 								if (refinedTarget) {
-									console.warn(`[XMLEngine] Unable to select tag "${tag}" based on sole attribute "${attribute}". Please provide an associated value.`);
+									console.warn(`Unable to select tag "${tag}" based on sole attribute "${attribute}". Please provide an associated value.`);
 									return false;
 								} else {
 									refinedTarget = target[i];
@@ -96,7 +96,7 @@ const xml = {
 							xml.currentTag = refinedTarget;
 							return xml.currentTag;
 						} else {
-							console.warn(`[XMLEngine] Could not find any tag "${tag}" with attribute "${attribute}" (but found ${target.length} tags without the latter).`);
+							console.warn(`Could not find any tag "${tag}" with attribute "${attribute}" (but found ${target.length} tags without the latter).`);
 							return false;
 						}
 					} else {
@@ -104,16 +104,16 @@ const xml = {
 							xml.currentTag = target[0];
 							return xml.currentTag;
 						} else {
-							console.warn(`[XMLEngine] Found multiple (${target.length}) "${tag}" tags. Please refine research.`);
+							console.warn(`Found multiple (${target.length}) "${tag}" tags. Please refine research.`);
 						}
 					}
 				}
 			} else {
-				console.warn(`[XMLEngine] Unable to find child tag "${tag}" in parent of type ${xml.currentTag.nodeName}.`);
+				console.warn(`Unable to find child tag "${tag}" in parent of type ${xml.currentTag.nodeName}.`);
 				return false;
 			}
 		} else {
-			console.warn("[XMLEngine] XML cache is empty. Please import a file before attempting to read into it.");
+			console.warn("XML cache is empty. Please import a file before attempting to read it.");
 			return false;
 		}
 	},
@@ -124,7 +124,7 @@ const xml = {
 
 	parse(tag) {
 		if (!tag)
-			console.warn(`Cannot parse, tag is not defined!`);
+			console.warn(`Cannot parse, current tag is not defined!`);
 
 		const tagname = tag.nodeName;
 		let content = ``;
@@ -197,7 +197,7 @@ const xml = {
 							condition = (value <= target);
 							break;
 						default:
-							console.warn(`[XMLEngine] Provided invalid operator for condition "${name} ${operator} ${target}" (${err}).`);
+							console.warn(`Invalid operator provided for condition "${name} ${operator} ${target}" (${err}).`);
 							break;
 					}
 
@@ -210,7 +210,7 @@ const xml = {
 
 				// if no condition matched and a default tag exists, use it
 				if (conditions.length > 0 && !content) {
-					console.info(`[XMLEngine] No condition evaluated to true, using default.`);
+					console.info(`No condition evaluated to true, using default.`);
 
 					const defaultTag = tag.getElementsByTagName("default")[0];
 					
@@ -244,7 +244,6 @@ const xml = {
 				if (!wordbank)
 					console.warn(`Random strings bank ${name} does not exist.`);
 
-				console.log(randomChildTag(wordbank));
 				content = xml.parse(randomChildTag(wordbank));
 				break;
 			}
@@ -252,7 +251,7 @@ const xml = {
 				const key = tag.getAttribute("source");
 
 				if (!(key in this.metadata))
-					console.warn(`[XMLEngine] Unknown scenario metadata key "${key}".`);
+					console.warn(`Unknown scenario metadata key "${key}".`);
 
 				content = this.metadata[key];
 				break;
@@ -263,14 +262,14 @@ const xml = {
 
 				content = valuesCache[index];
 
-				switch (tag.getAttribute("casetype")) {
+				switch (tag.getAttribute("case")) {
 					case "upper":
 						content = utility_toUpperCase(content);
 						break;
 				}
 
 				if (!content || content === '') {
-					console.warn(`[XMLEngine] No associated value found for cached variable property ${varName}.`);
+					console.warn(`No associated value found for cached variable property ${varName}.`);
 					content = `<strong style="color:red">[VARIABLE NOT FOUND]</strong>`;
 				}
 
