@@ -200,6 +200,11 @@ function generateStory() {
 		}
 	}
 
+	// remove obnoxious spacing caused by xml
+	storyContent = storyContent.replaceAll("\n", "")
+					   .replaceAll(/\t+(?=[.,'?!:;])/g, "")
+					   .replaceAll(/\t+(?![.,'?!:;])/g, " ");
+
 	displayStory(storyContent);
 	return true;
 };

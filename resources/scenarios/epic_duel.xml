@@ -24,6 +24,7 @@
 
 		<section name="Arena" />
 		<text name="land" placeholder="Arwindale">In what land or country is this battle taking place?</text>
+		<text name="subland" placeholder="Arwindale">In what province/town is the battle taking place?</text>
 		<text name="arena" placeholder="Imperial City arena">Where does the fight take place?</text>
 		<text name="arenaDesc1" placeholder="worn by ages of battles">What does this place look like?</text>
 		<text name="arenaDesc2" placeholder="ruinous">What does this place look like?</text>
@@ -44,17 +45,23 @@
 	<plotline>
 		<paragraph>
 			<!-- introduction -->
-			<static>
-				The day is slowly coming to an end. Around the
-				<var name="arena" />
-				, thousands of people have amassed under
-				<var name="host" />
-				's invitation. Tonight two candles will flicker in the dark; only one shall be rekindled as it bathes in the defeated's blood. For
-				<var name="host" />
-				has brought two of the greatest warriors in the land of
-				<var name="land" />
-				.
-			</static>
+			<dynamic>
+				<static>
+					A colourful welkin marks approaching dusk in the land of
+					<var name="land" />
+					. At this late hour, where many would be wrapping up their unfinished business, a powerful buzz elevates from the public place of
+					<var name="subland" />
+					as thousands of people converge to the
+					<var name="arena" />
+					in answer to
+					<var name="host" />
+					's invitation. Tonight two candles will flicker in the dark; only one shall be rekindled as it bathes in the defeated's blood. For
+					<var name="host" />
+					has brought two of the greatest warriors in the land of
+					<var name="land" />
+					.
+				</static>
+			</dynamic>
 			<dynamic></dynamic>
 		</paragraph>
 	</plotline>
