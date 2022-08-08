@@ -262,7 +262,7 @@ const xml = {
 				const varName = tag.getAttribute("name");
 				const index = propertiesCache.indexOf(varName);
 
-				content = valuesCache[index];
+				content = `<strong>${valuesCache[index]}</strong>`;
 
 				switch (tag.getAttribute("case")) {
 					case "upper":

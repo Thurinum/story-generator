@@ -200,6 +200,15 @@ function generateStory() {
 		}
 	}
 
+	// TODO: use Regex lol
+	storyContent = storyContent.replaceAll("\n\t\t\t\t.", ".");
+	storyContent = storyContent.replaceAll("\n\t\t\t\t,", ",");
+	storyContent = storyContent.replaceAll("\n\t\t\t\t'", "'");
+	storyContent = storyContent.replaceAll("\n\t\t\t\t!", "!");
+	storyContent = storyContent.replaceAll("\n\t\t\t\t?", "?");
+	storyContent = storyContent.replaceAll("\n\t\t\t\t:", ":");
+	storyContent = storyContent.replaceAll("\n\t\t\t\t;", ";");
+
 	displayStory(storyContent);
 	return true;
 };
