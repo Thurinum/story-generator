@@ -51,11 +51,11 @@ function parseScenario() {
 			}
 
 			if (document.getElementById("userInput_" + propertyName).getAttribute("datatype") == "gerund")
-				passes = utility_detectGerund(propertyValue);			
+				passes = utility_detectGerund(propertyValue);
 
 			if (!passes)
 				console.warn(`[Database] Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
-			
+
 			propertiesCache.push(propertyName);
 			valuesCache.push(propertyValue);
 
@@ -95,6 +95,8 @@ function populateVariables() {
 	 *
 	 * @param {string} tag
 	 */
+
+
 	function parseVariables(tag) {
 		for (let i = 0; i < tag.childElementCount; i++) {
 			const field = tag.querySelectorAll("ui")[i];
@@ -104,11 +106,11 @@ function populateVariables() {
 
 			//Create label
 			const label = document.createElement("label");
-			if (field.innerHTML !== "") {
+			if (field.innerHTML !== "")
 				label.innerHTML = field.innerHTML;
-			} else {
+			else
 				label.innerHTML = "Unnamed field";
-			}
+			
 
 			//Create editable field
 			const input = document.createElement("input");
@@ -123,11 +125,11 @@ function populateVariables() {
 
 			if (field.hasAttribute("hasGender")) {
 				UI_SCENARIO_VARIABLES.innerHTML += `
-					<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
-						<option>Male</option>
-						<option>Female</option>
-						<option>Object</option>
-					</select>
+				<select id="${"userInput_" + field.getAttribute("name") + "_gender"}">
+				<option>Male</option>
+				<option>Female</option>
+				<option>Object</option>
+				</select>
 				`;
 			}
 		}
@@ -136,6 +138,7 @@ function populateVariables() {
 	//Create custom UI
 	xml.reset();
 	xml.select("interface");
+	console.log(23482390432)
 	parseVariables(xml.currentTag);
 
 	const finishButton = document.createElement("button");

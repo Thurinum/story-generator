@@ -109,7 +109,11 @@
 	</plotline>
 
 	<!-- RANDOMIZED STRINGS -->
-	<random></random>
+	<wordbanks>
+		<dynamic>
+			<static>yourmom</static>
+		</dynamic>
+	</wordbanks>
 
 	<!-- COVER PRAISES -->
 	<praises>

@@ -39,11 +39,11 @@ const xml = {
 		currentTag = xmlCache;
 	},
 
-	select(tag, attribute, value, useChildren) {
+	select(tag, attribute, value) {
 		//Validate xml cache
 		if (xmlCache.innerHTML !== "") {
-			if (!this.currentTag)
-				console.warn("Current tag is not defined!");
+			if (!currentTag)
+				console.warn("Cannot select, current tag is not defined!");
 
 			const target = currentTag.querySelectorAll(tag);
 
