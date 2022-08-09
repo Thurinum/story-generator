@@ -39,24 +39,25 @@ function populateUserInputs() {
 				input = document.createElement("input");
 				input.setAttribute("placeholder", field.getAttribute("placeholder"));
 				input.setAttribute("datatype", field.getAttribute("type"));
-				label.innerHTML = field.innerHTML;
+				input.maxLength = 150;
+				label.innerHTML = field.innerHTML + "<br />";
 				break;
 			}
 			case "time": {
 				input = document.createElement("input");
 				input.setAttribute("placeholder", field.getAttribute("placeholder"));
-				label.innerHTML = field.innerHTML;
+				label.innerHTML = field.innerHTML + "<br />";
 				break;
 			}
 			case "select": {
 				input = document.createElement("select");
-				label.innerHTML = field.getAttribute("placeholder");
 				input.innerHTML = field.innerHTML;
+				label.innerHTML = field.getAttribute("placeholder") + "<br />";
 				break;
 			}
 			case "section": {
 				input = document.createElement("hr");
-				label.innerHTML = `<strong>${field.getAttribute("name")}</strong>`;
+				label.innerHTML = `<br /><strong>${field.getAttribute("name")}</strong>`;
 				break;
 			}
 			default:
@@ -65,20 +66,23 @@ function populateUserInputs() {
 		}
 
 		input.setAttribute("id", "userInput_" + field.getAttribute("name"));
-		label.innerHTML += "<br />";
+		input.required = true;	
 		label.append(input);
-
+		
 		if (field.hasAttribute("hasgender")) {
 			label.innerHTML += `
 			<select id="${"userInput_" + field.getAttribute("name") + "_gender"}" style="width: 20%">
-				<option>Male</option>
-				<option>Female</option>
-				<option>Object</option>
+			<option>Male</option>
+			<option>Female</option>
+			<option>Object</option>
 			</select>
 			`;
 		}
 
-		UI_SCENARIO_VARIABLES.append(label);
+		if (field.nodeName !== "section")	
+			label.innerHTML += "<br />";
+
+		$("#scnVariables-form").append(label);
 	}
 
 	const finishButton = document.createElement("button");
@@ -102,6 +106,9 @@ function populateUserInputs() {
  * The current scenario is cached as a JS object.
  */
  function parseUserInputs() {
+	if (!$("#scnVariables-form").checkValidity())
+		notify("Some fields were left empty. Placeholders will be used for those instead.")
+
 	xml.reset();
 	xml.select("variables");
 

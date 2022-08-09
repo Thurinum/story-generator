@@ -39,8 +39,10 @@ $("#scnSelect-chooseBtn").onclick = function () {
 
 // options menu continue button
 $("#scnSettings-startBtn").onclick = function() {
-	if (!$("#scnSettings-form").checkValidity())
+	if (!$("#scnSettings-form").checkValidity()) {
+		notify("Please make sure all fields are filled and valid!")
 		return;
+	}
 	
 	populateUserInputs();
 };
