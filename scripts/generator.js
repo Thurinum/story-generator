@@ -45,6 +45,7 @@ function populateUserInputs() {
 			}
 			case "time": {
 				input = document.createElement("input");
+				input.type = "time";
 				input.setAttribute("placeholder", field.getAttribute("placeholder"));
 				label.innerHTML = field.innerHTML + "<br />";
 				break;
@@ -59,6 +60,14 @@ function populateUserInputs() {
 				input = document.createElement("hr");
 				label.innerHTML = `<br /><strong>${field.getAttribute("name")}</strong>`;
 				break;
+			}
+			case "internal": {
+				input = document.createElement("input");
+				input.setAttribute("id", "userInput_" + field.getAttribute("name"));
+				input.type = "hidden";
+				input.value = field.getAttribute("value");
+				$("#scnVariables-form").append(input);
+				continue;
 			}
 			default:
 				console.warn(`Invalid user input type '${field.nodeName}'.`);
@@ -84,6 +93,7 @@ function populateUserInputs() {
 
 		$("#scnVariables-form").append(label);
 	}
+
 
 	const finishButton = document.createElement("button");
 	finishButton.style.position = "relative";

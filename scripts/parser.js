@@ -154,7 +154,7 @@ const xml = {
 			case "static":
 				content = tag.childElementCount > 0 ? parseNodes(tag) : tag.innerHTML + " ";
 				break;
-			case "dynamic": {		
+			case "dynamic": {
 				if (tag.childElementCount === 0) {
 					console.info(`Skipping empty element of type ${tagname}.`);
 					break;
@@ -164,45 +164,59 @@ const xml = {
 
 				// if conditions exist, check them out
 				for (let i = 0; i < conditions.length; i++) {
-					const target = conditions[i].getAttribute("on");
-					const operator = conditions[i].getAttribute("operator")
-					let expectedValue = conditions[i].getAttribute("value");
+					const target = conditions[i].getAttribute("where");
+					const operator = conditions[i].getAttribute("is")
+					let expectedVal = conditions[i].getAttribute("than");
+					let expectedValVar = conditions[i].getAttribute("thanvar");
 					let condition;
-					
+
+					// check if expected value is a variable
+					if (expectedValVar) {
+						const valueTarget = propertiesCache.indexOf(expectedValVar);
+
+						if (valueTarget !== -1)
+							expectedVal = valuesCache[valueTarget];
+					}
+
+					if (!expectedVal) {
+						console.warn("No expected value provided for condition!");
+						break parseTag;
+					}
+
 					if (!propertiesCache.includes(target)) {
 						console.warn("No property to test condition on '" + target + "'.");
 						break parseTag;
 					}
-					
+
 					const index = propertiesCache.indexOf(target);
 					let actualValue = valuesCache[index];
 
 					if (conditions[i].getAttribute("numeral")) {
-						expectedValue = parseInt(expectedValue);
+						expectedVal = parseInt(expectedVal);
 						actualValue = parseInt(actualValue);
 					}
 
 					switch (operator) {
 						case "eq":
-							condition = (actualValue === expectedValue);
+							condition = (actualValue == expectedVal); // type coercion is intended behavior!
 							break;
 						case "neq":
-							condition = (actualValue !== expectedValue);
+							condition = (actualValue != expectedVal);
 							break;
 						case "gt":
-							condition = (actualValue > expectedValue);
+							condition = (actualValue > expectedVal);
 							break;
-						case "lt":
-							condition = (actualValue < expectedValue);
+						case "lw":
+							condition = (actualValue < expectedVal);
 							break;
 						case "geq":
-							condition = (actualValue >= expectedValue);
+							condition = (actualValue >= expectedVal);
 							break;
 						case "leq":
-							condition = (actualValue <= expectedValue);
+							condition = (actualValue <= expectedVal);
 							break;
 						default:
-							console.warn(`Invalid operator provided for condition "${target} ${operator} ${expectedValue}" (${err}).`);
+							console.warn(`Invalid operator provided for condition "${target} ${operator} ${expectedVal}" (${err}).`);
 							break;
 					}
 
@@ -217,13 +231,13 @@ const xml = {
 					console.info(`No condition evaluated to true, using default.`);
 
 					const defaultTag = tag.getElementsByTagName("default")[0];
-					
+
 					if (defaultTag) {
 						content = xml.parse(defaultTag.children[0]);
 						break;
 					}
 				}
-				
+
 				// if no conditions exist, proceed by choosing a random element
 				const randElem = randomChildOf(tag);
 
@@ -260,9 +274,37 @@ const xml = {
 				content = this.metadata[key];
 				break;
 			}
+			case "set": {
+				const name = tag.getAttribute("var");
+				const value = tag.getAttribute("to");
+				propertiesCache.push(name);
+				valuesCache.push(value);
+				break;
+			}
+			case "offset": {
+				const name = tag.getAttribute("var");
+				const value = parseInt(tag.getAttribute("by"));
+
+				if (isNaN(value)) {
+					console.warn(`Cannot offset variable '${name}' by invalid value '${value}'.`);
+					break;
+				}
+
+				const index = propertiesCache.indexOf(name);
+
+				if (index === -1) {
+					console.info(`Implicitly setting value of variable '${name}' to '${value}'.`);
+					propertiesCache.push(name);
+					valuesCache.push(value);
+					break;
+				}
+
+				valuesCache[index] = parseInt(valuesCache[index]) + value;
+				break;
+			}
 			case "var": {
-				const varName = tag.getAttribute("name");
-				const index = propertiesCache.indexOf(varName);
+				const name = tag.getAttribute("name");
+				const index = propertiesCache.indexOf(name);
 
 				content = valuesCache[index];
 
@@ -273,7 +315,7 @@ const xml = {
 				}
 
 				if (!content || content === '') {
-					console.warn(`No associated value found for cached variable property ${varName}.`);
+					console.warn(`No associated value found for cached variable property ${name}.`);
 					content = `<strong style="color:red">[VARIABLE NOT FOUND]</strong>`;
 				}
 
@@ -286,7 +328,7 @@ const xml = {
 				let pronouns = [];
 
 				if (gender === undefined) {
-					console.warn(`Cannot generate pronoun for '${key}' because this variable has no gender!`);
+					console.warn(`Cannot generate pronoun for '${key}' because this variable has no gender!\nContext: ${tag.previousSibling.textContent}`);
 					break;
 				}
 
@@ -308,6 +350,7 @@ const xml = {
 
 				break;
 			}
+			case "#comment": break;
 			default:
 				console.warn(`Unknown tag name '${tagname}'.`);
 				break;

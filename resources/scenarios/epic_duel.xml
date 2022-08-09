@@ -41,6 +41,9 @@
 			<option>The protagonist</option>
 			<option>The antagonist</option>
 		</select>
+
+		<internal name="proHits" value="0" />
+		<internal name="antHits" value="0" />
 	</variables>
 
 	<plotline>
@@ -53,6 +56,7 @@
 					. At this late hour, where many would be wrapping up their unfinished business, a powerful buzz elevates from the public place of
 					<var name="subland" />
 					as thousands of people converge to the
+					<var name="arenaDesc1" />
 					<var name="arena" />
 					in answer to
 					<var name="host" />
@@ -66,6 +70,7 @@
 					As the sun sets over the glorious
 					<var name="land" />
 					, masses of people gather to the
+					<var name="arenaDesc2" />
 					<var name="arena" />
 					at the behest of their
 					<var name="hostTitle" />
@@ -96,7 +101,8 @@
 					. Excited by the view of the two combatants and their impressive weapons, the crowd now gathered around the arena begins shouting and vociferating.
 				</static>
 				<static>
-					With a confident allure, the two warriors are soon to enter
+					With a confident allure, the two warriors are soon to enter the
+					<var name="arenaDesc1" />
 					<var name="arena" />
 					. Every person in the room feels deep respect towards the two combatants who are about to risk their lives for their
 					<var name="hostTitle" />
@@ -123,7 +129,7 @@
 
 			<!-- conditional public opinion -->
 			<dynamic>
-				<condition on="expectedVictor" operator="eq" value="The protagonist">
+				<condition where="expectedVictor" is="eq" than="The protagonist">
 					<static>
 						They are convinced the victor will be
 						<var name="pro" />
@@ -135,7 +141,7 @@
 						will be victorious.
 					</static>
 				</condition>
-				<condition on="expectedVictor" operator="eq" value="The antagonist">
+				<condition where="expectedVictor" is="eq" than="The antagonist">
 					<static>
 						They know for sure that
 						<var name="pro" />
@@ -154,8 +160,8 @@
 			</dynamic>
 		</paragraph>
 
-		<!-- allies -->
 		<paragraph>
+			<!-- allies -->
 			<dynamic>
 				<static>
 					In accordance with tradition,
@@ -176,14 +182,164 @@
 					<var name="ant" />
 					with his unique
 					<var name="minionAbility" />
-					. The battle is ready to begin.
+					.
+				</static>
+			</dynamic>
+
+			<!-- ready for battle -->
+			<dynamic>
+				<static>
+					After several minutes of waiting,
+					<var name="hostTitle" />
+					<var name="host" />
+					takes a seat. The battle is ready to begin.
 				</static>
 			</dynamic>
 		</paragraph>
 
-		<!-- battle -->
 		<paragraph>
+			<!-- battle begins -->
+			<dynamic>
+				<static>
+					With a fury yet unwonted in the history of fighting, the two combatants rush at each other, weapon in hand.
+				</static>
+				<static>
+					With a calm and poised demeanor, the two fighters revolve around each other, each trying to finding the weak spot in their opponent's defence, until they finally strike.
+				</static>
+			</dynamic>
 
+			<dynamic>
+				<!-- protagonist charges first -->
+				<static>
+					<var name="pro" />
+					wields
+					<pron for="pro" type="poss" />
+					<var name="proWeapon" />
+					with impressive dexterity, almost hitting his opponent several times, but
+					<var name="ant" />
+					dodges each attack skillfully. The public cheers in front of their demonstration of power.
+				</static>
+
+				<!-- antagonist charges first -->
+				<static>
+					With commendable skill,
+					<var name="ant" />
+					maneuvers his
+					<var name="antWeapon" />
+					against
+					<var name="pro" />
+					, but
+					<pron for="ant" type="poss" />
+					dodges his attacks in extremis every time. The crowd cheers in front of the two combatants impressive abilities.
+				</static>
+			</dynamic>
+
+			<!-- first hit -->
+			<dynamic>
+				<!-- protagonist hits -->
+				<static>
+					Suddenly,
+					<var name="pro" />
+					's
+					<var name="proWeapon" />
+					gracefully hits
+					<var name="ant" />
+					, who groans in surprise. His
+					<var name="proArmour" />
+					has withstood the blow, but he is angry. His attacks double in intensity.
+					<offset var="proHits" by="1" />
+				</static>
+
+				<!-- antagonist hits -->
+				<static>
+					All of a sudden,
+					<var name="ant" />
+					's
+					<var name="antWeapon" />
+					violently hits
+					<var name="pro" />
+					.
+					<var name="pro" />
+					is startled by the blow, but his
+					<var name="proArmour" />
+					has absorbed most of it. He charges back with easy at his opponent.
+					<offset var="antHits" by="1" />
+				</static>
+			</dynamic>
+
+			<static>The battle rages for several minutes. None of the two opponents seem to let go, and the crowd is completely extased by their performance.</static>
+
+			<!-- second hit -->
+			<dynamic>
+				<!-- protagonist hits -->
+				<static>
+					Until, at the least expected moment,
+					<var name="pro" />
+					masterfully dodges
+					<var name="ant" />
+					's power attack and hits him in the back with his
+					<var name="proWeapon" />
+					. It is a devastating blow, and
+					<var name="ant" />
+					falls on his knees. Far from vanquished, however,
+					<pron for="ant" type="subj" />
+					immediately stands up to dodge what would be a killing blow and answers with
+					<pron for="ant" type="poss" />
+					powerful
+					<var name="antAbility" />
+					.
+					<offset var="proHits" by="1" />
+					<!-- TODO conditional random success -->
+				</static>
+
+				<!-- antagonist hits -->
+				<static>
+					Until suddenly,
+					<var name="ant" />
+					's
+					<var name="antWeapon" />
+					hacks through
+					<var name="pro" />
+					's
+					<var name="proArmour" />
+					, leaving a large mark in the protective apparel. Ignoring the damage,
+					<var name="pro" />
+					launches
+					<pron for="pro" type="poss" />
+					<var name="proAbility" />
+					, and a beam of light emanates from his whole being as
+					<var name="ant" />
+					stands back, perplex.
+					<offset var="antHits" by="1" />
+					<!-- TODO conditional random success -->
+				</static>
+			</dynamic>
+		</paragraph>
+		<paragraph>
+			<!-- recap -->
+			<static>The two opponents stare at each other on the battlefield.</static>
+			<dynamic>
+				<condition where="proHits" is="gt" thanvar="antHits">
+					<static>
+						<var name="ant" />
+						is in rough shape and has lost a lot of blood.
+					</static>
+				</condition>
+				<condition where="proHits" is="lw" thanvar="antHits">
+					<static>
+						<var name="pro" />
+						is doing badly and coughs blood.
+					</static>
+				</condition>
+				<condition where="proHits" is="eq" thanvar="antHits">
+					<static>
+						Both are injured, but none of them seems to have the upper hand.
+					</static>
+				</condition>
+			</dynamic>
+		</paragraph>
+		<paragraph>
+			<static>To be continued...</static>
 		</paragraph>
 	</plotline>
 
@@ -205,6 +361,11 @@
 	<reviews>
 		<positive></positive>
 		<negative></negative>
-		<critics></critics>
+		<critics>
+			<static>RSM Inc.</static>
+			<static>The Washton Times</static>
+			<static>The Nooyok Times</static>
+			<static>Linus Sebastian</static>
+		</critics>
 	</reviews>
 </scenario>
