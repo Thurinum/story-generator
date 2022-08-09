@@ -272,6 +272,8 @@ main > section {
 
 .scnSelect-cardPreview {
 	height: 50%;
+
+	filter: drop-shadow(0 3px 5px #ccc);
 }
 
 /* SCENARIO SETTINGS */

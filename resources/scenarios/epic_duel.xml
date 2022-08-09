@@ -7,10 +7,10 @@
 		<section name="Protagonist" />
 		<text name="pro" hasgender="true" placeholder="Atlara of Arwindale">What's the protagonist's name?</text>
 		<text name="proWeapon" placeholder="black ebony bow">What weapon does the protagonist use?</text>
-		<text name="proAbility" placeholder="triple jump">What's the protagonist's special ability?</text>
+		<text name="proAbility" placeholder="telekinesis">What's the protagonist's special ability?</text>
 		<text name="proArmour" placeholder="plates armor">What armour does the protagonist wear?</text>
 
-		<text name="ally" hasgender="true" placeholder="adoring fan">Who's the protagonist's moral support?</text>
+		<text name="ally" hasgender="true" placeholder="the adoring fan">Who's the protagonist's moral support?</text>
 		<text name="allyAbility" placeholder="courage spell">What's this ally's special support ability?</text>
 
 		<section name="Antagonist" />
@@ -19,16 +19,17 @@
 		<text name="antAbility" placeholder="force lightning">What's the antagonist's special ability?</text>
 		<text name="antArmor" placeholder="dark scales armor">What armour does the antagonist wear?</text>
 
-		<text name="minion" hasgender="true" placeholder="evil witch mentor">Who's the antagonist's moral support?</text>
+		<text name="minion" hasgender="true" placeholder="the evil witch mentor">Who's the antagonist's moral support?</text>
 		<text name="minionAbility" placeholder="fear aura spell">What's this minion's special support ability?</text>
 
 		<section name="Arena" />
 		<text name="land" placeholder="Arwindale">In what land or country is this battle taking place?</text>
-		<text name="subland" placeholder="Arwindale">In what province/town is the battle taking place?</text>
+		<text name="subland" placeholder="Mirwyn">In what province/town is the battle taking place?</text>
 		<text name="arena" placeholder="Imperial City arena">Where does the fight take place?</text>
 		<text name="arenaDesc1" placeholder="worn by ages of battles">What does this place look like?</text>
 		<text name="arenaDesc2" placeholder="ruinous">What does this place look like?</text>
-		<text name="host" hasgender="true" placeholder="the High-King">Who is hosting the combat?</text>
+		<text name="host" hasgender="true" placeholder="Geralt of Breezehome">Who is hosting the combat?</text>
+		<text name="hostTitle" placeholder="High-King">What is this host's title or rank?</text>
 
 		<section name="Outcome" />
 		<select name="expectedVictor" placeholder="Whom does the public opinion expect to win?">
@@ -55,14 +56,137 @@
 					<var name="arena" />
 					in answer to
 					<var name="host" />
-					's invitation. Tonight two candles will flicker in the dark; only one shall be rekindled as it bathes in the defeated's blood. For
+					's invitation. Tonight two candles will flicker in the dark; only one shall rekindle as it bathes in the defeated's blood. For
 					<var name="host" />
-					has brought two of the greatest warriors in the land of
-					<var name="land" />
+					has brought two of the greatest warriors in the land to battle in the name of their
+					<var name="hostTitle" />
 					.
 				</static>
+				<static>
+					As the sun sets over the glorious
+					<var name="land" />
+					, masses of people gather to the
+					<var name="arena" />
+					at the behest of their
+					<var name="hostTitle" />
+					. Tonight indeed, a grand celebration has been organized by
+					<var name="host" />
+					the
+					<var name="hostTitle" />
+					. At the center of everybody's attention is beginning the greatest of all attractions: a battle to the death between two of this land
+					s fiercest combatants.
+				</static>
+				<static>
+					A 
+				</static>
 			</dynamic>
-			<dynamic></dynamic>
+
+			<!-- enter the arena -->
+			<dynamic>
+				<static>
+					Slowly, with the confidence of achieved warriors,
+					<var name="pro" />
+					and
+					<var name="ant" />
+					enter the
+					<var name="arena" />
+					. While
+					<var name="pro" />
+					is armed of his trusty
+					<var name="proWeapon" />
+					, his adversary exhibits his fearful
+					<var name="antWeapon" />
+					. Excited by the view of the two combatants and their impressive weapons, the crowd now gathered around the arena begins shouting and vociferating.
+				</static>
+				<static>
+					With a confident allure, the two warriors are soon to enter
+					<var name="arena" />
+					. Every person in the room feels deep respect towards the two combatants who are about to risk their lives for their
+					<var name="hostTitle" />
+					.
+					Humbly,
+					<var name="pro" />
+					and
+					<var name="ant" />
+					bow and present themselves in front of
+					<var name="host" />
+					. Both are known to possess extraordinary fighter abilities:
+					<var name="pro" />
+					's
+					<var name="proAbility" />
+					has made
+					<pron for="pro" type="obj" />
+					famous overseas for helping win several wars, whereas
+					<var name="ant" />
+					's incredible
+					<var name="antAbility" />
+					is often regarded as the ultimate upperhand in duels. Shouting and praising the two opponents, the crowd has already picked a favorite.
+				</static>
+			</dynamic>
+
+			<!-- conditional public opinion -->
+			<dynamic>
+				<condition on="expectedVictor" operator="eq" value="The protagonist">
+					<static>
+						They are convinced the victor will be
+						<var name="pro" />
+						.
+					</static>
+					<static>
+						They have no doubt that
+						<var name="pro" />
+						will be victorious.
+					</static>
+				</condition>
+				<condition on="expectedVictor" operator="eq" value="The antagonist">
+					<static>
+						They know for sure that
+						<var name="pro" />
+						stands no chance against
+						<var name="ant" />
+						, whose
+						<var name="antAbility" />
+						makes him undefeatable.
+					</static>
+					<static>
+						They simply know that
+						<var name="ant" />
+						will be victorious.
+					</static>
+				</condition>
+			</dynamic>
+		</paragraph>
+
+		<!-- allies -->
+		<paragraph>
+			<dynamic>
+				<static>
+					In accordance with tradition,
+					<var name="host" />
+					has granted the two opponents their respective support unit.
+					<var name="ally" />
+					stands by
+					<var name="pro" />
+					's side.
+					<pron for="ally" type="poss" />
+					powerful
+					<var name="allyAbility" />
+					will certainly come in handy in the upcoming battle. On the other side of the
+					<var name="arena" />
+					,
+					<var name="minion" />
+					is prepared to assist
+					<var name="ant" />
+					with his unique
+					<var name="minionAbility" />
+					. The battle is ready to begin.
+				</static>
+			</dynamic>
+		</paragraph>
+
+		<!-- battle -->
+		<paragraph>
+
 		</paragraph>
 	</plotline>
 

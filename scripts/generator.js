@@ -121,29 +121,27 @@ function populateUserInputs() {
 		let propertyValue = $("#userInput_" + propertyName).value;
 		const genderField = $("#userInput_" + propertyName + "_gender");
 		const propertyGender = genderField ? genderField.selectedIndex : undefined;
-
+		
 		let passes = true;
-
+		
 		if (!propertyValue || propertyValue === "") {
 			propertyValue = $("#userInput_" + propertyName).getAttribute("placeholder");
-
+			
 			if (!propertyValue || propertyValue == "")
-				console.warn(`Unable to find a cached property value for input "${propertyName}".`);
+			console.warn(`Unable to find a cached property value for input "${propertyName}".`);
 			else
-				console.info(`No user input specified for property "${propertyName}", using default "${propertyValue}".`);
+			console.info(`No user input specified for property "${propertyName}", using default "${propertyValue}".`);
 		}
-
+		
 		if ($("#userInput_" + propertyName).getAttribute("datatype") == "gerund")
-			passes = detectGerund(propertyValue);
-
+		passes = detectGerund(propertyValue);
+		
 		if (!passes)
-			console.warn(`Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
-
+		console.warn(`Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
+		
 		propertiesCache.push(propertyName);
-		valuesCache.push(propertyValue);
-
-		if (propertyGender)
-			gendersCache.push(propertyGender);
+		valuesCache.push(propertyValue);		
+		gendersCache.push(propertyGender);
 	}
 
 	xml.back();
@@ -168,8 +166,7 @@ function generateStory() {
 	 * @param {Node} target
 	 */
 	function parseContent(target) {
-		const content = xml.parse(target);
-		storyContent += storyContent.slice(-3).includes('.?!') ? toTitleCase(content) : content;
+		storyContent += xml.parse(target);
 	}
 
 	xml.reset();

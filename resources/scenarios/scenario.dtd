@@ -2,7 +2,7 @@
 <!ELEMENT plotline (paragraph+)>
 <!ELEMENT paragraph (static*|dynamic*)*>
 
-<!ELEMENT static (#PCDATA|var|meta|randstr|randnum)*>
+<!ELEMENT static (#PCDATA|var|pron|meta|randstr|randnum|dynamic)*>
 <!ELEMENT dynamic ((condition*,default?)? | static* | dynamic*)*>
 <!ATTLIST dynamic class ID #IMPLIED>
 <!ELEMENT condition (static*|dynamic*)*>
@@ -14,6 +14,9 @@
 <!ELEMENT var EMPTY>
 <!ATTLIST var name IDREF #REQUIRED>
 <!ATTLIST var case NMTOKEN #IMPLIED>
+<!ELEMENT pron EMPTY>
+<!ATTLIST pron for IDREF #REQUIRED>
+<!ATTLIST pron type (subj|obj|poss) #REQUIRED>
 <!ELEMENT meta EMPTY>
 <!ATTLIST meta source (title|author) #REQUIRED>
 <!ELEMENT randstr EMPTY>

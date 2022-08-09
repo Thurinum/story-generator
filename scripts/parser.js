@@ -279,6 +279,11 @@ const xml = {
 				const type = tag.getAttribute("type");
 				let pronouns = [];
 
+				if (gender === undefined) {
+					console.warn(`Cannot generate pronoun for '${key}' because this variable has no gender!`);
+					break;
+				}
+
 				switch (type) {
 					case "subj":
 						pronouns = ["he", "she", "it"]; break;
@@ -293,7 +298,7 @@ const xml = {
 				content = pronouns[gender];
 
 				if (!content)
-					console.log(`There is no pronoun for gender ${gender}.`);
+					console.warn(`There is no pronoun for gender ${gender}.`);
 
 				break;
 			}
