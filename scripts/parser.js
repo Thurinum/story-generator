@@ -131,11 +131,11 @@ const xml = {
 
 		const tagname = tag.nodeName;
 		let content = ``;
-
+		
 		function parseNodes(tag) {
 			const nodes = tag.childNodes;
 			let value = ``;
-
+			
 			for (let i = 0; i < nodes.length; i++) {
 				if (nodes[i].nodeName === "#text") {
 					//Check if node is not just empty text
@@ -222,7 +222,6 @@ const xml = {
 
 					if (condition === true) {
 						content = parseNodes(randomChildOf(conditions[i]));
-						break parseTag;
 					}
 				}
 

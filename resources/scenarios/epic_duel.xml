@@ -229,8 +229,8 @@
 					against
 					<var name="pro" />
 					, but
-					<pron for="ant" type="poss" />
-					dodges his attacks in extremis every time. The crowd cheers in front of the two combatants impressive abilities.
+					<pron for="ant" type="subj" />
+					dodges his attacks in extremis every time. The crowd cheers in front of the two combatants' impressive abilities.
 				</static>
 			</dynamic>
 
@@ -252,7 +252,7 @@
 
 				<!-- antagonist hits -->
 				<static>
-					All of a sudden,
+					However, all of a sudden,
 					<var name="ant" />
 					's
 					<var name="antWeapon" />
@@ -262,7 +262,7 @@
 					<var name="pro" />
 					is startled by the blow, but his
 					<var name="proArmour" />
-					has absorbed most of it. He charges back with easy at his opponent.
+					has absorbed most of it. He charges back with ease at his opponent.
 					<offset var="antHits" by="1" />
 				</static>
 			</dynamic>
@@ -289,7 +289,31 @@
 					<var name="antAbility" />
 					.
 					<offset var="proHits" by="1" />
-					<!-- TODO conditional random success -->
+
+					<!-- special attack results -->
+					<dynamic>
+						<static>
+							This devastating attack illuminates the
+							<var name="arena" />
+							in such a spectacular way that it will be narrated for generations amongst the people of
+							<var name="subland" />
+							, blowing away
+							<var name="pro" />
+							against one of its walls.
+							<var name="pro" />
+							stands up, stunned, and rushes back to
+							<pron for="pro" type="poss" />
+							adversary.
+							<offset var="antHits" by="1" />
+						</static>
+						<static>
+							This surprise attack destabilize everyone in as the
+							<var name="arena" />
+							illuminates.
+							<var name="pro" />
+							, however, easily dodges it through means unknown, or sheer luck, and rushes back at his adversary.
+						</static>
+					</dynamic>
 				</static>
 
 				<!-- antagonist hits -->
@@ -311,33 +335,177 @@
 					<var name="ant" />
 					stands back, perplex.
 					<offset var="antHits" by="1" />
-					<!-- TODO conditional random success -->
+
+					<!-- special attack results -->
+					<dynamic>
+						<static>
+							This incredible comeback stuns everyone in the
+							<var name="arena" />
+							. The attack aims directly at
+							<var name="ant" />
+							, hitting
+							<pron for="ant" type="obj" />
+							hard and knocking
+							<pron for="ant" type="obj" />
+							to the ground, but
+							<pron for="ant" type="subj" />
+							spits on the ground and rushes back to combat.
+							<offset var="proHits" by="1" />
+						</static>
+						<static>
+							<var name="ant" />
+							does not hesistate and rushes on
+							<var name="pro" />
+							before he has the time to complete his attack.
+							<var name="pro" />
+							falls on the ground, but immediately stands up. The two warriors keep fighting.
+						</static>
+					</dynamic>
 				</static>
 			</dynamic>
 		</paragraph>
+
 		<paragraph>
-			<!-- recap -->
-			<static>The two opponents stare at each other on the battlefield.</static>
+			<!-- help from ally -->
 			<dynamic>
-				<condition where="proHits" is="gt" thanvar="antHits">
-					<static>
-						<var name="ant" />
-						is in rough shape and has lost a lot of blood.
-					</static>
-				</condition>
-				<condition where="proHits" is="lw" thanvar="antHits">
-					<static>
-						<var name="pro" />
-						is doing badly and coughs blood.
-					</static>
-				</condition>
-				<condition where="proHits" is="eq" thanvar="antHits">
-					<static>
-						Both are injured, but none of them seems to have the upper hand.
-					</static>
-				</condition>
+				<!-- protagonist first -->
+				<static>
+					The battle is getting intense. From the audience,
+					<var name="ally" />
+					watches carefully.
+					<!-- opinion on battle -->
+					<dynamic>
+						<condition where="proHits" is="lw" than="antHits">
+							<static>
+								<pron for="ally" type="subj" />
+								is afraid that
+								<pron for="ally" type="poss" />
+								ally,
+								<var name="pro" />
+								lose the battle.
+							</static>
+						</condition>
+						<condition where="proHits" is="gt" than="antHits">
+							<static>
+								<pron for="ally" type="subj" />
+								is confident that
+								<var name="pro" />
+								will win this battle.
+							</static>
+						</condition>
+						<condition where="proHits" is="eq" than="antHits">
+							<static>
+								<pron for="ally" type="subj" />
+								is unsure who between the two fighters has the true advantage.
+							</static>
+						</condition>
+					</dynamic>
+
+					<!-- apparent effects on protagonist -->
+					<pron for="ally" type="subj" />
+					believes it is time for
+					<pron for="ally" type="obj" />
+					to intervene, for the
+					<var name="hostTitle" />
+					has not placed any rules on external assistance during combat. From his seat,
+					<var name="ally" />
+					uses his special
+					<var name="allyAbility" />
+					on
+					<var name="pro" />
+					. Immediately, seeing that
+					<pron for="pro" type="poss" />
+					ally is aiding
+					<pron for="pro" type="obj" />
+					strengthens
+					<pron for="pro" type="poss" />
+					mind, and
+					<pron for="pro" type="subj" />
+					begins fighting with ever more energy.
+					<!-- true results -->
+					<dynamic>
+						<static>
+							Thanks to this help, he easily hits his opponent, who groans in pain.
+							<offset var="proHits" by="1" />
+						</static>
+						<static>
+							But his opponent sees this intervention as treachery and angrily fights back.
+						</static>
+					</dynamic>
+
+					<!-- comeback from opponent's ally -->
+					<var name="minion" />
+					,
+					<var name="ant" />
+					's closest ally, is infuriated as well by
+					<var name="ally" />
+					's sudden appearance. Using
+					<pron for="minion" type="poss" />
+					<var name="minionAbility" />
+					,
+					<pron for="minion" type="subj" />
+					brings in
+					<pron for="minion" type="poss" />
+					own strength to shift the balance of powers.
+					<!-- comeback's results -->
+					<dynamic>
+						<static>
+							This really motivates
+							<var name="ant" />
+							, who hits
+							<var name="pro" />
+							with his
+							<var name="antWeapon" />
+							.
+							<offset var="antHits" by="1" />
+						</static>
+						<static>
+							But this is in vain, for
+							<pron for="minion" type="poss" />
+							<var name="minionAbility" />
+							has no effect on
+							<var name="pro" />
+							.
+						</static>
+					</dynamic>
+				</static>
+
+				<!-- antagonist first -->
+				<static>
+					<!-- public opinion -->
+					The public shouts and gestures in all directions. Is the battle about to take a turn?
+					<dynamic>
+						<condition where="proHits" is="gt" thanvar="antHits">
+							<static>
+								<var name="ant" />
+								is in rough shape and has lost a lot of blood.
+							</static>
+						</condition>
+						<condition where="proHits" is="lw" thanvar="antHits">
+							<static>
+								<var name="pro" />
+								is doing badly and coughs blood.
+							</static>
+						</condition>
+						<condition where="proHits" is="eq" thanvar="antHits">
+							<static>
+								Both combatants are injured, but none of them seems to have the upper hand.
+							</static>
+						</condition>
+					</dynamic>
+
+					<!-- ally's help -->
+					It is at this moment that
+					<var name="minion" />
+					,
+					<var name="ant" />
+					's closest ally, seizes the opportunity to use
+					<pron for="minion" type="poss" />
+					<var name="minionAbility" /> in favour of <pron for="minion" type="poss" /> friend.
+				</static>
 			</dynamic>
 		</paragraph>
+
 		<paragraph>
 			<static>To be continued...</static>
 		</paragraph>
