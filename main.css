@@ -201,19 +201,20 @@ main > section {
 
 #notificationsBanner {
 	width: 100vw;
-	height: fit-content;
+	height: 50px;
 
 	position: fixed;
 	left: 0;
-	top: -19%;
+	top: -50px;
 
 	font-size: 20px;
 	text-align: center;
 
 	color: white;
-	background-color: blue;
+	background-color: darkblue;
+	box-shadow: 0 10px 10px white;
 
-	transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	transition: top 0.5s ease-out;
 }
 
 #notificationsBanner p {

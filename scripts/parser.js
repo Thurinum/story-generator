@@ -1,4 +1,6 @@
-let xmlCache = document.getElementById("xmlCache");
+"use strict";
+
+let xmlCache = $("#xmlCache");
 let propertiesCache = [];
 let valuesCache = [];
 let gendersCache = [];
@@ -16,7 +18,7 @@ const xml = {
 					console.info(`Successfully received XML content from location '${src}'.`);
 					try {
 						xmlCache = xhr.responseXML.firstChild;
-						currentTag = xmlCache;
+						this.currentTag = xmlCache;
 					} catch (err) {
 						console.error(`Invalid XML file '${src}'.`);
 					}
@@ -37,16 +39,16 @@ const xml = {
 	},
 
 	reset() {
-		currentTag = xmlCache.getRootNode().documentElement;
+		this.currentTag = xmlCache.getRootNode().documentElement;
 	},
 
 	select(tag, attribute, value) {
 		//Validate xml cache
 		if (xmlCache.innerHTML !== "") {
-			if (!currentTag)
+			if (!this.currentTag)
 				console.warn("Cannot select, current tag is not defined!");
 
-			const target = currentTag.querySelectorAll(tag);
+			const target = this.currentTag.querySelectorAll(tag);
 
 			//Check if a value was specified without a property
 			if (value && !attribute) {
@@ -72,8 +74,8 @@ const xml = {
 					}
 
 					if (refinedTarget) {
-						xml.currentTag = refinedTarget;
-						return xml.currentTag;
+						this.currentTag = refinedTarget;
+						return this.currentTag;
 					} else {
 						console.warn(`Could not find any tag "${tag}" with attribute "${attribute}" and value "${value}" (but found ${target.length} tags without the latters).`);
 						return false;
@@ -93,23 +95,23 @@ const xml = {
 						}
 
 						if (refinedTarget) {
-							xml.currentTag = refinedTarget;
-							return xml.currentTag;
+							this.currentTag = refinedTarget;
+							return this.currentTag;
 						} else {
 							console.warn(`Could not find any tag "${tag}" with attribute "${attribute}" (but found ${target.length} tags without the latter).`);
 							return false;
 						}
 					} else {
 						if (target.length == 1) {
-							xml.currentTag = target[0];
-							return xml.currentTag;
+							this.currentTag = target[0];
+							return this.currentTag;
 						} else {
 							console.warn(`Found multiple (${target.length}) "${tag}" tags. Please refine research.`);
 						}
 					}
 				}
 			} else {
-				console.warn(`Unable to find child tag "${tag}" in parent of type ${xml.currentTag.nodeName}.`);
+				console.warn(`Unable to find child tag "${tag}" in parent of type ${this.currentTag.nodeName}.`);
 				return false;
 			}
 		} else {
@@ -119,7 +121,7 @@ const xml = {
 	},
 
 	back() {
-		xml.currentTag = xml.currentTag.parentElement;
+		this.currentTag = this.currentTag.parentElement;
 	},
 
 	parse(tag) {
@@ -309,6 +311,18 @@ const xml = {
 		return content;
 	},
 };
+
+/**
+ * Lazy jquery-like wrapper to alleviate element query syntax.
+ * We don't actually use jquery!
+ *
+ * @param {string} sel - The selector
+ * @return {HTMLElement} 
+ */
+ function $(sel) {
+	return document.querySelector(sel);
+}
+
 
 //Set the first letter of a word upper/lower case
 function utility_toUpperCase(string) {

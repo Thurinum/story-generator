@@ -1,13 +1,15 @@
-document.getElementById("scnEditor-openBtn").onclick = function () {
-	document.getElementById("scnSelect").style.transform = "scale(1.1)";
-	document.getElementById("scnSelect").style.opacity = "0";
-	document.getElementById("scnSelect").style.zIndex = "-1000";
-	document.getElementById("scnEditor").style.transform = "scale(1.0) ";
-	document.getElementById("scnEditor").style.opacity = "1";
-	document.getElementById("scnEditor").style.zIndex = "10";
+"use strict";
 
-	document.getElementById("scnEditor-editBtn").onclick = function () {
-		document.getElementById("scnEditor").innerHTML = `
+$("#scnEditor-openBtn").onclick = function () {
+	$("#scnSelect").style.transform = "scale(1.1)";
+	$("#scnSelect").style.opacity = "0";
+	$("#scnSelect").style.zIndex = "-1000";
+	$("#scnEditor").style.transform = "scale(1.0) ";
+	$("#scnEditor").style.opacity = "1";
+	$("#scnEditor").style.zIndex = "10";
+
+	$("#scnEditor-editBtn").onclick = function () {
+		$("#scnEditor").innerHTML = `
 		<div id="scnEditorPanel"></div>
 		<div id="scnEditorTextarea" contenteditable></div>`;
 	}

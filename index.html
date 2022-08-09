@@ -37,25 +37,27 @@
 		<section id="scnSettings">
 			<h2 class="section-header">Scenario Settings</h2>
 
-			<label>
-				<p>What's the name of your story?</p>
-				<input id="scnSettings-storyTitle" type="text" placeholder="Enter book title" />
-			</label>
-
-			<label>
-				<p>Who's the author?	</p>
-				<input id="scnSettings-storyAuthor" type="text" placeholder="Enter author name" />
-			</label>
-
-			<label>
-				<p>How should the critics regard your work?</p>
-				<select id="scnSettings-storyCritics">
-					<option disabled selected>Select critics reception</option>
-					<option>Let fate decide</option>
-					<option>Favorable</option>
-					<option>Unfavorable</option>
-				</select>
-			</label>
+			<form id="scnSettings-form">
+				<label>
+					<p>What's the name of your story?</p>
+					<input id="scnSettings-storyTitle" type="text" placeholder="Enter book title" required />
+				</label>
+	
+				<label>
+					<p>Who's the author?	</p>
+					<input id="scnSettings-storyAuthor" type="text" placeholder="Enter author name" required />
+				</label>
+	
+				<label>
+					<p>How should the critics regard your work?</p>
+					<select id="scnSettings-storyCritics" required>
+						<option disabled selected>Select critics reception</option>
+						<option>Let fate decide</option>
+						<option>Favorable</option>
+						<option>Unfavorable</option>
+					</select>
+				</label>
+			</form>
 			
 			<button id="scnSettings-startBtn">Onwards</button>
 		</section>
@@ -96,6 +98,7 @@
 	<div id="xmlCache"></div>
 	
 	<script type="text/javascript" src="scripts/parser.js"></script>
+	<script type="text/javascript" src="scripts/generator.js"></script>
 	<script type="text/javascript" src="scripts/main.js"></script>
 </body>
 
