@@ -13,9 +13,15 @@ const xml = {
 					console.info(`Successfully received XML content from location '${src}'.`);
 					try {
 						xmlCache = xhr.responseXML.firstChild;
-						this.currentTag = xmlCache;
+						this.currentTag = xmlCache.getRootNode().documentElement;
+
+						// remove xml whitespace
+						this.currentTag.innerHTML = this.currentTag.innerHTML
+							.replaceAll("\n", "")
+							.replaceAll(/\t+(?=[.,'?!:;])/g, "")
+							.replaceAll(/\t+(?![.,'?!:;])/g, " ");
 					} catch (err) {
-						console.error(`Invalid XML file '${src}'.`);
+						console.error(`Invalid XML file '${src}': ${err}.`);
 					}
 
 				} else {
@@ -306,6 +312,10 @@ const xml = {
 				console.warn(`Unknown tag name '${tagname}'.`);
 				break;
 		}
+
+		// capitalize if beginning of sentence
+		if (tag.previousSibling.textContent.slice(-4).match(/[.!?]/g))
+			content = toTitleCase(content);
 
 		return content;
 	},
