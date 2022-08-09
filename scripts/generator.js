@@ -1,24 +1,5 @@
 "use strict";
 
-const UI_SCENARIO_SELECTION = $("#scnSelect");
-const UI_SCENARIO_SETTINGS = $("#scnSettings");
-const UI_SCENARIO_VARIABLES = $("#scnVariables");
-let currentUi = undefined;
-let canGenerate = true;
-
-/**
- * Animates the switch to a new user interface.
- *
- * @param {HTMLElement} ui - The user interface to switch to.
- * @todo Remove use of global variable.
- */
-function switchToUi(ui) {
-	ui.style.display = "flex";
-
-	if (currentUi)
-		currentUi.style.display = "none";
-}
-
 /**
  * Populates the settings interface from an XML scenario.
  *
@@ -146,7 +127,7 @@ function populateUserInputs() {
 		}
 
 		if ($("#userInput_" + propertyName).getAttribute("datatype") == "gerund")
-			passes = utility_detectGerund(propertyValue);
+			passes = detectGerund(propertyValue);
 
 		if (!passes)
 			console.warn(`Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
@@ -181,7 +162,7 @@ function generateStory() {
 	 */
 	function parseContent(target) {
 		const content = xml.parse(target);
-		storyContent += storyContent.slice(-3).includes('.?!') ? utility_toUpperCase(content) : content;
+		storyContent += storyContent.slice(-3).includes('.?!') ? toTitleCase(content) : content;
 	}
 
 	xml.reset();
@@ -224,7 +205,7 @@ function displayStory(storyContent) {
 	xml.reset();
 	xml.select("praises");
 
-	const description = xml.parse(randomChildTag(xml.currentTag));
+	const description = xml.parse(randomChildOf(xml.currentTag));
 
 	// select random critical review
 	xml.reset();
@@ -240,14 +221,14 @@ function displayStory(storyContent) {
 	xml.select(reviewType === 1 ? "positive" : "negative");
 
 	if (xml.currentTag.childElementCount > 0)
-		review = xml.parse(randomChildTag(xml.currentTag));
+		review = xml.parse(randomChildOf(xml.currentTag));
 
 	// review's author
 	xml.back();
 	xml.select("critics");
 
 	if (review !== '' && xml.currentTag.childElementCount > 0)
-		review += `<br />&dash; ${xml.parse(randomChildTag(xml.currentTag))}`;
+		review += `<br />&dash; ${xml.parse(randomChildOf(xml.currentTag))}`;
 
 	//Display result
 	$("#scnDisplay").style.display = "block";
@@ -264,7 +245,7 @@ function displayStory(storyContent) {
 
 	$("#scnDisplay-bookPageRightContent").innerHTML += storyContent + review;
 
-	$("#scnDisplay-bookCoverFront").style.background = `url("resources/graphics/covers/cover${utility_randomNumber(1, 4, 0)}.webp")`;
+	$("#scnDisplay-bookCoverFront").style.background = `url("resources/graphics/covers/cover${randomNumber(1, 4)}.webp")`;
 	$("#scnDisplay-bookCoverFront").style.filter = "opacity(0.5) drop-shadow(0 0 0 red);";
 	$("#scnDisplay-bookCoverFront").style.fontFamily = "serif";
 	$("#scnDisplay-bookCoverFront").style.backgroundRepeat = "no-repeat";

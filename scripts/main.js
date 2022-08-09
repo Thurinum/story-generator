@@ -57,12 +57,3 @@ $("#scnDisplay-downloadBtn").onclick = function () {
 	link.click();
 	document.body.removeChild(link);
 }
-
-/**
- * Display a notification banner with a message.
- *
- * @param {string} message
- */
-// function notify(message) {
-// 	let banner = $("#notificationBanner")
-// }

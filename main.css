@@ -205,14 +205,15 @@ main > section {
 
 	position: fixed;
 	left: 0;
-	top: -50px;
+	top: -70px;
 
 	font-size: 20px;
+	line-height: 200%;
 	text-align: center;
 
 	color: white;
 	background-color: darkblue;
-	box-shadow: 0 10px 10px white;
+	box-shadow: 0 10px 10px black;
 
 	transition: top 0.5s ease-out;
 }

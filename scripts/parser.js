@@ -1,10 +1,5 @@
 "use strict";
 
-let xmlCache = $("#xmlCache");
-let propertiesCache = [];
-let valuesCache = [];
-let gendersCache = [];
-
 const xml = {
 	currentTag: undefined,
 	wordbanks: {},
@@ -206,8 +201,7 @@ const xml = {
 					}
 
 					if (condition === true) {
-						const index = utility_randomChoice(conditions[i].childElementCount) - 1;
-						content = parseNodes(conditions[i].children[index]);
+						content = parseNodes(randomChildOf(conditions[i]));
 						break parseTag;
 					}
 				}
@@ -225,21 +219,21 @@ const xml = {
 				}
 				
 				// if no conditions exist, proceed by choosing a random element
-				const index = utility_randomChoice(tag.childElementCount) - 1;
+				const randElem = randomChildOf(tag);
 
-				if (!tag.children[index].childElementCount > 0) {
-					content = xml.parse(tag.children[index]);
+				if (randElem.childElementCount === 0) {
+					content = xml.parse(randElem);
 					break;
 				}
 
-				content = tag.children[index].nodeName === "dynamic"
-					? xml.parse(tag.children[index])
-					: parseNodes(tag.children[index]);
+				content = randElem.nodeName === "dynamic"
+					? xml.parse(randElem)
+					: parseNodes(randElem);
 
 				break;
 			}
 			case "randnum":
-				content = utility_randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel"));
+				content = randomNumber(tag.getAttribute("min"), tag.getAttribute("max"), tag.getAttribute("roundlevel"));
 				break;
 			case "randstr": {
 				const name = tag.getAttribute("type");
@@ -248,7 +242,7 @@ const xml = {
 				if (!wordbank)
 					console.warn(`Random strings bank ${name} does not exist.`);
 
-				content = xml.parse(randomChildTag(wordbank));
+				content = xml.parse(randomChildOf(wordbank));
 				break;
 			}
 			case "meta": {
@@ -268,7 +262,7 @@ const xml = {
 
 				switch (tag.getAttribute("case")) {
 					case "upper":
-						content = utility_toUpperCase(content);
+						content = toTitleCase(content);
 						break;
 				}
 
@@ -311,101 +305,3 @@ const xml = {
 		return content;
 	},
 };
-
-/**
- * Lazy jquery-like wrapper to alleviate element query syntax.
- * We don't actually use jquery!
- *
- * @param {string} sel - The selector
- * @return {HTMLElement} 
- */
- function $(sel) {
-	return document.querySelector(sel);
-}
-
-
-//Set the first letter of a word upper/lower case
-function utility_toUpperCase(string) {
-	if (!string) {
-		banner("Some input haven't been filled!");
-		return undefined;
-	}
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-//Set the scroll position to a specific element
-function anchor(id) {
-	const anchor = document.createElement("a")
-	anchor.href = "#" + id;
-
-	document.body.append(anchor);
-
-	anchor.click();
-
-	document.getElementById(id).style.border = "solid 3px red";
-	setTimeout(function () {
-		document.getElementById(id).style.border = "initial";
-	}, 5000);
-
-	anchor.remove();
-}
-
-function utility_detectGerund(string) {
-	const index = string.indexOf(" ");
-
-	return index == -1
-		? string.slice(-3) == "ing"
-		: string.slice(0, -(string.length - index)).slice(-3) == "ing";
-}
-
-//Random choice between 2 selections
-function utility_randomBoolean() {
-	const random = Math.random();
-
-	if (random <= 0.5) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
-function utility_randomChoice(max) {
-	const random = Math.random();
-	const increment = 1 / max;
-	let count = 0;
-
-	while (count <= 1) {
-		if (count > random)
-			return Math.round(count * max);
-
-		count += increment;
-	}
-}
-
-function randomChildTag(tag) {
-	const max = tag.childElementCount - 1;
-	const random = Math.random();
-
-	return tag.children[Math.trunc(random * max + 0.5)];
-}
-
-function utility_randomNumber(min, max, round) {
-	const random = Math.random();
-	let result;
-
-	min = parseInt(min);
-	max = parseInt(max);
-	round = parseInt(round);
-
-	if (round !== null) {
-		if (round == 0) {
-			result = Math.round(min + ((max - min) * random));
-		} else {
-			result = (min + ((max - min) * random)).toFixed(round);
-		}
-	} else {
-		result = min + ((max - min) * random);
-	}
-
-	return result;
-}
