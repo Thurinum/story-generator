@@ -497,12 +497,69 @@
 					in favour of
 					<pron for="minion" type="poss" />
 					friend.
+					<!-- RESULTS -->
+					<dynamic>
+						<static>
+							This powerful ability destabilizes
+							<var name="pro" />
+							, giving
+							<var name="ant" />
+							the time to strike. But
+							<var name="pro" />
+							recovers quickly and charges at his foe.
+							<offset var="antHits" by="1" />
+						</static>
+						<static>
+							This intervention has no effect on
+							<var name="pro" />
+							, who keeps fighting ferociously.
+						</static>
+					</dynamic>
+
+					<!-- COMEBACK FROM PRO'S ALLY -->
+					Seeing this,
+					<var name="ally" />
+					, baffled by this apparent dishonesty, uses
+					<pron for="ally" type="poss" />
+					own
+					<var name="allyAbility" />
+					to the service of
+					<pron for="ally" type="poss" />
+					friend
+					<var name="pro" />
+					.
 				</static>
 			</dynamic>
 		</paragraph>
 
+		<!-- FINALE -->
 		<paragraph>
-			<static>To be continued...</static>
+			<static>
+				The battle has lasted for several minutes already, and both opponents are draining their forces rapidly.
+				Everybody knows that
+				<condition where="proHits" is="gt" thanvar="antHits">
+					<static>
+						<var name="pro" />
+						has hit
+						<var name="ant" />
+						more often, but
+					</static>
+				</condition>
+				<condition where="proHits" is="lw" thanvar="antHits">
+					<static>
+						<var name="ant" />
+						has scored more hits than
+						<var name="pro" />
+						, but
+					</static>
+				</condition>
+				<condition where="proHits" is="eq" thanvar="antHits">
+					<static>
+						the two combatants have hit each other equally, and
+					</static>
+				</condition>
+				no one knows for sure who will triumph in the end.
+			</static>
 		</paragraph>
 	</plotline>
 

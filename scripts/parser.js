@@ -337,7 +337,7 @@ const xml = {
 				break;
 		}
 
-		// capitalize if beginning of sentence
+		// capitalize if beginning of sentence (FIXME: doesnt work in nested tags with no #text before them)
 		if (tag.previousSibling.textContent.slice(-4).match(/[.!?]/g))
 			content = toTitleCase(content);
 
