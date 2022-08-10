@@ -67,7 +67,7 @@
 					.
 				</static>
 				<static>
-					As the sun sets over the glorious
+					As the sun sets over the <randstr type="nicePlaceAdj" />
 					<var name="land" />
 					, masses of people gather to the
 					<var name="arenaDesc2" />
@@ -564,11 +564,11 @@
 	</plotline>
 
 	<wordbanks>
-		<dynamic class="fruits">
-			<static>apple</static>
-			<static>pears</static>
-			<static>fruits</static>
-			<static>pineapple</static>
+		<dynamic class="nicePlaceAdj">
+			<static>glorious</static>
+			<static>awesome</static>
+			<static>magnifiscent</static>
+			<static>impressive</static>
 		</dynamic>
 	</wordbanks>
 
@@ -579,8 +579,12 @@
 	</praises>
 
 	<reviews>
-		<positive></positive>
-		<negative></negative>
+		<positive>
+			<static>Dummy positive review</static>
+		</positive>
+		<negative>
+			<static>Dummy negative review</static>
+		</negative>
 		<critics>
 			<static>RSM Inc.</static>
 			<static>The Washton Times</static>
