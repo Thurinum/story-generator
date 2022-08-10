@@ -61,5 +61,5 @@ The values of variables can also be modified as the story goes:
 - set: Assigns a value to a variable. Works for strings and numbers.
 - offset: Increments or decrements a variable. Works for numbers.
 
-Why would you read through this? Still, thanks. Have a great day!
+Why would you read through this? Still, thanks. Have a great day!  
 Refer to the demo scenario and the DTD for actual syntax rules.
