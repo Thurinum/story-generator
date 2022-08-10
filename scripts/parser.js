@@ -131,11 +131,11 @@ const xml = {
 
 		const tagname = tag.nodeName;
 		let content = ``;
-		
+
 		function parseNodes(tag) {
 			const nodes = tag.childNodes;
 			let value = ``;
-			
+
 			for (let i = 0; i < nodes.length; i++) {
 				if (nodes[i].nodeName === "#text") {
 					//Check if node is not just empty text
@@ -149,7 +149,6 @@ const xml = {
 			return value;
 		};
 
-		parseTag:
 		switch (tagname) {
 			case "static":
 				content = tag.childElementCount > 0 ? parseNodes(tag) : tag.innerHTML + " ";
@@ -160,94 +159,76 @@ const xml = {
 					break;
 				}
 
-				const conditions = tag.getElementsByTagName("condition");
-
-				// if conditions exist, check them out
-				for (let i = 0; i < conditions.length; i++) {
-					const target = conditions[i].getAttribute("where");
-					const operator = conditions[i].getAttribute("is")
-					let expectedVal = conditions[i].getAttribute("than");
-					let expectedValVar = conditions[i].getAttribute("thanvar");
-					let condition;
-
-					// check if expected value is a variable
-					if (expectedValVar) {
-						const valueTarget = propertiesCache.indexOf(expectedValVar);
-
-						if (valueTarget !== -1)
-							expectedVal = valuesCache[valueTarget];
-					}
-
-					if (!expectedVal) {
-						console.warn("No expected value provided for condition!");
-						break parseTag;
-					}
-
-					if (!propertiesCache.includes(target)) {
-						console.warn("No property to test condition on '" + target + "'.");
-						break parseTag;
-					}
-
-					const index = propertiesCache.indexOf(target);
-					let actualValue = valuesCache[index];
-
-					if (conditions[i].getAttribute("numeral")) {
-						expectedVal = parseInt(expectedVal);
-						actualValue = parseInt(actualValue);
-					}
-
-					switch (operator) {
-						case "eq":
-							condition = (actualValue == expectedVal); // type coercion is intended behavior!
-							break;
-						case "neq":
-							condition = (actualValue != expectedVal);
-							break;
-						case "gt":
-							condition = (actualValue > expectedVal);
-							break;
-						case "lw":
-							condition = (actualValue < expectedVal);
-							break;
-						case "geq":
-							condition = (actualValue >= expectedVal);
-							break;
-						case "leq":
-							condition = (actualValue <= expectedVal);
-							break;
-						default:
-							console.warn(`Invalid operator provided for condition "${target} ${operator} ${expectedVal}" (${err}).`);
-							break;
-					}
-
-					if (condition === true) {
-						content = parseNodes(randomChildOf(conditions[i]));
-					}
-				}
-
-				// if no condition matched and a default tag exists, use it
-				if (conditions.length > 0 && !content) {
-					console.info(`No condition evaluated to true, using default.`);
-
-					const defaultTag = tag.getElementsByTagName("default")[0];
-
-					if (defaultTag) {
-						content = xml.parse(defaultTag.children[0]);
-						break;
-					}
-				}
-
-				// if no conditions exist, proceed by choosing a random element
 				const randElem = randomChildOf(tag);
-
 				if (randElem.childElementCount === 0) {
 					content = xml.parse(randElem);
 					break;
 				}
+				
+				content = xml.parse(randElem);				
+				break;
+			}
+			case "condition": {
+				let fulfilled = false;
+				const target = tag.getAttribute("where");
+				const operator = tag.getAttribute("is")
+				let expectedVal = tag.getAttribute("than");
+				let expectedValVar = tag.getAttribute("thanvar");
 
-				content = randElem.nodeName === "dynamic"
-					? xml.parse(randElem)
-					: parseNodes(randElem);
+				// check if expected value is a variable
+				if (expectedValVar) {
+					const valueTarget = propertiesCache.indexOf(expectedValVar);
+
+					if (valueTarget !== -1)
+						expectedVal = valuesCache[valueTarget];
+				}
+
+				if (!expectedVal) {
+					console.warn("No expected value provided for condition!");
+					break;
+				}
+
+				if (!propertiesCache.includes(target)) {
+					console.warn("No property to test condition on '" + target + "'.");
+					break;
+				}
+
+				const index = propertiesCache.indexOf(target);
+				let actualValue = valuesCache[index];
+
+				if (tag.getAttribute("numeral")) {
+					expectedVal = parseInt(expectedVal);
+					actualValue = parseInt(actualValue);
+				}
+
+				switch (operator) {
+					case "eq":
+						fulfilled = (actualValue == expectedVal); // type coercion is intended behavior!
+						break;
+					case "neq":
+						fulfilled = (actualValue != expectedVal);
+						break;
+					case "gt":
+						fulfilled = (actualValue > expectedVal);
+						break;
+					case "lw":
+						fulfilled = (actualValue < expectedVal);
+						break;
+					case "geq":
+						fulfilled = (actualValue >= expectedVal);
+						break;
+					case "leq":
+						fulfilled = (actualValue <= expectedVal);
+						break;
+					default:
+						console.warn(`Invalid operator provided for condition "${target} ${operator} ${expectedVal}" (${err}).`);
+						break;
+				}
+
+				if (fulfilled === true) {
+					content = parseNodes(randomChildOf(tag));
+					break;
+				}
 
 				break;
 			}
@@ -349,7 +330,8 @@ const xml = {
 
 				break;
 			}
-			case "#comment": break;
+			case "#comment":
+			case "default": break;
 			default:
 				console.warn(`Unknown tag name '${tagname}'.`);
 				break;

@@ -48,7 +48,7 @@
 
 	<plotline>
 		<paragraph>
-			<!-- introduction -->
+			<!-- INTRODUCTION -->
 			<dynamic>
 				<static>
 					A colourful welkin marks approaching dusk in the land of
@@ -83,7 +83,7 @@
 				</static>
 			</dynamic>
 
-			<!-- enter the arena -->
+			<!-- ENTER THE ARENA -->
 			<dynamic>
 				<static>
 					Slowly, with the confidence of achieved warriors,
@@ -124,44 +124,41 @@
 					's incredible
 					<var name="antAbility" />
 					is often regarded as the ultimate upperhand in duels. Shouting and praising the two opponents, the crowd has already picked a favorite.
+					<!-- CONDITIONAL PUBLIC OPINION -->
+					<condition where="expectedVictor" is="eq" than="The protagonist">
+						<static>
+							They are convinced the victor will be
+							<var name="pro" />
+							.
+						</static>
+						<static>
+							They have no doubt that
+							<var name="pro" />
+							will be victorious.
+						</static>
+					</condition>
+					<condition where="expectedVictor" is="eq" than="The antagonist">
+						<static>
+							They know for sure that
+							<var name="pro" />
+							stands no chance against
+							<var name="ant" />
+							, whose
+							<var name="antAbility" />
+							makes him undefeatable.
+						</static>
+						<static>
+							They simply know that
+							<var name="ant" />
+							will be victorious.
+						</static>
+					</condition>
 				</static>
-			</dynamic>
-
-			<!-- conditional public opinion -->
-			<dynamic>
-				<condition where="expectedVictor" is="eq" than="The protagonist">
-					<static>
-						They are convinced the victor will be
-						<var name="pro" />
-						.
-					</static>
-					<static>
-						They have no doubt that
-						<var name="pro" />
-						will be victorious.
-					</static>
-				</condition>
-				<condition where="expectedVictor" is="eq" than="The antagonist">
-					<static>
-						They know for sure that
-						<var name="pro" />
-						stands no chance against
-						<var name="ant" />
-						, whose
-						<var name="antAbility" />
-						makes him undefeatable.
-					</static>
-					<static>
-						They simply know that
-						<var name="ant" />
-						will be victorious.
-					</static>
-				</condition>
 			</dynamic>
 		</paragraph>
 
 		<paragraph>
-			<!-- allies -->
+			<!-- ALLIES -->
 			<dynamic>
 				<static>
 					In accordance with tradition,
@@ -186,7 +183,7 @@
 				</static>
 			</dynamic>
 
-			<!-- ready for battle -->
+			<!-- READY FOR BATTLE -->
 			<dynamic>
 				<static>
 					After several minutes of waiting,
@@ -198,7 +195,7 @@
 		</paragraph>
 
 		<paragraph>
-			<!-- battle begins -->
+			<!-- BATTLE BEGINS -->
 			<dynamic>
 				<static>
 					With a fury yet unwonted in the history of fighting, the two combatants rush at each other, weapon in hand.
@@ -209,7 +206,7 @@
 			</dynamic>
 
 			<dynamic>
-				<!-- protagonist charges first -->
+				<!-- PROTAGONIST CHARGES FIRST -->
 				<static>
 					<var name="pro" />
 					wields
@@ -220,7 +217,7 @@
 					dodges each attack skillfully. The public cheers in front of their demonstration of power.
 				</static>
 
-				<!-- antagonist charges first -->
+				<!-- ANTAGONIST CHARGES FIRST -->
 				<static>
 					With commendable skill,
 					<var name="ant" />
@@ -234,9 +231,9 @@
 				</static>
 			</dynamic>
 
-			<!-- first hit -->
+			<!-- FIRST HIT -->
 			<dynamic>
-				<!-- protagonist hits -->
+				<!-- PROTAGONIST HITS -->
 				<static>
 					Suddenly,
 					<var name="pro" />
@@ -250,7 +247,7 @@
 					<offset var="proHits" by="1" />
 				</static>
 
-				<!-- antagonist hits -->
+				<!-- ANTAGONIST HITS -->
 				<static>
 					However, all of a sudden,
 					<var name="ant" />
@@ -269,9 +266,9 @@
 
 			<static>The battle rages for several minutes. None of the two opponents seem to let go, and the crowd is completely extased by their performance.</static>
 
-			<!-- second hit -->
+			<!-- SECOND HIT -->
 			<dynamic>
-				<!-- protagonist hits -->
+				<!-- PROTAGONIST HITS -->
 				<static>
 					Until, at the least expected moment,
 					<var name="pro" />
@@ -290,7 +287,7 @@
 					.
 					<offset var="proHits" by="1" />
 
-					<!-- special attack results -->
+					<!-- SPECIAL ATTACK RESULTS -->
 					<dynamic>
 						<static>
 							This devastating attack illuminates the
@@ -316,7 +313,7 @@
 					</dynamic>
 				</static>
 
-				<!-- antagonist hits -->
+				<!-- ANTAGONIST HITS -->
 				<static>
 					Until suddenly,
 					<var name="ant" />
@@ -336,7 +333,7 @@
 					stands back, perplex.
 					<offset var="antHits" by="1" />
 
-					<!-- special attack results -->
+					<!-- SPECIAL ATTACK RESULTS -->
 					<dynamic>
 						<static>
 							This incredible comeback stuns everyone in the
@@ -366,42 +363,40 @@
 		</paragraph>
 
 		<paragraph>
-			<!-- help from ally -->
+			<!-- HELP FROM ALLY -->
 			<dynamic>
-				<!-- protagonist first -->
+				<!-- PROTAGONIST FIRST -->
 				<static>
 					The battle is getting intense. From the audience,
 					<var name="ally" />
 					watches carefully.
-					<!-- opinion on battle -->
-					<dynamic>
-						<condition where="proHits" is="lw" than="antHits">
-							<static>
-								<pron for="ally" type="subj" />
-								is afraid that
-								<pron for="ally" type="poss" />
-								ally,
-								<var name="pro" />
-								lose the battle.
-							</static>
-						</condition>
-						<condition where="proHits" is="gt" than="antHits">
-							<static>
-								<pron for="ally" type="subj" />
-								is confident that
-								<var name="pro" />
-								will win this battle.
-							</static>
-						</condition>
-						<condition where="proHits" is="eq" than="antHits">
-							<static>
-								<pron for="ally" type="subj" />
-								is unsure who between the two fighters has the true advantage.
-							</static>
-						</condition>
-					</dynamic>
+					<!-- OPINION ON BATTLE -->
+					<condition where="proHits" is="lw" thanvar="antHits">
+						<static>
+							<pron for="ally" type="subj" />
+							is afraid that
+							<pron for="ally" type="poss" />
+							ally,
+							<var name="pro" />
+							lose the battle.
+						</static>
+					</condition>
+					<condition where="proHits" is="gt" thanvar="antHits">
+						<static>
+							<pron for="ally" type="subj" />
+							is confident that
+							<var name="pro" />
+							will win this battle.
+						</static>
+					</condition>
+					<condition where="proHits" is="eq" thanvar="antHits">
+						<static>
+							<pron for="ally" type="subj" />
+							is unsure who between the two fighters has the true advantage.
+						</static>
+					</condition>
 
-					<!-- apparent effects on protagonist -->
+					<!-- APPARENT EFFECTS ON PROTAGONIST -->
 					<pron for="ally" type="subj" />
 					believes it is time for
 					<pron for="ally" type="obj" />
@@ -422,7 +417,7 @@
 					mind, and
 					<pron for="pro" type="subj" />
 					begins fighting with ever more energy.
-					<!-- true results -->
+					<!-- TRUE RESULTS -->
 					<dynamic>
 						<static>
 							Thanks to this help, he easily hits his opponent, who groans in pain.
@@ -433,7 +428,7 @@
 						</static>
 					</dynamic>
 
-					<!-- comeback from opponent's ally -->
+					<!-- COMEBACK FROM OPPONENT'S ALLY -->
 					<var name="minion" />
 					,
 					<var name="ant" />
@@ -447,7 +442,7 @@
 					brings in
 					<pron for="minion" type="poss" />
 					own strength to shift the balance of powers.
-					<!-- comeback's results -->
+					<!-- COMEBACK'S RESULTS -->
 					<dynamic>
 						<static>
 							This really motivates
@@ -470,38 +465,38 @@
 					</dynamic>
 				</static>
 
-				<!-- antagonist first -->
+				<!-- ANTAGONIST FIRST -->
 				<static>
-					<!-- public opinion -->
+					<!-- PUBLIC OPINION -->
 					The public shouts and gestures in all directions. Is the battle about to take a turn?
-					<dynamic>
-						<condition where="proHits" is="gt" thanvar="antHits">
-							<static>
-								<var name="ant" />
-								is in rough shape and has lost a lot of blood.
-							</static>
-						</condition>
-						<condition where="proHits" is="lw" thanvar="antHits">
-							<static>
-								<var name="pro" />
-								is doing badly and coughs blood.
-							</static>
-						</condition>
-						<condition where="proHits" is="eq" thanvar="antHits">
-							<static>
-								Both combatants are injured, but none of them seems to have the upper hand.
-							</static>
-						</condition>
-					</dynamic>
-
-					<!-- ally's help -->
+					<condition where="proHits" is="gt" thanvar="antHits">
+						<static>
+							<var name="ant" />
+							is in rough shape and has lost a lot of blood.
+						</static>
+					</condition>
+					<condition where="proHits" is="lw" thanvar="antHits">
+						<static>
+							<var name="pro" />
+							is doing badly and coughs blood.
+						</static>
+					</condition>
+					<condition where="proHits" is="eq" thanvar="antHits">
+						<static>
+							Both combatants are injured, but none of them seems to have the upper hand.
+						</static>
+					</condition>
+					<!-- ALLY'S HELP -->
 					It is at this moment that
 					<var name="minion" />
 					,
 					<var name="ant" />
 					's closest ally, seizes the opportunity to use
 					<pron for="minion" type="poss" />
-					<var name="minionAbility" /> in favour of <pron for="minion" type="poss" /> friend.
+					<var name="minionAbility" />
+					in favour of
+					<pron for="minion" type="poss" />
+					friend.
 				</static>
 			</dynamic>
 		</paragraph>

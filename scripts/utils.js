@@ -53,6 +53,26 @@ function switchToUi(ui) {
 }
 
 /**
+ * Finds a tag's first-level children of a certain type
+ *
+ * @param {string} type
+ * @param {HTMLElement} tag
+ * @return {HTMLElement} 
+ */
+function childrenOfType(type, tag) {
+	let results = [];
+
+	for (let i = 0; i < tag.children.length; i++) {
+		const elem = tag.children[i];
+		
+		if (elem.nodeName === type)
+			results.push(elem);
+	}
+
+	return results;
+}
+
+/**
  * Gets a random child of a given tag, if it exists.
  *
  * @param {HTMLElement} tag

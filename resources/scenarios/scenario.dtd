@@ -2,15 +2,14 @@
 <!ELEMENT plotline (paragraph+)>
 <!ELEMENT paragraph (static*|dynamic*)*>
 
-<!ELEMENT static (#PCDATA|var|pron|meta|randstr|randnum|dynamic|set|offset)*>
-<!ELEMENT dynamic ((condition*,default?)?|static*|dynamic*)*>
-<!ATTLIST dynamic class ID #IMPLIED>
-<!ELEMENT condition (static*|dynamic*)*>
+<!ELEMENT static (#PCDATA|var|pron|meta|randstr|randnum|dynamic|set|offset|condition)*>
+<!ELEMENT dynamic (condition* | static* | dynamic*)*>
+<!ATTLIST dynamic   class ID #IMPLIED>
+<!ELEMENT condition (static* | dynamic*)*>
 <!ATTLIST condition where IDREF #REQUIRED>
 <!ATTLIST condition is (eq|neq|gt|lw|geq|leq) #REQUIRED>
 <!ATTLIST condition than CDATA #IMPLIED>
 <!ATTLIST condition thanvar IDREF #IMPLIED>
-<!ELEMENT default (static*|dynamic*)*>
 
 <!ELEMENT set EMPTY>
 <!ATTLIST set var IDREF #REQUIRED>

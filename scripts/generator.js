@@ -5,7 +5,7 @@
  *
  * @param {string} filename - The scenario's filename.
  */
- function loadScenario(filename) {
+function loadScenario(filename) {
 	xml.reset();
 	xml.import(`resources/scenarios/${filename}.xml`);
 
@@ -22,18 +22,18 @@ function populateUserInputs() {
 	//Create custom UI
 	xml.reset();
 	xml.select("variables");
-	
+
 	// Parse scenario UI
 	for (let i = 0; i < xml.currentTag.childElementCount; i++) {
 		const field = xml.currentTag.children[i];
 		const label = document.createElement("label");
 		let input;
-		
+
 		if (!field)
 			console.warn(`User input '${xml.currentTag.nodeName}' does not exist!`);
-		
-		label.innerHTML = "Unnamed field";		
-		
+
+		label.innerHTML = "Unnamed field";
+
 		switch (field.nodeName) {
 			case "text": {
 				input = document.createElement("input");
@@ -75,9 +75,9 @@ function populateUserInputs() {
 		}
 
 		input.setAttribute("id", "userInput_" + field.getAttribute("name"));
-		input.required = true;	
+		input.required = true;
 		label.append(input);
-		
+
 		if (field.hasAttribute("hasgender")) {
 			label.innerHTML += `
 			<select id="${"userInput_" + field.getAttribute("name") + "_gender"}" style="width: 20%">
@@ -88,7 +88,7 @@ function populateUserInputs() {
 			`;
 		}
 
-		if (field.nodeName !== "section")	
+		if (field.nodeName !== "section")
 			label.innerHTML += "<br />";
 
 		$("#scnVariables-form").append(label);
@@ -115,7 +115,7 @@ function populateUserInputs() {
  * Parses the whole scenario
  * The current scenario is cached as a JS object.
  */
- function parseUserInputs() {
+function parseUserInputs() {
 	if (!$("#scnVariables-form").checkValidity())
 		notify("Some fields were left empty. Placeholders will be used for those instead.")
 
@@ -131,26 +131,26 @@ function populateUserInputs() {
 		let propertyValue = $("#userInput_" + propertyName).value;
 		const genderField = $("#userInput_" + propertyName + "_gender");
 		const propertyGender = genderField ? genderField.selectedIndex : undefined;
-		
+
 		let passes = true;
-		
+
 		if (!propertyValue || propertyValue === "") {
 			propertyValue = $("#userInput_" + propertyName).getAttribute("placeholder");
-			
+
 			if (!propertyValue || propertyValue == "")
-			console.warn(`Unable to find a cached property value for input "${propertyName}".`);
+				console.warn(`Unable to find a cached property value for input "${propertyName}".`);
 			else
-			console.info(`No user input specified for property "${propertyName}", using default "${propertyValue}".`);
+				console.info(`No user input specified for property "${propertyName}", using default "${propertyValue}".`);
 		}
-		
+
 		if ($("#userInput_" + propertyName).getAttribute("datatype") == "gerund")
-		passes = detectGerund(propertyValue);
-		
+			passes = detectGerund(propertyValue);
+
 		if (!passes)
-		console.warn(`Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
-		
+			console.warn(`Data type check did not pass for value "${propertyValue}" of property "${propertyName}".`);
+
 		propertiesCache.push(propertyName);
-		valuesCache.push(propertyValue);		
+		valuesCache.push(propertyValue);
 		gendersCache.push(propertyGender);
 	}
 
@@ -208,13 +208,16 @@ function displayStory(storyContent) {
 	//Prepare story display
 	const title = $("#scnSettings-storyTitle").value;
 	const author = $("#scnSettings-storyAuthor").value;
+	let description;
+
 	xml.metadata["title"] = title;
 	xml.metadata["author"] = author;
 
 	xml.reset();
 	xml.select("praises");
 
-	const description = xml.parse(randomChildOf(xml.currentTag));
+	if (xml.currentTag.childElementCount > 0)
+		description = xml.parse(randomChildOf(xml.currentTag));
 
 	// select random critical review
 	xml.reset();
