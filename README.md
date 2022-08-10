@@ -62,4 +62,4 @@ The values of variables can also be modified as the story goes:
 - offset: Increments or decrements a variable. Works for numbers.
 
 Why would you read through this? Still, thanks. Have a great day!  
-Refer to the demo scenario and the DTD for actual syntax rules.
+Refer to the demo scenario and the DTD for the explicit syntax rules.
