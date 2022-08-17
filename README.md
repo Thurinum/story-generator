@@ -1,5 +1,5 @@
 # Story Generator Demo
-A demo for a simple text generator that combines user input variables with simple heuristics to produce a different story every time it is run.  
+A demo for a simple text generator that combines user input variables with simple heuristics to produce a different story every time it is run. Play with it [here](https://thurinum.github.io/story-generator).
 
 ![Screenshot 2022-08-10 084245](https://user-images.githubusercontent.com/43908636/183905120-f2c78211-a9ce-4e0c-aaae-0eb74ee59f14.jpeg)
 
