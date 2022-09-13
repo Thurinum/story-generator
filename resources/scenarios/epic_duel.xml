@@ -532,7 +532,7 @@
 			</dynamic>
 		</paragraph>
 
-		<!-- FINALE -->
+		<!-- SEMI-FINALE -->
 		<paragraph>
 			<static>
 				The battle has lasted for several minutes already, and both opponents are draining their forces rapidly.
@@ -561,6 +561,11 @@
 				no one knows for sure who will triumph in the end.
 			</static>
 		</paragraph>
+
+		<!-- THIRD HIT -->
+		<!-- <paragraph>
+			<static>For hours <var name="" /></static>
+		</paragraph> -->
 	</plotline>
 
 	<wordbanks>
@@ -570,26 +575,36 @@
 			<static>magnifiscent</static>
 			<static>impressive</static>
 		</dynamic>
+		<dynamic class="negativeADJ">
+			<static>dastardly</static>
+			<static>terrible</static>
+			<static>fucking</static>
+			<static>garbage</static>
+			<static>ignominous</static>
+		</dynamic>
 	</wordbanks>
 
 	<praises>
 		<static>The science-fiction thriller of the century</static>
-		<static>sdfjasfasdfsad</static>
+		<static>The most impressive piece of literature of the last five decades</static>
 		<static>The greatest novel of forever</static>
 	</praises>
 
 	<reviews>
 		<positive>
-			<static>Dummy positive review</static>
+			<static>This <randstr type="nicePlaceAdj" /> artwork is truly matter to rival the classic pieces which have founded our modern literature.</static>
+			<static>Never in my life have I read something more <randstr type="nicePlaceAdj" />, more <randstr type="nicePlaceAdj" /> that this novel. Truly the experience of a lifetime!</static>
 		</positive>
 		<negative>
-			<static>Dummy negative review</static>
+			<static>This <randstr type="negativeADJ" /> abomination is unworthy of any read, even less myself. Not recommended.</static>
+			<static>Do you like something that's boring, dull, and totally <randstr type="negativeADJ" />? Then read along. Otherwise, stay clear!</static>
 		</negative>
 		<critics>
 			<static>RSM Inc.</static>
 			<static>The Washton Times</static>
 			<static>The Nooyok Times</static>
 			<static>Linus Sebastian</static>
+			<static>Theodore l'Heureux</static>
 		</critics>
 	</reviews>
 </scenario>
