@@ -13,8 +13,8 @@ This is a completed version of an old project I began years ago, when I was bare
 It has been hastily refactored and patched so that it may function as it was originally designed, but no more. Here be dragons!
 The ability to load scenarios from disk is missing and will eventually be added.
 
-## How it works Ô*w*Ô
-1. The story's scenario is loaded from an XML file (currently hard-coded).
+## How it works
+1. The story's scenario is loaded from an XML file.
 2. The user input form is populated based on the scenario's variables.
 3. The user fills in the form to its liking.
 	- text, time, and select inputs are available
