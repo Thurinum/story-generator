@@ -1,5 +1,9 @@
 "use strict";
 
+const STOCK_SCENARIOS = [
+	"Epic Duel"
+];
+
 // main menu reveal animation
 window.onload = function () {
 	setTimeout(function () {
@@ -16,6 +20,19 @@ window.onload = function () {
 			}, 500);
 		}, 500);
 	}, 400);
+
+	// populate scenarios
+	let ui = $("#scnSelect");
+	STOCK_SCENARIOS.forEach(scenario => {
+		ui.innerHTML += `
+			<div class="scnSelect-card">
+				<img class="scnSelect-cardPreview" src="resources/graphics/icons/document_battle.webp" />
+				<span class="scnSelect-name">${scenario}</span>
+				<span style="font-size: 0.75em">A ${scenario} scenario.</span>
+				<button id="scnSelect-chooseBtn" onclick="loadScenario('${scenario}')">Choose</button>
+			</div>
+		`;
+	});
 }
 
 // main menu start button
@@ -31,11 +48,6 @@ $("#mainMenu-startBtn").addEventListener("click", function () {
 		$("#mainInterface").style.transform = "scale(1) translate(-50%, -50%)";
 	}, 500);
 });
-
-// select menu choose button
-$("#scnSelect-chooseBtn").onclick = function () {
-	loadScenario("epic_duel"); // TODO parametrize
-}
 
 // options menu continue button
 $("#scnSettings-startBtn").onclick = function() {
