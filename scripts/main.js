@@ -1,7 +1,8 @@
 "use strict";
 
 const STOCK_SCENARIOS = [
-	"Epic Duel"
+	"Epic Duel",
+	"Argument"
 ];
 
 // main menu reveal animation

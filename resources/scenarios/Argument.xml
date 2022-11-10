@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE scenario SYSTEM "scenario.dtd">
+
+<scenario>
+	<variables>
+		<section name="Characters" />
+		<text name="pro" hasgender="true" placeholder="Maxim Perdon">What's the protagonist's name?</text>
+		<text name="ant" hasgender="true" placeholder="Valery Sturgeon">Who are they arguing with?</text>
+
+		<text name="proAlly" hasgender="true" placeholder="the adoring fan">Who comes to agree with the protagonist?</text>
+		<text name="antAlly" hasgender="true" placeholder="the adoring fan">Who comes to disagree with the protagonist?</text>
+
+		<section name="Argument" />
+		<text name="arg" placeholder="high inflation rates">What's the topic of the argument?</text>
+		<text name="argQual1" placeholder="making life harder">How does one describe it?</text>
+		<text name="argQual2" placeholder="bad for the economy">How does one describe it?</text>
+		<text name="argQual3" placeholder="affecting the unwealthy">How does one describe it?</text>
+
+		<section name="Outcome" />
+		<select name="victor" placeholder="Who wins the argument?">
+			<option>The protagonist</option>
+			<option>The antagonist</option>
+		</select>
+
+		<section name="Location" />
+		<text name="loc" placeholder="classroom">Where does the argument occur?</text>
+		<text name="locQual1" placeholder="filthy">What is this place like?</text>
+		<text name="locQual2" placeholder="crowded">What is this place like?</text>
+		<text name="locQual2" placeholder="ugly">What is this place like?</text>
+	</variables>
+
+	<plotline>
+		<paragraph>
+			<dynamic>
+				<static>
+					In the <var name="locQual1" /> <var name="loc" />, two people are <randstr type="good" />
+				</static>
+			</dynamic>
+		</paragraph>
+	</plotline>
+
+	<wordbanks>
+		<dynamic class="good">
+			<static>glorious</static>
+			<static>awesome</static>
+			<static>magnifiscent</static>
+			<static>impressive</static>
+		</dynamic>
+		<dynamic class="bad">
+			<static>dastardly</static>
+			<static>terrible</static>
+			<static>horrible</static>
+			<static>garbage</static>
+			<static>ignominous</static>
+		</dynamic>
+	</wordbanks>
+
+	<praises>
+		<static>The most impressive dialogue in rhethorics history</static>
+		<static>An impressive piece</static>
+		<static>A battle of the mind sight to see</static>
+		<static>A phenomenal mind game</static>
+	</praises>
+
+	<reviews>
+		<positive>
+			<static>This <randstr type="good" /> dialogue is truly matter to rival the classic pieces which have founded our modern literature.</static>
+			<static>Oh, <randstr type="good" />, o how <randstr type="good" /> is that novel. Truly the experience of a lifetime!</static>
+		</positive>
+		<negative>
+			<static>This <randstr type="bad" /> abomination is unworthy of any read, even less myself. Not recommended.</static>
+			<static>Do you like something that's boring, dull, and totally <randstr type="bad" />? Then read along. Otherwise, stay clear!</static>
+		</negative>
+		<critics>
+			<static>Dr. Ning Ye</static>
+			<static>Jordan Peterson</static>
+			<static>Plato</static>
+			<static>Baruch Spinoza</static>
+			<static>Rene Descartes</static>
+			<static>Socrates</static>
+			<static>Sigmund Freud</static>
+		</critics>
+	</reviews>
+</scenario>
