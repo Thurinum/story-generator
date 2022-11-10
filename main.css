@@ -402,7 +402,7 @@ main > section {
 	transform: translate(50%) rotateY(-90deg);
 	opacity: 0;
 	background-color: white;
-	transition: transform 1s linear;
+	transition: transform 1s ease-in-out;
 	color: black;
 	background: url("resources/graphics/covers/paper1.webp");
 }

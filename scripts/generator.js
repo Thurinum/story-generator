@@ -290,3 +290,8 @@ function displayStory(storyContent) {
 		}, 1000);
 	}
 };
+
+function copyToClipboard() {
+	let text = $("#scnDisplay-bookPageRightContent").innerText;
+	navigator.clipboard.writeText(text);
+}
